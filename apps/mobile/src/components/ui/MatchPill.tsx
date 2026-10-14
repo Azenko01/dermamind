@@ -3,13 +3,22 @@ import { scoreColors, useTheme } from '@/theme';
 import { Text } from './Text';
 
 /** "92%" pill coloured by the score thresholds from @dermamind/scoring. */
-export function MatchPill({ score, suffix = '' }: { score: number; suffix?: string }) {
+export function MatchPill({
+  score,
+  suffix = '',
+  excluded = false,
+}: {
+  score: number;
+  suffix?: string;
+  /** contains an avoided ingredient → red "Nie pasuje" instead of the number */
+  excluded?: boolean;
+}) {
   const { colors } = useTheme();
-  const { fg, bg } = scoreColors(score);
+  const { fg, bg } = excluded ? { fg: 'bad' as const, bg: 'badSoft' as const } : scoreColors(score);
   return (
     <View style={[styles.pill, { backgroundColor: colors[bg] }]}>
       <Text variant="caption" color={fg} style={styles.text}>
-        {`${score}%${suffix}`}
+        {excluded ? 'Nie pasuje' : `${score}%${suffix}`}
       </Text>
     </View>
   );
