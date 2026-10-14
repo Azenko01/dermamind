@@ -1,0 +1,6 @@
+pnpm-lock.yaml
+docs/
+**/generated/
+**/migrations/
+.expo/
+CLAUDE.md
