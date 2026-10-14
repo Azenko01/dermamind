@@ -158,6 +158,24 @@ describe('pickRoutine', () => {
     ]);
   });
 
+  it('uses a product for one step per time of day only', () => {
+    const essence = product(90, 'essence');
+    const serum = product(80, 'serum');
+    const picked = pickRoutine(
+      [
+        { time: 'am', step: 'tone', products: [essence] },
+        { time: 'am', step: 'treat', products: [essence, serum] },
+        { time: 'pm', step: 'tone', products: [essence] },
+      ],
+      rules,
+    );
+    expect(picked.map((s) => s.product?.productId)).toEqual([
+      essence.productId,
+      serum.productId,
+      essence.productId,
+    ]);
+  });
+
   it('keeps the best one when every candidate conflicts', () => {
     const acid = product(90, 'toner', [GLYCOLIC, 'Glycolic Acid', 2]);
     const retinol = product(95, 'serum', [RETINOL, 'Retinol', 4]);

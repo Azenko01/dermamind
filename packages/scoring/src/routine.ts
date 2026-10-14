@@ -175,12 +175,19 @@ export function pickRoutine(
 ): RoutineSlot[] {
   const chosen: RoutineSlot[] = [];
   for (const c of candidates) {
-    const sorted = [...c.products].sort((a, b) => b.score - a.score);
+    // a product fills at most one step per time of day (an essence fits "tone" and "treat")
+    const used = new Set(
+      chosen.filter((s) => s.time === c.time && s.product).map((s) => s.product!.productId),
+    );
+    const sorted = [...c.products]
+      .filter((p) => !used.has(p.productId))
+      .sort((a, b) => b.score - a.score);
+    const before = findConflicts(chosen, rules).length;
     const pick =
       sorted.find(
         (p) =>
           findConflicts([...chosen, { time: c.time, step: c.step, product: p }], rules).length ===
-          findConflicts(chosen, rules).length,
+          before,
       ) ??
       sorted[0] ??
       null;
