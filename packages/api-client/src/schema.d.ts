@@ -276,6 +276,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/ai/ingredients/{id}/explain": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AiController_explain_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/ai/products/{id}/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AiController_summary_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/analyze/inci": {
         parameters: {
             query?: never;
@@ -642,6 +674,21 @@ export interface components {
             /** @description Up to 10 products with it, best match first */
             products: components["schemas"]["ProductListItemDto"][];
         };
+        AiTextDto: {
+            /** @description Text to show; a fixed fallback when source = fallback */
+            text: string;
+            /** @description Ingredient card: what to watch out for */
+            caution: string | null;
+            /**
+             * @description ai/cache → show "Opis wygenerowany przez AI"
+             * @enum {string}
+             */
+            source: "ai" | "cache" | "fallback";
+            /** @enum {string|null} */
+            fallbackReason: "not_configured" | "limit" | "error" | "refused" | null;
+            /** @example 2026-10-14.1 */
+            promptVersion: string;
+        };
         AnalyzeInciDto: {
             /**
              * @description Ingredient list as printed on the package (commas, one per line, "Skład:" prefix…)
@@ -668,6 +715,11 @@ export interface components {
             flags: components["schemas"]["ProductFlagsDto"];
             /** @description null without a skin profile */
             match: components["schemas"]["MatchDetailDto"] | null;
+            /**
+             * @description ai = the rule parser left many names unknown and the AI parser read the list better
+             * @enum {string}
+             */
+            parsedBy: "rules" | "ai";
         };
         CreateSubmissionDto: {
             /** @example 5901234123457 */
@@ -1214,6 +1266,83 @@ export interface operations {
                 };
             };
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AiController_explain_v1: {
+        parameters: {
+            query?: {
+                lang?: "pl" | "en" | "uk";
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiTextDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AiController_summary_v1: {
+        parameters: {
+            query?: {
+                lang?: "pl" | "en" | "uk";
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiTextDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No skin profile yet — nothing to explain */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };

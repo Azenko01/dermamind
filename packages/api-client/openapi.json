@@ -640,6 +640,119 @@
         ]
       }
     },
+    "/v1/ai/ingredients/{id}/explain": {
+      "get": {
+        "operationId": "AiController_explain_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lang",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "pl",
+              "type": "string",
+              "enum": [
+                "pl",
+                "en",
+                "uk"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiTextDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "404": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/v1/ai/products/{id}/summary": {
+      "get": {
+        "operationId": "AiController_summary_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lang",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "pl",
+              "type": "string",
+              "enum": [
+                "pl",
+                "en",
+                "uk"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiTextDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "404": {
+            "description": ""
+          },
+          "409": {
+            "description": "No skin profile yet — nothing to explain"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "ai"
+        ]
+      }
+    },
     "/v1/analyze/inci": {
       "post": {
         "operationId": "AnalyzeController_inci_v1",
@@ -2040,6 +2153,50 @@
           "products"
         ]
       },
+      "AiTextDto": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to show; a fixed fallback when source = fallback"
+          },
+          "caution": {
+            "type": "string",
+            "nullable": true,
+            "description": "Ingredient card: what to watch out for"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "ai",
+              "cache",
+              "fallback"
+            ],
+            "description": "ai/cache → show \"Opis wygenerowany przez AI\""
+          },
+          "fallbackReason": {
+            "type": "string",
+            "enum": [
+              "not_configured",
+              "limit",
+              "error",
+              "refused"
+            ],
+            "nullable": true
+          },
+          "promptVersion": {
+            "type": "string",
+            "example": "2026-10-14.1"
+          }
+        },
+        "required": [
+          "text",
+          "caution",
+          "source",
+          "fallbackReason",
+          "promptVersion"
+        ]
+      },
       "AnalyzeInciDto": {
         "type": "object",
         "properties": {
@@ -2115,13 +2272,22 @@
                 "$ref": "#/components/schemas/MatchDetailDto"
               }
             ]
+          },
+          "parsedBy": {
+            "type": "string",
+            "enum": [
+              "rules",
+              "ai"
+            ],
+            "description": "ai = the rule parser left many names unknown and the AI parser read the list better"
           }
         },
         "required": [
           "ingredients",
           "unknown",
           "flags",
-          "match"
+          "match",
+          "parsedBy"
         ]
       },
       "CreateSubmissionDto": {
