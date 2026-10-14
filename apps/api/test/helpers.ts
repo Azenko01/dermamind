@@ -2,15 +2,20 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import type { App } from 'supertest/types';
+import { AI_TRANSPORT, type AiTransport } from '../src/ai/ai-transport';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { setupApp } from '../src/setup';
 
-export async function createTestApp(): Promise<{
+/** The Claude transport is always replaced: null = "no API key", or a mock from the test. */
+export async function createTestApp(aiTransport: AiTransport | null = null): Promise<{
   app: INestApplication<App>;
   prisma: PrismaService;
 }> {
-  const moduleRef = await Test.createTestingModule({ imports: [AppModule] }).compile();
+  const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
+    .overrideProvider(AI_TRANSPORT)
+    .useValue(aiTransport)
+    .compile();
   const app = moduleRef.createNestApplication<INestApplication<App>>({ logger: false });
   setupApp(app);
   await app.init();
@@ -20,7 +25,7 @@ export async function createTestApp(): Promise<{
 /** Wipes user data and test catalogue rows; dictionaries from migrations stay. */
 export async function resetDb(prisma: PrismaService): Promise<void> {
   await prisma.$executeRawUnsafe(
-    'TRUNCATE "users", "ingredient_aliases", "ingredients", "products", "brands", "product_submissions" RESTART IDENTITY CASCADE',
+    'TRUNCATE "users", "ingredient_aliases", "ingredients", "products", "brands", "product_submissions", "ai_cache" RESTART IDENTITY CASCADE',
   );
 }
 
