@@ -97,6 +97,13 @@ export function AnalyzeScreen() {
                 </View>
               )}
 
+              {result.parsedBy === 'ai' ? (
+                <Text variant="caption">
+                  Skład był trudny do odczytania, więc nazwy rozpoznało AI. Ocena i tak pochodzi z
+                  naszych reguł.
+                </Text>
+              ) : null}
+
               {result.unknown.length ? (
                 <View
                   style={[

@@ -8,6 +8,8 @@ import { ProductRow } from '@/components/features/ProductCard';
 import { SecondaryButton } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import { concernCopy, conReasonCopy, functionCopy, groupCopy } from '@/features/catalog/copy';
+import { AiParagraph } from '@/features/ai/AiParagraph';
+import { useIngredientExplain } from '@/features/ai/api';
 import { api } from '@/lib/api';
 import { useTheme, type ColorToken } from '@/theme';
 
@@ -113,6 +115,8 @@ function IngredientBody({ i }: { i: Ingredient }) {
         ) : null}
       </View>
 
+      <AboutSection id={i.id} />
+
       <ForYouCard i={i} />
 
       <View style={{ gap: spacing.md }}>
@@ -139,10 +143,21 @@ function IngredientBody({ i }: { i: Ingredient }) {
       ) : null}
 
       <Text variant="caption">
-        Dane ze słownika DermaMind (funkcje wg bazy CosIng Komisji Europejskiej). Opis składnika
-        dodamy wkrótce.
+        Funkcje i cechy pochodzą ze słownika DermaMind (funkcje wg bazy CosIng Komisji
+        Europejskiej).
       </Text>
     </ScrollView>
+  );
+}
+
+function AboutSection({ id }: { id: number }) {
+  const { spacing } = useTheme();
+  const explain = useIngredientExplain(id);
+  return (
+    <View style={{ gap: spacing.md }}>
+      <Text variant="section">Co to jest</Text>
+      <AiParagraph query={explain} />
+    </View>
   );
 }
 

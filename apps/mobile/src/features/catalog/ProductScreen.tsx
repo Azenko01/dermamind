@@ -16,6 +16,8 @@ import { MatchCard } from '@/components/features/MatchCard';
 import { ProductImage } from '@/components/features/ProductCard';
 import { SecondaryButton } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
+import { AiParagraph } from '@/features/ai/AiParagraph';
+import { useProductSummary } from '@/features/ai/api';
 import { useMe } from '@/features/auth/useMe';
 import { useTheme } from '@/theme';
 import { ProductError, useProduct } from './api';
@@ -120,7 +122,10 @@ export function ProductScreen() {
           </View>
 
           {p.match ? (
-            <MatchCard match={p.match} subtitle={profileLine(me.data?.profile, 'card')} />
+            <View style={{ gap: spacing.lg }}>
+              <MatchCard match={p.match} subtitle={profileLine(me.data?.profile, 'card')} />
+              <WhySection productId={p.id} />
+            </View>
           ) : (
             <View
               style={[styles.noMatch, { backgroundColor: colors.accentSoft, padding: spacing.xl }]}
@@ -160,6 +165,25 @@ export function ProductScreen() {
         </View>
       </ScrollView>
       {bar}
+    </View>
+  );
+}
+
+/** "Dlaczego taki wynik?" — AI explanation of the rule-based score, loaded after the card. */
+function WhySection({ productId }: { productId: number }) {
+  const { colors, spacing, radius } = useTheme();
+  const summary = useProductSummary(productId, true);
+  return (
+    <View
+      style={{
+        backgroundColor: colors.backgroundAlt,
+        borderRadius: radius.card,
+        padding: spacing.xl,
+        gap: spacing.md,
+      }}
+    >
+      <Text variant="productName">Dlaczego taki wynik?</Text>
+      <AiParagraph query={summary} />
     </View>
   );
 }
