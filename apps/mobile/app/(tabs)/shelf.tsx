@@ -1,5 +1,1 @@
-import { PlaceholderScreen } from '@/components/ui/PlaceholderScreen';
-
-export default function ShelfScreen() {
-  return <PlaceholderScreen title="Półka" subtitle="Produkty: Mam, Lubię, Unikam." />;
-}
+export { ShelfScreen as default } from '@/features/shelf/ShelfScreen';
