@@ -53,6 +53,8 @@ export interface MatchProduct {
   /** false = only key ingredients are known */
   inciComplete: boolean;
   ingredients: readonly MatchIngredient[];
+  /** the user put this product on the "Unikam" shelf — treated like an avoided ingredient */
+  avoidedByUser?: boolean;
 }
 
 export type ConReason =
@@ -82,6 +84,8 @@ export interface MatchResult {
     impact: number;
   }[];
   excludedBy: { ingredientId: number; ingredient: string; group?: string }[];
+  /** true when the product itself is on the user's "Unikam" shelf */
+  avoidedByUser: boolean;
   /** per-ingredient verdict for the coloured drops in the ingredient list */
   ingredients: { ingredientId: number; rating: IngredientRating; impact: number }[];
 }
@@ -192,7 +196,7 @@ export function computeMatchScore(profile: MatchProfile, product: MatchProduct):
 
   // 6. score, then the cap for excluded products
   const raw = WEIGHTS.base + WEIGHTS.benefit * benefit - WEIGHTS.harm * harm - penalty;
-  const excluded = excludedBy.length > 0;
+  const excluded = excludedBy.length > 0 || product.avoidedByUser === true;
   const score = applyExclusionCap(clampScore(raw), excluded);
 
   // 7. confidence
@@ -204,6 +208,7 @@ export function computeMatchScore(profile: MatchProfile, product: MatchProduct):
   return {
     score,
     status: excluded ? 'excluded' : 'ok',
+    avoidedByUser: product.avoidedByUser === true,
     label: matchLabel(score),
     lowConfidence: !product.inciComplete || unknownShare > WEIGHTS.unknownShare,
     confidence: { inciComplete: product.inciComplete, unknownShare: round1(unknownShare) },

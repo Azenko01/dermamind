@@ -202,6 +202,17 @@ describe('computeMatchScore', () => {
       expect(r.excludedBy[0]).toMatchObject({ ingredient: 'Parfum', group: 'fragrance' });
     });
 
+    it('caps a product the user put on the "Unikam" shelf', () => {
+      const r = computeMatchScore(wants, { ...product([great()]), avoidedByUser: true });
+      expect(r).toMatchObject({
+        score: 40,
+        status: 'excluded',
+        avoidedByUser: true,
+        excludedBy: [],
+      });
+      expect(computeMatchScore(wants, product([great()])).avoidedByUser).toBe(false);
+    });
+
     it('keeps an already low score as it is', () => {
       const bad = ing({ effects: [{ concern: 'hydration', effect: -2 }], groups: ['fragrance'] });
       const r = computeMatchScore(
