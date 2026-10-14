@@ -1,5 +1,1 @@
-import { PlaceholderScreen } from '@/components/ui/PlaceholderScreen';
-
-export default function ProfileScreen() {
-  return <PlaceholderScreen title="Profil" subtitle="Profil skóry i ustawienia." />;
-}
+export { ProfileScreen as default } from '@/features/profile/ProfileScreen';
