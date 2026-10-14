@@ -5,6 +5,7 @@ import { AppConfigModule } from './app-config/app-config.module';
 import { AuthModule } from './auth/auth.module';
 import { loadEnv, type AppEnv } from './config';
 import { HealthModule } from './health/health.module';
+import { MeModule } from './me/me.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { PrismaModule } from './prisma/prisma.module';
     HealthModule,
     AppConfigModule,
     AuthModule,
+    MeModule,
   ],
 })
 export class AppModule {}
