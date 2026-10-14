@@ -66,6 +66,7 @@ export default function RootLayout() {
             <Stack.Screen name="analyze" options={{ presentation: 'modal' }} />
             <Stack.Screen name="submit" options={{ presentation: 'modal' }} />
             <Stack.Screen name="scans" />
+            <Stack.Screen name="routine/pick" options={{ presentation: 'modal' }} />
           </Stack.Protected>
           <Stack.Protected guard={!signedIn}>
             <Stack.Screen name="onboarding" />
