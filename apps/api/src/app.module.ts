@@ -11,6 +11,8 @@ import { HealthModule } from './health/health.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { MeModule } from './me/me.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { RoutinesModule } from './routines/routines.module';
+import { ShelvesModule } from './shelves/shelves.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
@@ -32,6 +34,8 @@ import { SubmissionsModule } from './submissions/submissions.module';
     AiModule,
     AnalyzeModule,
     SubmissionsModule,
+    ShelvesModule,
+    RoutinesModule,
   ],
 })
 export class AppModule {}
