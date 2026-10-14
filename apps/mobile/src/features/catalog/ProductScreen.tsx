@@ -1,7 +1,14 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { ArrowSquareOutIcon, CaretLeftIcon, ShareIcon } from 'phosphor-react-native';
+import type { TimeOfDay } from '@dermamind/scoring';
+import {
+  ArrowSquareOutIcon,
+  BookmarkSimpleIcon,
+  CaretLeftIcon,
+  ShareIcon,
+} from 'phosphor-react-native';
 import {
   ActivityIndicator,
+  Alert,
   Linking,
   Pressable,
   ScrollView,
@@ -14,13 +21,15 @@ import { FlagGrid } from '@/components/features/FlagGrid';
 import { IngredientList } from '@/components/features/IngredientList';
 import { MatchCard } from '@/components/features/MatchCard';
 import { ProductImage } from '@/components/features/ProductCard';
-import { SecondaryButton } from '@/components/ui/Button';
+import { PrimaryButton, SecondaryButton } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import { AiParagraph } from '@/features/ai/AiParagraph';
 import { useProductSummary } from '@/features/ai/api';
 import { useMe } from '@/features/auth/useMe';
+import { slotFor, useRoutines, useSetSlot, useToggleShelf } from '@/features/routine/api';
+import { shelfCopy, stepCopy, timeCopy } from '@/features/routine/copy';
 import { useTheme } from '@/theme';
-import { ProductError, useProduct } from './api';
+import { ProductError, useProduct, type ProductDetail } from './api';
 import { categoryCopy, priceLevel, profileLine } from './copy';
 
 /** D1 (mockup 07), without the AI text yet (Sprint 4). */
@@ -40,18 +49,23 @@ export function ProductScreen() {
         <CaretLeftIcon size={26} color={colors.textPrimary} />
       </IconButton>
       {product.data ? (
-        <IconButton
-          label="Udostępnij"
-          onPress={() =>
-            void Share.share({
-              message: `${product.data.brand ?? ''} ${product.data.name}${
-                product.data.match ? ` — ${product.data.match.score}% dopasowania w DermaMind` : ''
-              }`,
-            })
-          }
-        >
-          <ShareIcon size={24} color={colors.textPrimary} />
-        </IconButton>
+        <View style={{ flexDirection: 'row' }}>
+          <IconButton
+            label="Udostępnij"
+            onPress={() =>
+              void Share.share({
+                message: `${product.data.brand ?? ''} ${product.data.name}${
+                  product.data.match
+                    ? ` — ${product.data.match.score}% dopasowania w DermaMind`
+                    : ''
+                }`,
+              })
+            }
+          >
+            <ShareIcon size={24} color={colors.textPrimary} />
+          </IconButton>
+          <ShelfButton product={product.data} />
+        </View>
       ) : null}
     </View>
   );
@@ -137,6 +151,8 @@ export function ProductScreen() {
             </View>
           )}
 
+          <ProductActions product={p} />
+
           <View style={{ gap: spacing.lg }}>
             <Text variant="section">Co jest w środku</Text>
             <FlagGrid flags={p.flags} />
@@ -166,6 +182,121 @@ export function ProductScreen() {
       </ScrollView>
       {bar}
     </View>
+  );
+}
+
+/** "Dodaj do rutyny" + shelf state (PLAN.md 6.3 point 1, 6.5 flow 3). */
+function ProductActions({ product }: { product: ProductDetail }) {
+  const { spacing } = useTheme();
+  const setSlot = useSetSlot();
+  const routines = useRoutines();
+  const onShelves = product.myShelves.map((k) => shelfCopy[k].label);
+
+  const addTo = (time: TimeOfDay) => {
+    const step = slotFor(product.category, time);
+    if (!step)
+      return Alert.alert(
+        'Nie pasuje do rutyny',
+        `Ten produkt nie pasuje do żadnego kroku ${timeCopy[time].adverb}.`,
+      );
+    const current = routines.data?.[time].steps.find((s) => s.step === step)?.product;
+    const go = () =>
+      setSlot.mutate(
+        { time, step, productId: product.id },
+        {
+          onSuccess: () =>
+            Alert.alert('Dodano do rutyny', `${stepCopy[step].label} · ${timeCopy[time].adverb}`, [
+              { text: 'OK' },
+              { text: 'Zobacz rutynę', onPress: () => router.push('/routine') },
+            ]),
+          onError: (e) => Alert.alert('Nie udało się', e.message),
+        },
+      );
+    if (current && current.id !== product.id) {
+      Alert.alert(
+        'Zastąpić produkt?',
+        `${timeCopy[time].label}, krok ${stepCopy[step].label}: teraz „${current.name}”.`,
+        [
+          { text: 'Anuluj', style: 'cancel' },
+          { text: 'Zastąp', onPress: go },
+        ],
+      );
+    } else go();
+  };
+
+  const chooseTime = () => {
+    const am = slotFor(product.category, 'am');
+    const pm = slotFor(product.category, 'pm');
+    if (am && !pm) return addTo('am');
+    if (!am && !pm)
+      return Alert.alert(
+        'Nie pasuje do rutyny',
+        'Ten rodzaj produktu nie ma swojego kroku w rutynie.',
+      );
+    Alert.alert('Do której rutyny?', undefined, [
+      { text: 'Rano', onPress: () => addTo('am') },
+      { text: 'Wieczorem', onPress: () => addTo('pm') },
+      { text: 'Anuluj', style: 'cancel' },
+    ]);
+  };
+
+  return (
+    <View style={{ gap: spacing.sm }}>
+      <View style={{ flexDirection: 'row', gap: spacing.md }}>
+        <PrimaryButton
+          title="Dodaj do rutyny"
+          onPress={chooseTime}
+          loading={setSlot.isPending}
+          style={{ flex: 1 }}
+        />
+        <ShelfButton product={product} wide />
+      </View>
+      {onShelves.length ? (
+        <Text variant="caption" align="center">
+          Na półce: {onShelves.join(', ')}
+        </Text>
+      ) : null}
+    </View>
+  );
+}
+
+/** Mam / Lubię / Unikam toggles (bookmark in the header and next to "Dodaj do rutyny"). */
+function ShelfButton({ product, wide }: { product: ProductDetail; wide?: boolean }) {
+  const { colors } = useTheme();
+  const toggle = useToggleShelf();
+  const open = () =>
+    Alert.alert('Dodaj na półkę', product.name, [
+      ...(['own', 'like', 'avoid'] as const).map((kind) => {
+        const on = product.myShelves.includes(kind);
+        return {
+          text: `${shelfCopy[kind].label}${on ? ' ✓' : ''}`,
+          onPress: () =>
+            toggle.mutate(
+              { kind, productId: product.id, on: !on },
+              { onError: (e) => Alert.alert('Nie udało się', e.message) },
+            ),
+        };
+      }),
+      { text: 'Anuluj', style: 'cancel' as const },
+    ]);
+  const saved = product.myShelves.length > 0;
+  if (wide)
+    return (
+      <SecondaryButton
+        title={saved ? 'Na półce' : 'Na półkę'}
+        onPress={open}
+        loading={toggle.isPending}
+        style={{ flex: 1 }}
+      />
+    );
+  return (
+    <IconButton label={saved ? 'Na półce — zmień' : 'Dodaj na półkę'} onPress={open}>
+      <BookmarkSimpleIcon
+        size={24}
+        color={saved ? colors.primary : colors.textPrimary}
+        weight={saved ? 'fill' : 'regular'}
+      />
+    </IconButton>
   );
 }
 

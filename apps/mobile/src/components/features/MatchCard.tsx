@@ -22,6 +22,14 @@ const list = (items: string[]) =>
 /** Reasons in the order that matters: what you avoid, what helps, what to watch out for. */
 export function matchPoints(m: Match): Point[] {
   const points: Point[] = [];
+  if (m.avoidedByUser) {
+    points.push({
+      key: 'shelf-avoid',
+      dot: 'bad',
+      title: 'Jest na Twojej półce „Unikam”',
+      body: 'Dlatego zawsze oznaczamy go jako **Nie pasuje**.',
+    });
+  }
   for (const e of m.excludedBy) {
     points.push({
       key: `x${e.ingredientId}`,
