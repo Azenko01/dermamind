@@ -15,7 +15,23 @@ const config: ExpoConfig = {
   android: {
     package: 'com.dermamind.app',
   },
-  plugins: ['expo-router', 'expo-font', 'expo-splash-screen', 'expo-secure-store'],
+  plugins: [
+    'expo-router',
+    'expo-font',
+    'expo-splash-screen',
+    'expo-secure-store',
+    [
+      'expo-camera',
+      {
+        // Polish system dialog text (iOS Info.plist). Expo Go shows its own text; this one is for our builds.
+        cameraPermission:
+          'DermaMind używa aparatu tylko do skanowania kodów kreskowych kosmetyków, żeby pokazać ich skład i dopasowanie do Twojej skóry.',
+        microphonePermission: false,
+        recordAudioAndroid: false,
+        barcodeScannerEnabled: true,
+      },
+    ],
+  ],
   experiments: {
     typedRoutes: true,
   },
