@@ -405,3 +405,68 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   składniki; import usuwa teraz składniki z poprzednich przebiegów, których nic już nie używa.
 - **Alternatywy:** brać tylko produkty zgodne lub przesunięte względem Sa.Shy (stracilibyśmy 12 składów), uznać jedno źródło
   za wzorzec bez porównania (nie wiedzielibyśmy o różnicach recept).
+
+---
+
+## Sprint 3 (14.10.2026)
+
+### D-37. Kody EAN: plik do ręcznego uzupełnienia zamiast Open Beauty Facts
+
+- **Decyzja:** kody kreskowe trzymamy w `data/barcodes.json` (`name`, `brand`, `url`, `ean`, `source`),
+  a `pnpm import:catalog` przypisuje je produktom po adresie strony. Import przyjmuje tylko kody
+  z poprawną cyfrą kontrolną i każdy kod tylko raz; resztę opisuje w raporcie. Dziś wszystkie pola
+  `ean` są puste — uzupełnia je zespół z opakowań, w polu `source` wpisując skąd kod pochodzi.
+- **Dlaczego nie Open Beauty Facts (plan, sprint 3):** `robots.txt` wszystkich hostów OBF — także
+  `static.openbeautyfacts.org`, gdzie leżą eksporty zbiorcze — zabrania wstępu agentom `anthropic-ai`,
+  `ClaudeBot` i `Claude-Web`. Asystent więc ani nie pobierał eksportu, ani nie pytał API. Kodów nie
+  zgadujemy: zły EAN pokazałby skład innego produktu.
+- **Jeśli zespół sam pobierze eksport OBF:** dane są na licencji ODbL. Trzeba wtedy wpisać źródło
+  w `source` (np. `openbeautyfacts.org`), dodać w aplikacji i w pracy dopisek „Zawiera dane z Open
+  Beauty Facts (openbeautyfacts.org), dostępne na licencji Open Database License (ODbL)” i pamiętać,
+  że baza z nich wyprowadzona też musi być udostępniona na ODbL.
+- **Alternatywy:** API OBF na żywo w aplikacji (zależność od zewnętrznej usługi przy każdym skanie),
+  generowanie kodów z nazw (niemożliwe — EAN nadaje producent).
+
+### D-38. Skaner i historia skanów
+
+- **Decyzja:** `GET /v1/products/barcode/:ean` przyjmuje EAN-13 i EAN-8 z poprawną cyfrą kontrolną
+  (UPC-A zamieniamy na EAN-13, tak jak robi to iOS). Każdy skan zalogowanego użytkownika trafia do
+  `scan_history`, także nieznany kod (`product_id = null`); bez konta nic nie zapisujemy.
+  `GET /v1/me/scans` pokazuje historię od najnowszych. W aplikacji skaner (`expo-camera`) reaguje na
+  pierwszy poprawny kod, blokuje kolejne odczyty, daje wibrację i przechodzi do karty produktu albo do
+  ekranu „Nie znamy jeszcze tego produktu”.
+- **Dlaczego zapisujemy nieznane kody:** to lista produktów, których ludzie naprawdę szukają —
+  podpowiada zespołowi, co dodać do bazy najpierw.
+- **Uprawnienie do aparatu:** polski tekst w `app.config.ts` (plugin `expo-camera`, bez mikrofonu).
+  W Expo Go system pokazuje tekst Expo Go, nasz pojawi się w buildach EAS.
+
+### D-39. Analiza wklejonego składu (D3)
+
+- **Decyzja:** `POST /v1/analyze/inci` używa tego samego parsera, dopasowania aliasów i Match Score co
+  katalog. Nazwa jest dopasowywana po pełnej formie, bez nawiasów i po tym, co w nawiasach („Water
+  (Aqua)” → AQUA), także po polsku („Gliceryna”, „Olej kokosowy”). Ten sam składnik pod dwiema nazwami
+  liczy się raz. Nierozpoznane nazwy wracają w liście `unknown` i obniżają pewność wyniku; flagi
+  „bez X” są wtedy „brak danych”. Tekstu nie zapisujemy.
+- **Parser** obsługuje teraz także listę po jednej nazwie w wierszu, „Skład (INCI):”, „Może zawierać”,
+  przypisy z gwiazdką i „1, 2-Hexanediol”; przypadki brzegowe mają testy.
+- **Dlaczego bez zapisu:** wklejony tekst może być czymkolwiek; zgłoszenie produktu jest osobnym,
+  świadomym krokiem.
+- **Alternatywy:** parser AI (plan 5) — zostaje jako zapas w Sprincie 4 dla list, których reguły nie
+  rozpoznają.
+
+### D-40. Karta składnika (D2)
+
+- **Decyzja:** `GET /v1/ingredients/:id` zwraca funkcje, flagi, wpływy na problemy skóry, do 10
+  produktów z tym składnikiem i część „Dla Twojej skóry”, liczoną funkcją `ingredientForProfile`
+  w `@dermamind/scoring` (te same reguły co Match Score, bez wagi pozycji). Tekst AI dojdzie
+  w Sprincie 4.
+- **Dlaczego w pakiecie scoring:** „pomaga na / może nasilać / uwaga” musi się zgadzać z tym, co widać
+  w wyniku produktu.
+
+### D-41. Zgłoszenia produktów
+
+- **Decyzja:** `POST /v1/product-submissions` (w planie `/submissions` — nazwa jaśniejsza w Swaggerze)
+  wymaga konta (wystarczy gość), ma limit zapytań i waliduje EAN. Po usunięciu konta zgłoszenie
+  zostaje, ale bez autora (`user_id = null`). Zdjęcie opakowania — później, gdy wybierzemy magazyn
+  plików.
+- **Dlaczego konto:** łatwiej odsiać spam i odpowiedzieć autorowi, a gość powstaje jednym kliknięciem.
