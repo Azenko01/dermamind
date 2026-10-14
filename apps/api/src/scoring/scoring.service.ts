@@ -18,6 +18,9 @@ export type ScorableIngredient = Prisma.IngredientGetPayload<{
   include: typeof scorableIngredientInclude;
 }>;
 
+/** MatchProfile + products the user put on the "Unikam" shelf (they count as excluded). */
+export type ScoringProfile = MatchProfile & { avoidedProductIds: ReadonlySet<number> };
+
 /** What a product must be loaded with to be scored and shown. */
 export const scorableProductInclude = {
   brand: true,
@@ -72,7 +75,7 @@ export class ScoringService {
    * ingredients are matched by name every time, so names typed in the quiz before an ingredient
    * was imported still count once it is in the catalogue.
    */
-  async profileFor(userId: string | undefined): Promise<MatchProfile | null> {
+  async profileFor(userId: string | undefined): Promise<ScoringProfile | null> {
     if (!userId) return null;
     const p = await this.prisma.profile.findUnique({
       where: { userId },
@@ -80,6 +83,7 @@ export class ScoringService {
         concerns: { include: { concern: true } },
         avoidedGroups: { include: { group: true } },
         avoidedIngredients: true,
+        shelves: { where: { kind: 'avoid' }, include: { items: { select: { productId: true } } } },
       },
     });
     if (!p?.skinType) return null;
@@ -109,12 +113,14 @@ export class ScoringService {
         ...byName.map((i) => i.id),
       ]),
       avoidedGroups: new Set(p.avoidedGroups.map((g) => g.group.code)),
+      avoidedProductIds: new Set(p.shelves.flatMap((sh) => sh.items.map((i) => i.productId))),
     };
   }
 
-  score(profile: MatchProfile, product: ScorableProduct): MatchResult {
+  score(profile: ScoringProfile, product: ScorableProduct): MatchResult {
     return computeMatchScore(profile, {
       inciComplete: product.inciComplete,
+      avoidedByUser: profile.avoidedProductIds.has(product.id),
       ingredients: product.ingredients.map(({ position, ingredient }) =>
         toMatchIngredient(position, ingredient),
       ),

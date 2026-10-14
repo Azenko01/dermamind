@@ -109,7 +109,11 @@ export class CatalogService {
       this.scoring.profileFor(userId),
     ]);
     if (!product) throw new NotFoundException('Product not found');
-    return toDetail(product, profile ? this.scoring.score(profile, product) : null);
+    return toDetail(
+      product,
+      profile ? this.scoring.score(profile, product) : null,
+      await this.myShelves(userId, product.id),
+    );
   }
 
   /**
@@ -130,7 +134,24 @@ export class CatalogService {
       });
     }
     if (!product) throw new NotFoundException('No product with this barcode');
-    return toDetail(product, profile ? this.scoring.score(profile, product) : null);
+    return toDetail(
+      product,
+      profile ? this.scoring.score(profile, product) : null,
+      await this.myShelves(userId, product.id),
+    );
+  }
+
+  /** System shelves ("Mam", "Lubię", "Unikam") this product is on — for the D1 buttons. */
+  private async myShelves(
+    userId: string | undefined,
+    productId: number,
+  ): Promise<ProductDetailDto['myShelves']> {
+    if (!userId) return [];
+    const rows = await this.prisma.shelfItem.findMany({
+      where: { productId, shelf: { userId, kind: { in: ['own', 'like', 'avoid'] } } },
+      select: { shelf: { select: { kind: true } } },
+    });
+    return (['own', 'like', 'avoid'] as const).filter((k) => rows.some((r) => r.shelf.kind === k));
   }
 
   async scans(userId: string, page: number, pageSize: number): Promise<ScanListDto> {
@@ -213,17 +234,23 @@ export function toMatchDetail(m: MatchResult): MatchDetailDto {
   return {
     ...summary(m),
     confidence: m.confidence,
+    avoidedByUser: m.avoidedByUser,
     pros: m.pros,
     cons: m.cons,
     excludedBy: m.excludedBy,
   };
 }
 
-function toDetail(product: ScorableProduct, match: MatchResult | null): ProductDetailDto {
+function toDetail(
+  product: ScorableProduct,
+  match: MatchResult | null,
+  myShelves: ProductDetailDto['myShelves'] = [],
+): ProductDetailDto {
   const rating = new Map(match?.ingredients.map((i) => [i.ingredientId, i.rating]));
   return {
     ...toListItem(product, match),
     sourceUrl: product.sourceUrl,
+    myShelves,
     flags: productFlags(
       product.ingredients.map((pi) => pi.ingredient),
       product.inciComplete,

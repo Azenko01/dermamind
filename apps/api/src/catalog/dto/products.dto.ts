@@ -181,6 +181,9 @@ export class MatchDetailDto extends MatchSummaryDto {
   @ApiProperty({ type: MatchConfidenceDto })
   confidence!: MatchConfidenceDto;
 
+  @ApiProperty({ description: 'The user put this product on the "Unikam" shelf' })
+  avoidedByUser!: boolean;
+
   @ApiProperty({ type: [MatchProDto] })
   pros!: MatchProDto[];
 
@@ -245,6 +248,13 @@ export class ProductFlagsDto implements Record<(typeof PRODUCT_FLAGS)[number], b
 export class ProductDetailDto extends ProductListItemDto {
   @ApiProperty({ type: String, nullable: true, description: 'Shop page the data came from' })
   sourceUrl!: string | null;
+
+  @ApiProperty({
+    enum: ['own', 'like', 'avoid'],
+    isArray: true,
+    description: 'My shelves with this product („Mam”, „Lubię”, „Unikam”); empty without a token',
+  })
+  myShelves!: ('own' | 'like' | 'avoid')[];
 
   @ApiProperty({
     type: ProductFlagsDto,
