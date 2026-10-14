@@ -212,6 +212,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/products/barcode/{ean}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CatalogController_byBarcode_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/products/{id}": {
         parameters: {
             query?: never;
@@ -222,6 +238,70 @@ export interface paths {
         get: operations["CatalogController_get_v1"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/scans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ScansController_list_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/ingredients/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["IngredientsController_get_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/analyze/inci": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AnalyzeController_inci_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/product-submissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["SubmissionsController_create_v1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -503,6 +583,108 @@ export interface components {
             /** @description null = no data (incomplete INCI / brand info) */
             flags: components["schemas"]["ProductFlagsDto"];
             ingredients: components["schemas"]["ProductIngredientDto"][];
+        };
+        ScanDto: {
+            id: number;
+            /** @example 5901234123457 */
+            barcode: string | null;
+            /** Format: date-time */
+            scannedAt: string;
+            /** @description null = code not in the catalogue */
+            product: components["schemas"]["ProductListItemDto"] | null;
+        };
+        ScanListDto: {
+            items: components["schemas"]["ScanDto"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        IngredientFlagsDto: {
+            isFragrance: boolean;
+            isAlcoholDrying: boolean;
+            isFungalAcneTrigger: boolean;
+            isEuAllergen: boolean;
+            isParaben: boolean;
+            isSulfate: boolean;
+            isSilicone: boolean;
+            isOil: boolean;
+            isAnimalDerived: boolean;
+            isReefHarmful: boolean;
+        };
+        IngredientEffectDto: {
+            /** @description skin_concerns.code */
+            concern: string;
+            effect: number;
+        };
+        IngredientForYouDto: {
+            avoided: boolean;
+            avoidedGroup: string | null;
+            /** @description The user's concerns it helps, strongest first */
+            helps: string[];
+            hurts: string[];
+            cautions: ("fragrance_sensitive" | "irritant_sensitive" | "irritant_barrier" | "comedogenic" | "drying_alcohol")[];
+        };
+        IngredientDetailDto: {
+            id: number;
+            /** @example NIACINAMIDE */
+            inciName: string;
+            /** @example Niacinamide */
+            displayName: string;
+            functions: string[];
+            comedogenic: number | null;
+            irritationRisk: number | null;
+            flags: components["schemas"]["IngredientFlagsDto"];
+            /** @description ingredient_groups.code */
+            groups: string[];
+            effects: components["schemas"]["IngredientEffectDto"][];
+            /** @description null without a skin profile */
+            forYou: components["schemas"]["IngredientForYouDto"] | null;
+            /** @description Up to 10 products with it, best match first */
+            products: components["schemas"]["ProductListItemDto"][];
+        };
+        AnalyzeInciDto: {
+            /**
+             * @description Ingredient list as printed on the package (commas, one per line, "Skład:" prefix…)
+             * @example Aqua, Glycerin, Niacinamide, Parfum
+             */
+            inci: string;
+        };
+        AnalyzedIngredientDto: {
+            /** @description Position in the pasted list, 1 = first */
+            position: number;
+            /**
+             * @description The name as parsed from the text
+             * @example AQUA (WATER)
+             */
+            input: string;
+            /** @description null = not recognised */
+            ingredient: components["schemas"]["ProductIngredientDto"] | null;
+        };
+        AnalyzeResultDto: {
+            ingredients: components["schemas"]["AnalyzedIngredientDto"][];
+            /** @description Names we could not match (parsed form) */
+            unknown: string[];
+            /** @description With unknown names a "yes" becomes null */
+            flags: components["schemas"]["ProductFlagsDto"];
+            /** @description null without a skin profile */
+            match: components["schemas"]["MatchDetailDto"] | null;
+        };
+        CreateSubmissionDto: {
+            /** @example 5901234123457 */
+            barcode?: string;
+            /** @example Krem nawilżający z ceramidami */
+            name: string;
+            /** @example Bielenda */
+            brand?: string;
+            /** @description Ingredient list as printed on the package */
+            inciRaw?: string;
+        };
+        SubmissionDto: {
+            id: number;
+            /** @enum {string} */
+            status: "pending" | "approved" | "rejected";
+            /** Format: date-time */
+            createdAt: string;
         };
     };
     responses: never;
@@ -922,6 +1104,41 @@ export interface operations {
             };
         };
     };
+    CatalogController_byBarcode_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                ean: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductDetailDto"];
+                };
+            };
+            /** @description Not a valid EAN */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unknown code — the app offers "Wklej skład" / "Zgłoś produkt" */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     CatalogController_get_v1: {
         parameters: {
             query?: never;
@@ -942,6 +1159,120 @@ export interface operations {
                 };
             };
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ScansController_list_v1: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScanListDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    IngredientsController_get_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IngredientDetailDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AnalyzeController_inci_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyzeInciDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnalyzeResultDto"];
+                };
+            };
+            /** @description Empty text or more than 300 ingredients */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SubmissionsController_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSubmissionDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionDto"];
+                };
+            };
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };

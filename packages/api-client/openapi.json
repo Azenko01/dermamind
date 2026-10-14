@@ -472,6 +472,47 @@
         ]
       }
     },
+    "/v1/products/barcode/{ean}": {
+      "get": {
+        "operationId": "CatalogController_byBarcode_v1",
+        "parameters": [
+          {
+            "name": "ean",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDetailDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not a valid EAN"
+          },
+          "404": {
+            "description": "Unknown code — the app offers \"Wklej skład\" / \"Zgłoś produkt\""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "catalog"
+        ]
+      }
+    },
     "/v1/products/{id}": {
       "get": {
         "operationId": "CatalogController_get_v1",
@@ -507,6 +548,173 @@
         ],
         "tags": [
           "catalog"
+        ]
+      }
+    },
+    "/v1/me/scans": {
+      "get": {
+        "operationId": "ScansController_list_v1",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 30,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanListDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
+    "/v1/ingredients/{id}": {
+      "get": {
+        "operationId": "IngredientsController_get_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngredientDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "catalog"
+        ]
+      }
+    },
+    "/v1/analyze/inci": {
+      "post": {
+        "operationId": "AnalyzeController_inci_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeInciDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Empty text or more than 300 ingredients"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analyze"
+        ]
+      }
+    },
+    "/v1/product-submissions": {
+      "post": {
+        "operationId": "SubmissionsController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubmissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmissionDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "submissions"
         ]
       }
     }
@@ -1581,6 +1789,388 @@
           "sourceUrl",
           "flags",
           "ingredients"
+        ]
+      },
+      "ScanDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "barcode": {
+            "type": "string",
+            "nullable": true,
+            "example": "5901234123457"
+          },
+          "scannedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "product": {
+            "nullable": true,
+            "description": "null = code not in the catalogue",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductListItemDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "barcode",
+          "scannedAt",
+          "product"
+        ]
+      },
+      "ScanListDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScanDto"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "page": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "pageSize"
+        ]
+      },
+      "IngredientFlagsDto": {
+        "type": "object",
+        "properties": {
+          "isFragrance": {
+            "type": "boolean"
+          },
+          "isAlcoholDrying": {
+            "type": "boolean"
+          },
+          "isFungalAcneTrigger": {
+            "type": "boolean"
+          },
+          "isEuAllergen": {
+            "type": "boolean"
+          },
+          "isParaben": {
+            "type": "boolean"
+          },
+          "isSulfate": {
+            "type": "boolean"
+          },
+          "isSilicone": {
+            "type": "boolean"
+          },
+          "isOil": {
+            "type": "boolean"
+          },
+          "isAnimalDerived": {
+            "type": "boolean"
+          },
+          "isReefHarmful": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "isFragrance",
+          "isAlcoholDrying",
+          "isFungalAcneTrigger",
+          "isEuAllergen",
+          "isParaben",
+          "isSulfate",
+          "isSilicone",
+          "isOil",
+          "isAnimalDerived",
+          "isReefHarmful"
+        ]
+      },
+      "IngredientEffectDto": {
+        "type": "object",
+        "properties": {
+          "concern": {
+            "type": "string",
+            "description": "skin_concerns.code"
+          },
+          "effect": {
+            "type": "number",
+            "minimum": -2,
+            "maximum": 2
+          }
+        },
+        "required": [
+          "concern",
+          "effect"
+        ]
+      },
+      "IngredientForYouDto": {
+        "type": "object",
+        "properties": {
+          "avoided": {
+            "type": "boolean"
+          },
+          "avoidedGroup": {
+            "type": "string",
+            "nullable": true
+          },
+          "helps": {
+            "description": "The user's concerns it helps, strongest first",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hurts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cautions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "fragrance_sensitive",
+                "irritant_sensitive",
+                "irritant_barrier",
+                "comedogenic",
+                "drying_alcohol"
+              ]
+            }
+          }
+        },
+        "required": [
+          "avoided",
+          "avoidedGroup",
+          "helps",
+          "hurts",
+          "cautions"
+        ]
+      },
+      "IngredientDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "inciName": {
+            "type": "string",
+            "example": "NIACINAMIDE"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Niacinamide"
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "comedogenic": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 0,
+            "maximum": 5
+          },
+          "irritationRisk": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 0,
+            "maximum": 3
+          },
+          "flags": {
+            "$ref": "#/components/schemas/IngredientFlagsDto"
+          },
+          "groups": {
+            "description": "ingredient_groups.code",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "effects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IngredientEffectDto"
+            }
+          },
+          "forYou": {
+            "nullable": true,
+            "description": "null without a skin profile",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IngredientForYouDto"
+              }
+            ]
+          },
+          "products": {
+            "description": "Up to 10 products with it, best match first",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductListItemDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "inciName",
+          "displayName",
+          "functions",
+          "comedogenic",
+          "irritationRisk",
+          "flags",
+          "groups",
+          "effects",
+          "forYou",
+          "products"
+        ]
+      },
+      "AnalyzeInciDto": {
+        "type": "object",
+        "properties": {
+          "inci": {
+            "type": "string",
+            "description": "Ingredient list as printed on the package (commas, one per line, \"Skład:\" prefix…)",
+            "example": "Aqua, Glycerin, Niacinamide, Parfum"
+          }
+        },
+        "required": [
+          "inci"
+        ]
+      },
+      "AnalyzedIngredientDto": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "number",
+            "description": "Position in the pasted list, 1 = first"
+          },
+          "input": {
+            "type": "string",
+            "description": "The name as parsed from the text",
+            "example": "AQUA (WATER)"
+          },
+          "ingredient": {
+            "nullable": true,
+            "description": "null = not recognised",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductIngredientDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "position",
+          "input",
+          "ingredient"
+        ]
+      },
+      "AnalyzeResultDto": {
+        "type": "object",
+        "properties": {
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalyzedIngredientDto"
+            }
+          },
+          "unknown": {
+            "description": "Names we could not match (parsed form)",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flags": {
+            "description": "With unknown names a \"yes\" becomes null",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductFlagsDto"
+              }
+            ]
+          },
+          "match": {
+            "nullable": true,
+            "description": "null without a skin profile",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchDetailDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ingredients",
+          "unknown",
+          "flags",
+          "match"
+        ]
+      },
+      "CreateSubmissionDto": {
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "type": "string",
+            "example": "5901234123457"
+          },
+          "name": {
+            "type": "string",
+            "example": "Krem nawilżający z ceramidami"
+          },
+          "brand": {
+            "type": "string",
+            "example": "Bielenda"
+          },
+          "inciRaw": {
+            "type": "string",
+            "description": "Ingredient list as printed on the package"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "SubmissionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "rejected"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "createdAt"
         ]
       }
     }
