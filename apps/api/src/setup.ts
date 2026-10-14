@@ -1,15 +1,24 @@
-import { INestApplication, VersioningType } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { INestApplication, ValidationPipe, VersioningType } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule, type OpenAPIObject } from '@nestjs/swagger';
+import helmet from 'helmet';
 
-/** Shared by main.ts and the e2e tests so both see the same routes. */
-export function setupApp(app: INestApplication): void {
-  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
-  app.enableShutdownHooks();
-
+export function buildOpenApi(app: INestApplication): OpenAPIObject {
   const doc = new DocumentBuilder()
     .setTitle('DermaMind API')
     .setDescription('REST API for the DermaMind mobile app')
     .setVersion('1')
+    .addBearerAuth()
     .build();
-  SwaggerModule.setup('docs', app, () => SwaggerModule.createDocument(app, doc));
+  return SwaggerModule.createDocument(app, doc);
+}
+
+/** Shared by main.ts, the OpenAPI export and the e2e tests so all of them see the same app. */
+export function setupApp(app: INestApplication): void {
+  app.use(helmet());
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+  );
+  app.enableShutdownHooks();
+  SwaggerModule.setup('docs', app, () => buildOpenApi(app));
 }

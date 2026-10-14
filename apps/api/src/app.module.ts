@@ -1,16 +1,25 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { AppConfigModule } from './app-config/app-config.module';
-import { loadEnv } from './config';
+import { AuthModule } from './auth/auth.module';
+import { loadEnv, type AppEnv } from './config';
 import { HealthModule } from './health/health.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [() => loadEnv()] }),
+    ThrottlerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService<AppEnv, true>) => [
+        { ttl: 60_000, limit: config.get('authRateLimit', { infer: true }) },
+      ],
+    }),
     PrismaModule,
     HealthModule,
     AppConfigModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

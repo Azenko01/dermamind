@@ -1,9 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { PrismaService } from '../src/prisma/prisma.service';
-import { setupApp } from '../src/setup';
+import { AppModule } from './app.module';
+import { PrismaService } from './prisma/prisma.service';
+import { setupApp } from './setup';
 
 /** HTTP tests without a database: Prisma is replaced by a stub. DB-backed tests come with real endpoints. */
 describe('API v1 (e2e)', () => {
@@ -12,6 +12,7 @@ describe('API v1 (e2e)', () => {
 
   beforeAll(async () => {
     process.env.DATABASE_URL ??= 'postgresql://test:test@localhost:5432/test';
+    process.env.JWT_SECRET ??= 'test-secret-that-is-at-least-32-characters-long';
     process.env.MIN_APP_VERSION = '0.2.0';
     process.env.LATEST_APP_VERSION = '0.3.0';
 
