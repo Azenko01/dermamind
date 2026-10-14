@@ -24,6 +24,13 @@ import {
   productUserMessage,
   type ProductPromptInput,
 } from './prompts/product-summary';
+import {
+  ROUTINE_TOOL,
+  routineOutput,
+  routineUserMessage,
+  type RoutineOutput,
+  type RoutinePromptInput,
+} from './prompts/routine';
 
 type Kind = 'ingredient_explain' | 'product_summary' | 'parse_inci';
 const BARRIER = { 1: 'good', 2: 'weakened', 3: 'compromised' } as const;
@@ -166,6 +173,32 @@ export class AiService {
       fallbackReason: null,
       promptVersion: PROMPT_VERSION,
     };
+  }
+
+  /**
+   * ai-routine — not cached (the result is stored in routines.ai_summary, PLAN.md 5). Returns the raw
+   * picks; the routines module validates them with rules before using them.
+   */
+  async generateRoutine(
+    userId: string,
+    input: RoutinePromptInput,
+    lang: Lang,
+  ): Promise<{ ok: true; value: RoutineOutput } | { ok: false; reason: FallbackReason }> {
+    if (!this.transport) return { ok: false, reason: 'not_configured' };
+    if (!(await this.reserveCall(userId))) return { ok: false, reason: 'limit' };
+    const result = await runTool(
+      this.transport,
+      {
+        model: this.config.get('aiModelSmart', { infer: true }),
+        system: systemPrompt(lang),
+        user: routineUserMessage(input),
+        tool: ROUTINE_TOOL,
+        schema: routineOutput,
+        maxTokens: 8000,
+      },
+      'routine',
+    );
+    return result.ok ? { ok: true, value: result.value } : result;
   }
 
   /** ai-parse-inci — names only; null when AI isn't available or can't help. */
