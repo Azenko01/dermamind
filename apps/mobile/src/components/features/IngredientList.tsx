@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { DropIcon } from 'phosphor-react-native';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -62,10 +63,14 @@ function IngredientRow({ ingredient: i, last }: { ingredient: Ingredient; last: 
     i.isFragrance ? 'zapach' : null,
   ].filter(Boolean);
   return (
-    <View
-      style={[
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${i.displayName}${fn ? `, ${fn}` : ''}. Szczegóły składnika`}
+      onPress={() => router.push({ pathname: '/ingredient/[id]', params: { id: String(i.id) } })}
+      style={({ pressed }) => [
         styles.row,
         {
+          opacity: pressed ? 0.6 : 1,
           gap: spacing.lg,
           paddingVertical: spacing.md,
           borderBottomWidth: last ? 0 : StyleSheet.hairlineWidth,
@@ -88,7 +93,7 @@ function IngredientRow({ ingredient: i, last }: { ingredient: Ingredient; last: 
         ) : null}
       </View>
       <Text variant="caption">{i.position}.</Text>
-    </View>
+    </Pressable>
   );
 }
 
