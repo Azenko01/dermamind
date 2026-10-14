@@ -423,7 +423,10 @@ model Routine {
   items     RoutineItem[]
   logs      RoutineLog[]
 
-  @@index([userId])
+  /// 'ai' or 'rules' when made by POST /v1/me/routines/generate; null after manual changes
+  generatedBy String? @map("generated_by")
+
+  @@unique([userId, timeOfDay])
   @@map("routines")
 }
 
