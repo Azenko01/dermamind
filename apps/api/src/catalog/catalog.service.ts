@@ -8,12 +8,15 @@ import {
   type ScorableProduct,
 } from '../scoring/scoring.service';
 import type {
+  MatchDetailDto,
   MatchSummaryDto,
   ProductDetailDto,
+  ProductIngredientDto,
   ProductListDto,
   ProductListItemDto,
   ProductsQueryDto,
 } from './dto/products.dto';
+import type { ScanListDto } from './dto/scans.dto';
 
 /**
  * Polish words people type for a product type. Product names from Sa.Sha's DB are English, so
@@ -106,38 +109,55 @@ export class CatalogService {
       this.scoring.profileFor(userId),
     ]);
     if (!product) throw new NotFoundException('Product not found');
+    return toDetail(product, profile ? this.scoring.score(profile, product) : null);
+  }
 
-    const match = profile ? this.scoring.score(profile, product) : null;
-    const rating = new Map(match?.ingredients.map((i) => [i.ingredientId, i.rating]));
+  /**
+   * Scanner lookup (PLAN.md 6.5 flow 2). Every scan of a signed-in user goes to scan_history —
+   * also codes we don't know, so the team sees what people look for.
+   */
+  async byBarcode(ean: string, userId?: string): Promise<ProductDetailDto> {
+    const [product, profile] = await Promise.all([
+      this.prisma.product.findFirst({
+        where: { barcode: ean, isPublished: true },
+        include: scorableProductInclude,
+      }),
+      this.scoring.profileFor(userId),
+    ]);
+    if (userId) {
+      await this.prisma.scanHistory.create({
+        data: { userId, barcode: ean, productId: product?.id ?? null },
+      });
+    }
+    if (!product) throw new NotFoundException('No product with this barcode');
+    return toDetail(product, profile ? this.scoring.score(profile, product) : null);
+  }
+
+  async scans(userId: string, page: number, pageSize: number): Promise<ScanListDto> {
+    const [rows, total, profile] = await Promise.all([
+      this.prisma.scanHistory.findMany({
+        where: { userId },
+        orderBy: [{ scannedAt: 'desc' }, { id: 'desc' }],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        include: { product: { include: scorableProductInclude } },
+      }),
+      this.prisma.scanHistory.count({ where: { userId } }),
+      this.scoring.profileFor(userId),
+    ]);
     return {
-      ...toListItem(product, match),
-      sourceUrl: product.sourceUrl,
-      flags: productFlags(
-        product.ingredients.map((pi) => pi.ingredient),
-        product.inciComplete,
-        product.brand?.crueltyFree ?? null,
-      ),
-      ingredients: product.ingredients.map(({ position, ingredient: i }) => ({
-        id: i.id,
-        position,
-        inciName: i.inciName,
-        displayName: i.displayName,
-        functions: i.functions,
-        comedogenic: i.comedogenic,
-        isFungalAcneTrigger: i.isFungalAcneTrigger,
-        isEuAllergen: i.isEuAllergen,
-        isFragrance: i.isFragrance,
-        rating: rating.get(i.id) ?? null,
+      items: rows.map((r) => ({
+        id: r.id,
+        barcode: r.barcode,
+        scannedAt: r.scannedAt.toISOString(),
+        product:
+          r.product && r.product.isPublished
+            ? toListItem(r.product, profile ? this.scoring.score(profile, r.product) : null)
+            : null,
       })),
-      match: match
-        ? {
-            ...summary(match),
-            confidence: match.confidence,
-            pros: match.pros,
-            cons: match.cons,
-            excludedBy: match.excludedBy,
-          }
-        : null,
+      total,
+      page,
+      pageSize,
     };
   }
 
@@ -170,11 +190,57 @@ export class CatalogService {
   }
 }
 
-function summary(m: MatchResult): MatchSummaryDto {
+export function toIngredientRow(
+  position: number,
+  i: ScorableProduct['ingredients'][number]['ingredient'],
+  rating: ProductIngredientDto['rating'],
+): ProductIngredientDto {
+  return {
+    id: i.id,
+    position,
+    inciName: i.inciName,
+    displayName: i.displayName,
+    functions: i.functions,
+    comedogenic: i.comedogenic,
+    isFungalAcneTrigger: i.isFungalAcneTrigger,
+    isEuAllergen: i.isEuAllergen,
+    isFragrance: i.isFragrance,
+    rating,
+  };
+}
+
+export function toMatchDetail(m: MatchResult): MatchDetailDto {
+  return {
+    ...summary(m),
+    confidence: m.confidence,
+    pros: m.pros,
+    cons: m.cons,
+    excludedBy: m.excludedBy,
+  };
+}
+
+function toDetail(product: ScorableProduct, match: MatchResult | null): ProductDetailDto {
+  const rating = new Map(match?.ingredients.map((i) => [i.ingredientId, i.rating]));
+  return {
+    ...toListItem(product, match),
+    sourceUrl: product.sourceUrl,
+    flags: productFlags(
+      product.ingredients.map((pi) => pi.ingredient),
+      product.inciComplete,
+      product.brand?.crueltyFree ?? null,
+    ),
+    ingredients: product.ingredients.map(({ position, ingredient }) =>
+      toIngredientRow(position, ingredient, rating.get(ingredient.id) ?? null),
+    ),
+    match: match ? toMatchDetail(match) : null,
+  };
+}
+
+export function summary(m: MatchResult): MatchSummaryDto {
   return { score: m.score, status: m.status, label: m.label, lowConfidence: m.lowConfidence };
 }
 
-function toListItem(p: ScorableProduct, match: MatchResult | null): ProductListItemDto {
+export function toListItem(p: ScorableProduct, match: MatchResult | null): ProductListItemDto {
   return {
     id: p.id,
     name: p.name,

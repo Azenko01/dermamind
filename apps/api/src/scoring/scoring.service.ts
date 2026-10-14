@@ -9,26 +9,27 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
+export const scorableIngredientInclude = {
+  effects: { include: { concern: true } },
+  groups: { include: { group: true } },
+} satisfies Prisma.IngredientInclude;
+
+export type ScorableIngredient = Prisma.IngredientGetPayload<{
+  include: typeof scorableIngredientInclude;
+}>;
+
 /** What a product must be loaded with to be scored and shown. */
 export const scorableProductInclude = {
   brand: true,
   ingredients: {
     orderBy: { position: 'asc' },
-    include: {
-      ingredient: {
-        include: {
-          effects: { include: { concern: true } },
-          groups: { include: { group: true } },
-        },
-      },
-    },
+    include: { ingredient: { include: scorableIngredientInclude } },
   },
 } satisfies Prisma.ProductInclude;
 
 export type ScorableProduct = Prisma.ProductGetPayload<{ include: typeof scorableProductInclude }>;
-type LoadedIngredient = ScorableProduct['ingredients'][number]['ingredient'];
 
-export function hasMetadata(i: LoadedIngredient): boolean {
+export function hasMetadata(i: ScorableIngredient): boolean {
   return (
     i.functions.length > 0 ||
     i.comedogenic !== null ||
@@ -44,6 +45,21 @@ export function hasMetadata(i: LoadedIngredient): boolean {
     i.isAnimalDerived ||
     i.isReefHarmful
   );
+}
+
+export function toMatchIngredient(position: number, i: ScorableIngredient): MatchIngredient {
+  return {
+    id: i.id,
+    name: i.displayName,
+    position,
+    comedogenic: i.comedogenic,
+    irritationRisk: i.irritationRisk,
+    isFragrance: i.isFragrance,
+    isAlcoholDrying: i.isAlcoholDrying,
+    groups: i.groups.map((g) => g.group.code),
+    effects: i.effects.map((e) => ({ concern: e.concern.code, effect: e.effect })),
+    hasMetadata: hasMetadata(i),
+  };
 }
 
 /** Bridges the database and the pure algorithm in @dermamind/scoring (PLAN.md 2.1, 4). */
@@ -99,18 +115,9 @@ export class ScoringService {
   score(profile: MatchProfile, product: ScorableProduct): MatchResult {
     return computeMatchScore(profile, {
       inciComplete: product.inciComplete,
-      ingredients: product.ingredients.map(({ position, ingredient: i }): MatchIngredient => ({
-        id: i.id,
-        name: i.displayName,
-        position,
-        comedogenic: i.comedogenic,
-        irritationRisk: i.irritationRisk,
-        isFragrance: i.isFragrance,
-        isAlcoholDrying: i.isAlcoholDrying,
-        groups: i.groups.map((g) => g.group.code),
-        effects: i.effects.map((e) => ({ concern: e.concern.code, effect: e.effect })),
-        hasMetadata: hasMetadata(i),
-      })),
+      ingredients: product.ingredients.map(({ position, ingredient }) =>
+        toMatchIngredient(position, ingredient),
+      ),
     });
   }
 }
