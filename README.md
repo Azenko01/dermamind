@@ -25,6 +25,7 @@ pnpm db:up
 # 2. API → http://localhost:3000/v1/health, Swagger on http://localhost:3000/docs
 cp apps/api/.env.example apps/api/.env
 pnpm --filter @dermamind/api prisma:deploy
+pnpm import:catalog                            # 42 Hebe products from data/ (safe to re-run)
 pnpm --filter @dermamind/api dev
 
 # 3. App (in another terminal)
