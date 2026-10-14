@@ -1,0 +1,21 @@
+# Local development only. In the cloud the API runs on Render and the DB on Supabase (PLAN.md 2.3).
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dermamind}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dermamind}
+      POSTGRES_DB: ${POSTGRES_DB:-dermamind}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

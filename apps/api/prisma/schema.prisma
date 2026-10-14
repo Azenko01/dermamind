@@ -1,0 +1,488 @@
+// DermaMind data model — PLAN.md section 3 (3.2 catalog, 3.3 user data, 3.4 auth, 3.6 SkinSort additions).
+// Tables and columns are snake_case in Postgres, camelCase in TypeScript.
+// Things Prisma can't express (CHECK constraints, the generated `search` column, the product_flags view)
+// live in raw SQL inside the migrations — see prisma/migrations/*_init/migration.sql.
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ───────────────────────────── enums ─────────────────────────────
+
+enum ProductCategory {
+  cleanser
+  toner
+  essence
+  serum
+  moisturizer
+  eye_cream
+  sunscreen
+  mask
+  exfoliant
+  spot_treatment
+  oil
+  other
+
+  @@map("product_category")
+}
+
+enum RoutineStep {
+  cleanse
+  tone
+  treat
+  moisturize
+  protect
+
+  @@map("routine_step")
+}
+
+enum SkinType {
+  dry
+  oily
+  combination
+  normal
+
+  @@map("skin_type")
+}
+
+enum UserRole {
+  user
+  admin
+
+  @@map("user_role")
+}
+
+enum TimeOfDay {
+  am
+  pm
+
+  @@map("time_of_day")
+}
+
+enum ShelfKind {
+  own
+  like
+  avoid
+  custom
+
+  @@map("shelf_kind")
+}
+
+enum SubmissionStatus {
+  pending
+  approved
+  rejected
+
+  @@map("submission_status")
+}
+
+enum Budget {
+  lt30
+  from30to70  @map("30_70")
+  from70to150 @map("70_150")
+  gt150
+
+  @@map("budget")
+}
+
+enum SpfUsage {
+  daily
+  sometimes
+  rarely
+
+  @@map("spf_usage")
+}
+
+// ───────────────────────────── catalog (3.2, 3.6) ─────────────────────────────
+
+model Brand {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  country     String?
+  /// null = no data; UI shows "brak danych", not ×
+  crueltyFree Boolean?  @map("cruelty_free")
+  products    Product[]
+
+  @@map("brands")
+}
+
+model Product {
+  id          Int                      @id @default(autoincrement())
+  name        String
+  brandId     Int?                     @map("brand_id")
+  brand       Brand?                   @relation(fields: [brandId], references: [id])
+  category    ProductCategory
+  /// EAN-13 / EAN-8
+  barcode     String?                  @unique
+  imageUrl    String?                  @map("image_url")
+  volumeMl    Decimal?                 @map("volume_ml")
+  pricePln    Decimal?                 @map("price_pln") @db.Decimal(8, 2)
+  /// 'hebe', 'user_submission', ...
+  source      String?
+  /// ingredient list exactly as printed on the package
+  inciRaw     String?                  @map("inci_raw")
+  isPublished Boolean                  @default(true) @map("is_published")
+  createdAt   DateTime                 @default(now()) @map("created_at") @db.Timestamptz
+  /// GENERATED ALWAYS AS (to_tsvector('simple', name)) STORED — defined in migration SQL
+  search      Unsupported("tsvector")?
+
+  ingredients  ProductIngredient[]
+  shelfItems   ShelfItem[]
+  scans        ScanHistory[]
+  routineItems RoutineItem[]
+
+  @@index([search], type: Gin)
+  @@index([category])
+  @@map("products")
+}
+
+model Ingredient {
+  id              Int      @id @default(autoincrement())
+  /// canonical form, e.g. 'NIACINAMIDE'
+  inciName        String   @unique @map("inci_name")
+  displayName     String   @map("display_name")
+  /// humectant, emollient, ...
+  functions       String[] @default([])
+  /// 0–5 (CHECK in SQL)
+  comedogenic     Int?     @db.SmallInt
+  /// 0–3 (CHECK in SQL)
+  irritationRisk  Int?     @map("irritation_risk") @db.SmallInt
+  isFragrance     Boolean  @default(false) @map("is_fragrance")
+  isAlcoholDrying Boolean  @default(false) @map("is_alcohol_drying")
+  descriptionPl   String?  @map("description_pl")
+  descriptionEn   String?  @map("description_en")
+  descriptionUk   String?  @map("description_uk")
+
+  // 3.6 — flags for "Co jest w środku" and avoid-groups
+  isFungalAcneTrigger Boolean @default(false) @map("is_fungal_acne_trigger")
+  /// one of the 26 EU fragrance allergens
+  isEuAllergen        Boolean @default(false) @map("is_eu_allergen")
+  isParaben           Boolean @default(false) @map("is_paraben")
+  isSulfate           Boolean @default(false) @map("is_sulfate")
+  isSilicone          Boolean @default(false) @map("is_silicone")
+  isOil               Boolean @default(false) @map("is_oil")
+  isAnimalDerived     Boolean @default(false) @map("is_animal_derived")
+  isReefHarmful       Boolean @default(false) @map("is_reef_harmful")
+
+  aliases      IngredientAlias[]
+  products     ProductIngredient[]
+  effects      IngredientEffect[]
+  groups       IngredientGroupMember[]
+  conflictsAsA IngredientConflict[]    @relation("ConflictA")
+  conflictsAsB IngredientConflict[]    @relation("ConflictB")
+  avoidedBy    AvoidedIngredient[]
+
+  @@map("ingredients")
+}
+
+model IngredientAlias {
+  /// normalised spelling (lower case, no spaces)
+  alias        String     @id
+  ingredientId Int        @map("ingredient_id")
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@index([ingredientId])
+  @@map("ingredient_aliases")
+}
+
+model ProductIngredient {
+  productId    Int        @map("product_id")
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  ingredientId Int        @map("ingredient_id")
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  /// 1 = highest concentration
+  position     Int        @db.SmallInt
+
+  @@id([productId, ingredientId])
+  @@index([ingredientId])
+  @@map("product_ingredients")
+}
+
+model SkinConcern {
+  id      Int                @id @db.SmallInt
+  /// breakouts, oiliness, pores, texture, dark_spots, radiance, redness, ...
+  code    String             @unique
+  effects IngredientEffect[]
+  users   ProfileConcern[]
+
+  @@map("skin_concerns")
+}
+
+/// Ingredient → skin concern impact: the heart of the Match Score.
+model IngredientEffect {
+  ingredientId Int         @map("ingredient_id")
+  ingredient   Ingredient  @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  concernId    Int         @map("concern_id") @db.SmallInt
+  concern      SkinConcern @relation(fields: [concernId], references: [id])
+  /// -2 harms … +2 helps a lot (CHECK in SQL)
+  effect       Int         @db.SmallInt
+  /// source / footnote for the thesis
+  evidence     String?
+
+  @@id([ingredientId, concernId])
+  @@map("ingredient_effects")
+}
+
+model IngredientGroup {
+  id        Int                     @id @db.SmallInt
+  /// fragrance, drying_alcohol, fungal_acne, parabens, sulfates, silicones, eu_allergens
+  code      String                  @unique
+  members   IngredientGroupMember[]
+  avoidedBy AvoidedGroup[]
+
+  @@map("ingredient_groups")
+}
+
+model IngredientGroupMember {
+  groupId      Int             @map("group_id") @db.SmallInt
+  group        IngredientGroup @relation(fields: [groupId], references: [id])
+  ingredientId Int             @map("ingredient_id")
+  ingredient   Ingredient      @relation(fields: [ingredientId], references: [id])
+
+  @@id([groupId, ingredientId])
+  @@map("ingredient_group_members")
+}
+
+model IngredientConflict {
+  aId      Int        @map("a_id")
+  a        Ingredient @relation("ConflictA", fields: [aId], references: [id])
+  bId      Int        @map("b_id")
+  b        Ingredient @relation("ConflictB", fields: [bId], references: [id])
+  /// 1–2 (CHECK in SQL)
+  severity Int        @db.SmallInt
+  /// i18n key with the explanation
+  noteKey  String     @map("note_key")
+
+  @@id([aId, bId])
+  @@map("ingredient_conflicts")
+}
+
+// ───────────────────────────── auth (3.4) ─────────────────────────────
+
+/// Own auth instead of Supabase auth.users. Guests are real rows with isGuest = true.
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String?  @unique
+  passwordHash String?  @map("password_hash")
+  appleSub     String?  @unique @map("apple_sub")
+  googleSub    String?  @unique @map("google_sub")
+  isGuest      Boolean  @default(false) @map("is_guest")
+  role         UserRole @default(user)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  profile       Profile?
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+/// Rotated refresh tokens; only a hash is stored and it never leaves the API.
+model RefreshToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// ───────────────────────────── user data (3.3, 3.6) ─────────────────────────────
+
+model Profile {
+  userId      String    @id @map("user_id") @db.Uuid
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  displayName String?   @map("display_name")
+  skinType    SkinType? @map("skin_type")
+  isSensitive Boolean   @default(false) @map("is_sensitive")
+  /// '16-24', '25-34', '35+'
+  ageRange    String?   @map("age_range")
+  locale      String    @default("pl")
+  /// raw quiz answers, kept so the profile can be recomputed
+  quizAnswers Json?     @map("quiz_answers")
+  onboardedAt DateTime? @map("onboarded_at") @db.Timestamptz
+
+  // 3.6 — quiz result and preferences (ranges enforced by CHECK in SQL)
+  /// -3 … 3
+  oilLevel         Int?      @map("oil_level") @db.SmallInt
+  /// 1 good … 3 compromised
+  barrierLevel     Int?      @map("barrier_level") @db.SmallInt
+  /// 0 … 4
+  sensitivityLevel Int?      @map("sensitivity_level") @db.SmallInt
+  budget           Budget?
+  usesSpf          SpfUsage? @map("uses_spf")
+  /// 'vegan', 'cruelty_free', 'reef_safe'
+  mustHaves        String[]  @default([]) @map("must_haves")
+
+  concerns           ProfileConcern[]
+  avoidedIngredients AvoidedIngredient[]
+  avoidedGroups      AvoidedGroup[]
+  shelves            Shelf[]
+  scans              ScanHistory[]
+  routines           Routine[]
+  routineLogs        RoutineLog[]
+  submissions        ProductSubmission[]
+  checkins           SkinCheckin[]
+
+  @@map("profiles")
+}
+
+model ProfileConcern {
+  userId    String      @map("user_id") @db.Uuid
+  profile   Profile     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  concernId Int         @map("concern_id") @db.SmallInt
+  concern   SkinConcern @relation(fields: [concernId], references: [id])
+  /// 1 = main concern
+  priority  Int         @default(1) @db.SmallInt
+
+  @@id([userId, concernId])
+  @@map("profile_concerns")
+}
+
+model AvoidedIngredient {
+  userId       String     @map("user_id") @db.Uuid
+  profile      Profile    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  ingredientId Int        @map("ingredient_id")
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+
+  @@id([userId, ingredientId])
+  @@map("avoided_ingredients")
+}
+
+model AvoidedGroup {
+  userId  String          @map("user_id") @db.Uuid
+  profile Profile         @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  groupId Int             @map("group_id") @db.SmallInt
+  group   IngredientGroup @relation(fields: [groupId], references: [id])
+
+  @@id([userId, groupId])
+  @@map("avoided_groups")
+}
+
+/// Shelves replace "favorites" from 3.3. Three system shelves (own/like/avoid) are created on sign-up.
+model Shelf {
+  id      Int         @id @default(autoincrement())
+  userId  String      @map("user_id") @db.Uuid
+  profile Profile     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  kind    ShelfKind
+  name    String?
+  items   ShelfItem[]
+
+  @@index([userId])
+  @@map("shelves")
+}
+
+model ShelfItem {
+  shelfId   Int      @map("shelf_id")
+  shelf     Shelf    @relation(fields: [shelfId], references: [id], onDelete: Cascade)
+  productId Int      @map("product_id")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  addedAt   DateTime @default(now()) @map("added_at") @db.Timestamptz
+
+  @@id([shelfId, productId])
+  @@map("shelf_items")
+}
+
+model ScanHistory {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id") @db.Uuid
+  profile   Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  productId Int?     @map("product_id")
+  product   Product? @relation(fields: [productId], references: [id])
+  /// also barcodes that were not found
+  barcode   String?
+  scannedAt DateTime @default(now()) @map("scanned_at") @db.Timestamptz
+
+  @@index([userId, scannedAt(sort: Desc)])
+  @@map("scan_history")
+}
+
+model Routine {
+  id        Int           @id @default(autoincrement())
+  userId    String        @map("user_id") @db.Uuid
+  profile   Profile       @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  timeOfDay TimeOfDay     @map("time_of_day")
+  aiSummary String?       @map("ai_summary")
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  items     RoutineItem[]
+  logs      RoutineLog[]
+
+  @@index([userId])
+  @@map("routines")
+}
+
+model RoutineItem {
+  routineId Int         @map("routine_id")
+  routine   Routine     @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  step      RoutineStep
+  productId Int?        @map("product_id")
+  product   Product?    @relation(fields: [productId], references: [id])
+  position  Int         @db.SmallInt
+
+  @@id([routineId, position])
+  @@map("routine_items")
+}
+
+model ProductSubmission {
+  id        Int              @id @default(autoincrement())
+  userId    String?          @map("user_id") @db.Uuid
+  profile   Profile?         @relation(fields: [userId], references: [userId], onDelete: SetNull)
+  barcode   String?
+  name      String?
+  brand     String?
+  inciRaw   String?          @map("inci_raw")
+  status    SubmissionStatus @default(pending)
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([status])
+  @@map("product_submissions")
+}
+
+/// "Dziś" screen: how the skin feels today (1–5, CHECK in SQL).
+model SkinCheckin {
+  userId  String   @map("user_id") @db.Uuid
+  profile Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  day     DateTime @db.Date
+  mood    Int      @db.SmallInt
+
+  @@id([userId, day])
+  @@map("skin_checkins")
+}
+
+model RoutineLog {
+  userId    String   @map("user_id") @db.Uuid
+  profile   Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  routineId Int      @map("routine_id")
+  routine   Routine  @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  day       DateTime @db.Date
+  doneSteps Int[]    @default([]) @map("done_steps") @db.SmallInt
+
+  @@id([userId, routineId, day])
+  @@map("routine_logs")
+}
+
+// ───────────────────────────── AI (5) ─────────────────────────────
+
+/// Never exposed through the API.
+model AiCache {
+  /// hash(prompt_version + kind + input)
+  key       String   @id
+  /// 'ingredient_explain', 'product_summary', 'routine'
+  kind      String
+  locale    String
+  content   Json
+  model     String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("ai_cache")
+}
