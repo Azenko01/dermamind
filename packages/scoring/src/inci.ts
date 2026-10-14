@@ -29,16 +29,32 @@ export function aliasKey(name: string): string {
 }
 
 /**
+ * Keys to look a name up by: the whole name, the name without parenthesised parts and what's inside
+ * the parentheses. "Water (Aqua)" → water / aqua, "Butyrospermum Parkii (Shea) Butter" → the INCI
+ * name itself.
+ */
+export function inciLookupKeys(name: string): string[] {
+  const keys = [
+    aliasKey(name),
+    aliasKey(name.replace(/\s*[([][^)\]]*[)\]]/g, ' ')),
+    ...[...name.matchAll(/[([]([^)\]]+)[)\]]/g)].map((m) => aliasKey(m[1] ?? '')),
+  ];
+  return [...new Set(keys.filter((k) => k.length > 0))];
+}
+
+/**
  * Splits an ingredient list as printed on the package into names, in order. Commas inside
- * parentheses ("Parfum (Fragrance, Aroma)") or between digits ("1,2-Hexanediol") don't split;
- * "Skład:" / "Ingredients:" prefixes,
- * "(and)" and "may contain" tails are dropped.
+ * parentheses ("Parfum (Fragrance, Aroma)") or between digits ("1,2-Hexanediol") don't split.
+ * Dropped: "Skład:" / "Ingredients:" prefixes, "(and)", "may contain" / "+/-" tails and footnotes
+ * like "*organic". A pasted list with one name per line (no commas) is split by lines.
  */
 export function splitInci(raw: string): string[] {
-  const text = raw
-    .replace(/^\s*(skład|sklad|ingredients|inci)\s*:\s*/i, '')
+  let text = raw
+    .replace(/^\s*(skład|sklad|ingredients|inci)(\s*\((inci)\))?\s*:\s*/i, '')
     .replace(/\s*[[(]?\s*(\+\/-|may contain|może zawierać)[\s\S]*$/i, '')
+    .replace(/(\.|\n)\s*\*[^\n,]*$/u, '')
     .replace(/\s*\(and\)\s*/gi, ', ');
+  if (!/[,;•]/.test(text) && text.includes('\n')) text = text.replace(/\n+/g, ', ');
 
   const names: string[] = [];
   let depth = 0;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { aliasKey, normalizeInciName, splitInci } from './inci';
+import { aliasKey, inciLookupKeys, normalizeInciName, splitInci } from './inci';
 
 describe('normalizeInciName', () => {
   it('upper-cases, trims and collapses spaces', () => {
@@ -67,5 +67,65 @@ describe('splitInci', () => {
 
   it('ignores empty items', () => {
     expect(splitInci('Aqua,, Glycerin, ')).toEqual(['AQUA', 'GLYCERIN']);
+  });
+});
+
+describe('splitInci — pasted from packages and shops', () => {
+  it('handles a real-looking list with (and), *, brackets, numbers and a footnote', () => {
+    expect(
+      splitInci(
+        'INGREDIENTS: Aqua (Water), Cetearyl Alcohol (and) Cetearyl Glucoside, 1,2-Hexanediol, ' +
+          'Butyrospermum Parkii (Shea) Butter*, Parfum (Fragrance), Limonene**. *organic **natural',
+      ),
+    ).toEqual([
+      'AQUA (WATER)',
+      'CETEARYL ALCOHOL',
+      'CETEARYL GLUCOSIDE',
+      '1,2-HEXANEDIOL',
+      'BUTYROSPERMUM PARKII (SHEA) BUTTER',
+      'PARFUM (FRAGRANCE)',
+      'LIMONENE',
+    ]);
+  });
+
+  it('accepts "Skład (INCI):", line breaks and a Polish "może zawierać" tail', () => {
+    expect(splitInci('Skład (INCI): Aqua,\nGlycerin,\nCI 77891. Może zawierać: CI 77491')).toEqual([
+      'AQUA',
+      'GLYCERIN',
+      'CI 77891',
+    ]);
+  });
+
+  it('splits a list with one name per line', () => {
+    expect(splitInci('Aqua\nGlycerin\n\nNiacinamide')).toEqual(['AQUA', 'GLYCERIN', 'NIACINAMIDE']);
+  });
+
+  it('keeps Polish names as typed (they are matched through aliases)', () => {
+    expect(splitInci('Woda, Gliceryna, Olej kokosowy, Masło shea')).toEqual([
+      'WODA',
+      'GLICERYNA',
+      'OLEJ KOKOSOWY',
+      'MASŁO SHEA',
+    ]);
+  });
+
+  it('keeps square-bracket groups together', () => {
+    expect(splitInci('Aqua, Parfum [Fragrance, Aroma], Glycerin')).toEqual([
+      'AQUA',
+      'PARFUM [FRAGRANCE, AROMA]',
+      'GLYCERIN',
+    ]);
+  });
+});
+
+describe('inciLookupKeys', () => {
+  it('looks up by the full name, without parentheses and by what is inside', () => {
+    expect(inciLookupKeys('Water (Aqua)')).toEqual(['wateraqua', 'water', 'aqua']);
+    expect(inciLookupKeys('BUTYROSPERMUM PARKII (SHEA) BUTTER')).toEqual([
+      'butyrospermumparkiisheabutter',
+      'butyrospermumparkiibutter',
+      'shea',
+    ]);
+    expect(inciLookupKeys('Glycerin')).toEqual(['glycerin']);
   });
 });
