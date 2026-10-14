@@ -47,8 +47,12 @@ export function ProfileScreen() {
         )}
 
         <Card padded={false}>
-          <MenuRow icon={ClockCounterClockwiseIcon} label="Historia skanów" soon />
-          <MenuRow icon={FlagIcon} label="Zgłoś produkt" soon />
+          <MenuRow
+            icon={ClockCounterClockwiseIcon}
+            label="Historia skanów"
+            onPress={() => router.push('/scans')}
+          />
+          <MenuRow icon={FlagIcon} label="Zgłoś produkt" onPress={() => router.push('/submit')} />
           <MenuRow icon={GearIcon} label="Ustawienia" soon last />
         </Card>
 
