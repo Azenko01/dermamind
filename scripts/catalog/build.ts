@@ -22,6 +22,29 @@ export interface CatalogProduct {
   inciComplete: boolean;
   /** canonical INCI names with their position in the full list */
   ingredients: { inci: string; position: number }[];
+  /** where the full list came from (data/inci_full.json inciSource) and the filler's note */
+  inciSource: string | null;
+  inciNote: string | null;
+  /** Sa.Sha's key ingredients whose position differs in the full list (or that are missing) */
+  mismatches: { inci: string; sasha: number; full: number | null }[];
+  /**
+   * exact = every key ingredient at Sa.Sha's position; shifted = same order, each off by ≤ 2
+   * (another shop's list has an ingredient more or less); mismatch = missing, reordered or far off
+   */
+  verification: 'exact' | 'shifted' | 'mismatch' | null;
+}
+
+export const MAX_SHIFT = 2;
+
+export function verify(
+  keys: { sasha: number; full: number | null }[],
+): 'exact' | 'shifted' | 'mismatch' {
+  if (keys.every((k) => k.full === k.sasha)) return 'exact';
+  if (keys.some((k) => k.full === null || Math.abs(k.full - k.sasha) > MAX_SHIFT))
+    return 'mismatch';
+  const bySasha = [...keys].sort((a, b) => a.sasha - b.sasha);
+  const ordered = bySasha.every((k, i) => i === 0 || (k.full ?? 0) > (bySasha[i - 1]!.full ?? 0));
+  return ordered ? 'shifted' : 'mismatch';
 }
 
 export interface Catalog {
@@ -40,7 +63,14 @@ const titleCase = (s: string) =>
     .replace(/(^|[\s/(-])(\p{L})/gu, (_, sep: string, ch: string) => sep + ch.toUpperCase());
 
 /** Pure part of the import: everything is decided here, the DB writer only applies it. */
-export function buildCatalog(sasha: SashaDb, fullInci: { url: string; inci: string[] }[]): Catalog {
+export interface FullInciEntry {
+  url: string;
+  inci: string[];
+  inciSource?: string | null;
+  inciNote?: string | null;
+}
+
+export function buildCatalog(sasha: SashaDb, fullInci: FullInciEntry[]): Catalog {
   const ingredients = new Map<string, CatalogIngredient>();
   const byAlias = new Map<string, string>();
   const aliasConflicts: string[] = [];
@@ -83,13 +113,14 @@ export function buildCatalog(sasha: SashaDb, fullInci: { url: string; inci: stri
     return key;
   };
 
-  const fullByUrl = new Map(fullInci.map((f) => [f.url, f.inci]));
+  const fullByUrl = new Map(fullInci.map((f) => [f.url, f]));
   const products: CatalogProduct[] = sasha.products.map((p) => {
     const category = CATEGORY_MAP[p.category];
     if (!category) warnings.push(`Nieznana kategoria "${p.category}" (${p.name}) → other`);
     const name = p.name.startsWith(`${p.brand} `) ? p.name.slice(p.brand.length + 1) : p.name;
 
-    const full = (fullByUrl.get(p.url) ?? []).flatMap((item) => splitInci(item));
+    const entry = fullByUrl.get(p.url);
+    const full = (entry?.inci ?? []).flatMap((item) => splitInci(item));
     let list: { inci: string; position: number }[];
     if (full.length) {
       const seen = new Set<string>();
@@ -108,8 +139,32 @@ export function buildCatalog(sasha: SashaDb, fullInci: { url: string; inci: stri
       });
     }
 
+    // Cross-check: Sa.Sha recorded the real positions of key ingredients — a full list from another
+    // shop should agree. Disagreements usually mean a different formula version.
+    const keyPositions = p.ingredients.map((i) => ({
+      inci: byAlias.get(aliasKey(i.name)) ?? normalizeInciName(i.name),
+      sasha: i.position,
+    }));
+    const mismatches = full.length
+      ? keyPositions.flatMap((k) => {
+          const pos = list.find((l) => l.inci === k.inci)?.position ?? null;
+          return pos === k.sasha ? [] : [{ inci: k.inci, sasha: k.sasha, full: pos }];
+        })
+      : [];
+
     return {
       sourceUrl: p.url,
+      inciSource: full.length ? (entry?.inciSource ?? null) : null,
+      inciNote: full.length ? (entry?.inciNote ?? null) : null,
+      mismatches,
+      verification: full.length
+        ? verify(
+            keyPositions.map((k) => ({
+              sasha: k.sasha,
+              full: list.find((l) => l.inci === k.inci)?.position ?? null,
+            })),
+          )
+        : null,
       brand: p.brand,
       name,
       sashaName: p.name,

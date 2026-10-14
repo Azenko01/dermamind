@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildCatalog } from './build';
+import { buildCatalog, verify } from './build';
 import type { SashaDb } from './sasha';
 
 const sasha: SashaDb = {
@@ -97,5 +97,46 @@ describe('buildCatalog', () => {
     expect(c.ingredients.get('BUTYROSPERMUM PARKII BUTTER')?.aliases).toContain('masłoshea');
     expect(c.ingredients.get('PARFUM')?.aliases).toContain('fragrance');
     expect(c.aliasConflicts).toEqual([]);
+  });
+});
+
+describe('verify (full INCI vs Sa.Sha positions)', () => {
+  it('exact, shifted by ≤ 2 in the same order, or mismatch', () => {
+    expect(
+      verify([
+        { sasha: 1, full: 1 },
+        { sasha: 7, full: 7 },
+      ]),
+    ).toBe('exact');
+    expect(
+      verify([
+        { sasha: 3, full: 2 },
+        { sasha: 5, full: 4 },
+      ]),
+    ).toBe('shifted');
+    expect(verify([{ sasha: 3, full: 6 }])).toBe('mismatch');
+    expect(verify([{ sasha: 3, full: null }])).toBe('mismatch');
+    expect(
+      verify([
+        { sasha: 3, full: 5 },
+        { sasha: 4, full: 3 },
+      ]),
+    ).toBe('mismatch');
+  });
+
+  it('is reported per product', () => {
+    const c = buildCatalog(sasha, [
+      {
+        url: 'https://example.com/a',
+        inci: ['Aqua, Glycerin, Shea Butter'],
+        inciSource: 'https://x.pl/a',
+      },
+    ]);
+    expect(c.products[0]).toMatchObject({ verification: 'mismatch', inciSource: 'https://x.pl/a' });
+    expect(c.products[0]!.mismatches).toEqual([
+      { inci: 'BUTYROSPERMUM PARKII BUTTER', sasha: 7, full: 3 },
+      { inci: 'ALOE BARBADENSIS LEAF JUICE', sasha: 12, full: null },
+    ]);
+    expect(c.products[1]!.verification).toBeNull();
   });
 });

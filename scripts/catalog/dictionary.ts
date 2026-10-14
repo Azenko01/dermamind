@@ -9,6 +9,7 @@
  * - anything unsure stays empty — the Match Score marks missing data as low confidence.
  * Everything here is to be reviewed by a cosmetologist before the defence (PLAN.md 4.5).
  */
+import { EXTRA_DICTIONARY } from './dictionary-extra';
 
 export type IngredientFunction =
   | 'solvent'
@@ -25,7 +26,16 @@ export type IngredientFunction =
   | 'ph_adjuster'
   | 'uv_filter'
   | 'emulsifier'
-  | 'sebum_regulating';
+  | 'sebum_regulating'
+  | 'thickener'
+  | 'chelating'
+  | 'colorant'
+  | 'film_forming'
+  | 'absorbent'
+  | 'brightening'
+  | 'peptide'
+  | 'probiotic'
+  | 'plant_extract';
 
 export interface DictionaryEntry {
   inci: string;
@@ -606,6 +616,7 @@ const EU_ALLERGENS: [string, string, string[]?][] = [
 
 export const DICTIONARY: DictionaryEntry[] = [
   ...BASE,
+  ...EXTRA_DICTIONARY,
   ...EU_ALLERGENS.map(([inci, display, aliases]) => ({
     inci,
     display,

@@ -2,6 +2,7 @@ import type { PrismaClient } from '../../apps/api/src/generated/prisma/client';
 import type { Catalog } from './build';
 
 export interface ImportCounts {
+  removedIngredients: number;
   brands: number;
   products: number;
   ingredients: number;
@@ -126,7 +127,18 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
         productIngredients += p.ingredients.length;
       }
 
+      // Ingredients from earlier imports that are gone from the catalogue (e.g. a name the parser
+      // used to split wrongly) — only if nothing points at them, so users' avoid lists stay intact.
+      const stale = await tx.ingredient.deleteMany({
+        where: {
+          inciName: { notIn: [...catalog.ingredients.keys()] },
+          products: { none: {} },
+          avoidedBy: { none: {} },
+        },
+      });
+
       return {
+        removedIngredients: stale.count,
         brands: brandIds.size,
         products: catalog.products.length,
         ingredients: catalog.ingredients.size,

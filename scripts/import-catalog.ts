@@ -11,7 +11,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../apps/api/src/generated/prisma/client';
-import { buildCatalog } from './catalog/build';
+import { buildCatalog, type FullInciEntry } from './catalog/build';
 import { readSashaDb } from './catalog/sasha';
 import { renderMissing, renderReport } from './catalog/report';
 import { writeCatalog } from './catalog/write';
@@ -26,10 +26,7 @@ async function main(): Promise<void> {
 
   const sasha = readSashaDb(data('final_db.sql'));
   const fullInci = existsSync(data('inci_full.json'))
-    ? (JSON.parse(readFileSync(data('inci_full.json'), 'utf8')) as {
-        url: string;
-        inci: string[];
-      }[])
+    ? (JSON.parse(readFileSync(data('inci_full.json'), 'utf8')) as FullInciEntry[])
     : [];
 
   const catalog = buildCatalog(sasha, fullInci);
