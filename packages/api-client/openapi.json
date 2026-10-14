@@ -377,6 +377,146 @@
           "me"
         ]
       }
+    },
+    "/v1/products": {
+      "get": {
+        "operationId": "CatalogController_list_v1",
+        "parameters": [
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Search in product name and brand",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cleanser",
+                "toner",
+                "essence",
+                "serum",
+                "moisturizer",
+                "eye_cream",
+                "sunscreen",
+                "mask",
+                "exfoliant",
+                "spot_treatment",
+                "oil",
+                "other"
+              ]
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Default: score for users with a skin profile, otherwise name",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "score",
+                "name",
+                "price_asc",
+                "price_desc"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductListDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "catalog"
+        ]
+      }
+    },
+    "/v1/products/{id}": {
+      "get": {
+        "operationId": "CatalogController_get_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "catalog"
+        ]
+      }
     }
   },
   "info": {
@@ -944,6 +1084,515 @@
           "isGuest",
           "createdAt",
           "profile"
+        ]
+      },
+      "Object": {
+        "type": "object",
+        "properties": {}
+      },
+      "MatchSummaryDto": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "excluded"
+            ],
+            "description": "excluded = contains an avoided ingredient (score ≤ 40)"
+          },
+          "label": {
+            "type": "string",
+            "enum": [
+              "great",
+              "good",
+              "caution",
+              "poor"
+            ]
+          },
+          "lowConfidence": {
+            "type": "boolean",
+            "description": "Incomplete INCI or > 30% of ingredients without data"
+          }
+        },
+        "required": [
+          "score",
+          "status",
+          "label",
+          "lowConfidence"
+        ]
+      },
+      "ProductListItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "cleanser",
+              "toner",
+              "essence",
+              "serum",
+              "moisturizer",
+              "eye_cream",
+              "sunscreen",
+              "mask",
+              "exfoliant",
+              "spot_treatment",
+              "oil",
+              "other"
+            ]
+          },
+          "pricePln": {
+            "type": "number",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "inciComplete": {
+            "type": "boolean",
+            "description": "false = only key ingredients are known"
+          },
+          "match": {
+            "nullable": true,
+            "description": "null without a skin profile",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchSummaryDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "brand",
+          "category",
+          "pricePln",
+          "imageUrl",
+          "inciComplete",
+          "match"
+        ]
+      },
+      "ProductListDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductListItemDto"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "page": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "pageSize"
+        ]
+      },
+      "MatchConfidenceDto": {
+        "type": "object",
+        "properties": {
+          "inciComplete": {
+            "type": "boolean"
+          },
+          "unknownShare": {
+            "type": "number",
+            "description": "Share of ingredients without any data, 0–1"
+          }
+        },
+        "required": [
+          "inciComplete",
+          "unknownShare"
+        ]
+      },
+      "MatchProDto": {
+        "type": "object",
+        "properties": {
+          "ingredientId": {
+            "type": "number"
+          },
+          "ingredient": {
+            "type": "string"
+          },
+          "concern": {
+            "type": "string",
+            "description": "skin_concerns.code"
+          },
+          "impact": {
+            "type": "number",
+            "description": "Points added to the score"
+          }
+        },
+        "required": [
+          "ingredientId",
+          "ingredient",
+          "concern",
+          "impact"
+        ]
+      },
+      "MatchConDto": {
+        "type": "object",
+        "properties": {
+          "ingredientId": {
+            "type": "number"
+          },
+          "ingredient": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "harms_concern",
+              "fragrance_sensitive",
+              "irritant_sensitive",
+              "irritant_barrier",
+              "comedogenic",
+              "drying_alcohol"
+            ]
+          },
+          "concern": {
+            "type": "string",
+            "description": "For harms_concern"
+          },
+          "impact": {
+            "type": "number",
+            "description": "Points taken off (negative)"
+          }
+        },
+        "required": [
+          "ingredientId",
+          "ingredient",
+          "reason",
+          "impact"
+        ]
+      },
+      "MatchExclusionDto": {
+        "type": "object",
+        "properties": {
+          "ingredientId": {
+            "type": "number"
+          },
+          "ingredient": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string",
+            "description": "ingredient_groups.code when excluded through a group"
+          }
+        },
+        "required": [
+          "ingredientId",
+          "ingredient"
+        ]
+      },
+      "MatchDetailDto": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "excluded"
+            ],
+            "description": "excluded = contains an avoided ingredient (score ≤ 40)"
+          },
+          "label": {
+            "type": "string",
+            "enum": [
+              "great",
+              "good",
+              "caution",
+              "poor"
+            ]
+          },
+          "lowConfidence": {
+            "type": "boolean",
+            "description": "Incomplete INCI or > 30% of ingredients without data"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/MatchConfidenceDto"
+          },
+          "pros": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatchProDto"
+            }
+          },
+          "cons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatchConDto"
+            }
+          },
+          "excludedBy": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatchExclusionDto"
+            }
+          }
+        },
+        "required": [
+          "score",
+          "status",
+          "label",
+          "lowConfidence",
+          "confidence",
+          "pros",
+          "cons",
+          "excludedBy"
+        ]
+      },
+      "ProductFlagsDto": {
+        "type": "object",
+        "properties": {
+          "alcohol_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fragrance_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "silicone_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "pore_clogger_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "eu_allergen_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "oil_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "sulfate_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "paraben_free": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fungal_acne_safe": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "vegan": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "reef_safe": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "cruelty_free": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "required": [
+          "alcohol_free",
+          "fragrance_free",
+          "silicone_free",
+          "pore_clogger_free",
+          "eu_allergen_free",
+          "oil_free",
+          "sulfate_free",
+          "paraben_free",
+          "fungal_acne_safe",
+          "vegan",
+          "reef_safe",
+          "cruelty_free"
+        ]
+      },
+      "ProductIngredientDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "position": {
+            "type": "number",
+            "description": "1 = highest concentration"
+          },
+          "inciName": {
+            "type": "string",
+            "example": "NIACINAMIDE"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Niacinamide"
+          },
+          "functions": {
+            "example": [
+              "humectant"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "comedogenic": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 0,
+            "maximum": 5
+          },
+          "isFungalAcneTrigger": {
+            "type": "boolean"
+          },
+          "isEuAllergen": {
+            "type": "boolean"
+          },
+          "isFragrance": {
+            "type": "boolean"
+          },
+          "rating": {
+            "type": "string",
+            "enum": [
+              "good",
+              "caution",
+              "bad",
+              "neutral"
+            ],
+            "nullable": true,
+            "description": "For the current user; null without a profile"
+          }
+        },
+        "required": [
+          "id",
+          "position",
+          "inciName",
+          "displayName",
+          "functions",
+          "comedogenic",
+          "isFungalAcneTrigger",
+          "isEuAllergen",
+          "isFragrance",
+          "rating"
+        ]
+      },
+      "ProductDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "cleanser",
+              "toner",
+              "essence",
+              "serum",
+              "moisturizer",
+              "eye_cream",
+              "sunscreen",
+              "mask",
+              "exfoliant",
+              "spot_treatment",
+              "oil",
+              "other"
+            ]
+          },
+          "pricePln": {
+            "type": "number",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "inciComplete": {
+            "type": "boolean",
+            "description": "false = only key ingredients are known"
+          },
+          "match": {
+            "nullable": true,
+            "description": "null without a skin profile",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchDetailDto"
+              }
+            ]
+          },
+          "sourceUrl": {
+            "type": "string",
+            "nullable": true,
+            "description": "Shop page the data came from"
+          },
+          "flags": {
+            "description": "null = no data (incomplete INCI / brand info)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductFlagsDto"
+              }
+            ]
+          },
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductIngredientDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "brand",
+          "category",
+          "pricePln",
+          "imageUrl",
+          "inciComplete",
+          "match",
+          "sourceUrl",
+          "flags",
+          "ingredients"
         ]
       }
     }

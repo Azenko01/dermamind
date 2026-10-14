@@ -196,6 +196,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CatalogController_list_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/products/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CatalogController_get_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -339,6 +371,139 @@ export interface components {
             /** Format: date-time */
             createdAt: string;
             profile: components["schemas"]["ProfileDto"];
+        };
+        Object: Record<string, never>;
+        MatchSummaryDto: {
+            score: number;
+            /**
+             * @description excluded = contains an avoided ingredient (score ≤ 40)
+             * @enum {string}
+             */
+            status: "ok" | "excluded";
+            /** @enum {string} */
+            label: "great" | "good" | "caution" | "poor";
+            /** @description Incomplete INCI or > 30% of ingredients without data */
+            lowConfidence: boolean;
+        };
+        ProductListItemDto: {
+            id: number;
+            name: string;
+            brand: string | null;
+            /** @enum {string} */
+            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+            pricePln: number | null;
+            imageUrl: string | null;
+            /** @description false = only key ingredients are known */
+            inciComplete: boolean;
+            /** @description null without a skin profile */
+            match: components["schemas"]["MatchSummaryDto"] | null;
+        };
+        ProductListDto: {
+            items: components["schemas"]["ProductListItemDto"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        MatchConfidenceDto: {
+            inciComplete: boolean;
+            /** @description Share of ingredients without any data, 0–1 */
+            unknownShare: number;
+        };
+        MatchProDto: {
+            ingredientId: number;
+            ingredient: string;
+            /** @description skin_concerns.code */
+            concern: string;
+            /** @description Points added to the score */
+            impact: number;
+        };
+        MatchConDto: {
+            ingredientId: number;
+            ingredient: string;
+            /** @enum {string} */
+            reason: "harms_concern" | "fragrance_sensitive" | "irritant_sensitive" | "irritant_barrier" | "comedogenic" | "drying_alcohol";
+            /** @description For harms_concern */
+            concern?: string;
+            /** @description Points taken off (negative) */
+            impact: number;
+        };
+        MatchExclusionDto: {
+            ingredientId: number;
+            ingredient: string;
+            /** @description ingredient_groups.code when excluded through a group */
+            group?: string;
+        };
+        MatchDetailDto: {
+            score: number;
+            /**
+             * @description excluded = contains an avoided ingredient (score ≤ 40)
+             * @enum {string}
+             */
+            status: "ok" | "excluded";
+            /** @enum {string} */
+            label: "great" | "good" | "caution" | "poor";
+            /** @description Incomplete INCI or > 30% of ingredients without data */
+            lowConfidence: boolean;
+            confidence: components["schemas"]["MatchConfidenceDto"];
+            pros: components["schemas"]["MatchProDto"][];
+            cons: components["schemas"]["MatchConDto"][];
+            excludedBy: components["schemas"]["MatchExclusionDto"][];
+        };
+        ProductFlagsDto: {
+            alcohol_free: boolean | null;
+            fragrance_free: boolean | null;
+            silicone_free: boolean | null;
+            pore_clogger_free: boolean | null;
+            eu_allergen_free: boolean | null;
+            oil_free: boolean | null;
+            sulfate_free: boolean | null;
+            paraben_free: boolean | null;
+            fungal_acne_safe: boolean | null;
+            vegan: boolean | null;
+            reef_safe: boolean | null;
+            cruelty_free: boolean | null;
+        };
+        ProductIngredientDto: {
+            id: number;
+            /** @description 1 = highest concentration */
+            position: number;
+            /** @example NIACINAMIDE */
+            inciName: string;
+            /** @example Niacinamide */
+            displayName: string;
+            /**
+             * @example [
+             *       "humectant"
+             *     ]
+             */
+            functions: string[];
+            comedogenic: number | null;
+            isFungalAcneTrigger: boolean;
+            isEuAllergen: boolean;
+            isFragrance: boolean;
+            /**
+             * @description For the current user; null without a profile
+             * @enum {string|null}
+             */
+            rating: "good" | "caution" | "bad" | "neutral" | null;
+        };
+        ProductDetailDto: {
+            id: number;
+            name: string;
+            brand: string | null;
+            /** @enum {string} */
+            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+            pricePln: number | null;
+            imageUrl: string | null;
+            /** @description false = only key ingredients are known */
+            inciComplete: boolean;
+            /** @description null without a skin profile */
+            match: components["schemas"]["MatchDetailDto"] | null;
+            /** @description Shop page the data came from */
+            sourceUrl: string | null;
+            /** @description null = no data (incomplete INCI / brand info) */
+            flags: components["schemas"]["ProductFlagsDto"];
+            ingredients: components["schemas"]["ProductIngredientDto"][];
         };
     };
     responses: never;
@@ -724,6 +889,60 @@ export interface operations {
                 content?: never;
             };
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CatalogController_list_v1: {
+        parameters: {
+            query?: {
+                /** @description Search in product name and brand */
+                q?: string;
+                category?: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+                /** @description Default: score for users with a skin profile, otherwise name */
+                sort?: "score" | "name" | "price_asc" | "price_desc";
+                page?: components["schemas"]["Object"];
+                pageSize?: components["schemas"]["Object"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductListDto"];
+                };
+            };
+        };
+    };
+    CatalogController_get_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductDetailDto"];
+                };
+            };
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
