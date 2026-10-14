@@ -380,11 +380,11 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
 - **Weryfikacja:** Sa.Sha zapisała prawdziwe pozycje kluczowych składników (z Hebe), więc import
   porównuje z nimi każdy pełny skład i wpisuje wynik do `data/import-report.md`:
   - **zgodny** — wszystkie kluczowe składniki na tych samych pozycjach (7);
-  - **przesunięty** — ta sama kolejność, przesunięcie o najwyżej 2 (inny sklep podaje o składnik więcej
-    lub mniej, np. „Aqua” rozbite na dwie pozycje) (10);
-  - **rozbieżny** — składnika brak, inna kolejność albo większe przesunięcie (13). Najczęściej SKIN1004,
-    gdzie w Hebe pierwszym składnikiem jest Centella Asiatica Extract, a w SkinSort woda — to wygląda
-    na inną wersję receptury. Te produkty trzeba sprawdzić z opakowaniem.
+  - **przesunięty** — ta sama kolejność, przesunięcie o najwyżej 2 (lista w innym sklepie ma składnik
+    więcej lub mniej przed kluczowymi) (10);
+  - **rozbieżny** — składnika brak, inna kolejność albo większe przesunięcie (13). Najczęściej SKIN1004:
+    według bazy Sa.Shy pierwszym składnikiem jest Centella Asiatica Extract, a w SkinSort woda — to
+    wygląda na inną wersję receptury. Te produkty trzeba sprawdzić z opakowaniem.
   Automatyczna ocena różni się w kilku przypadkach od ręcznych notatek (np. przesunięcie o 3 pozycje
   ręcznie uznane za zgodne), dlatego raport pokazuje obie.
 - **Dlaczego importujemy także rozbieżne:** pełny skład z innej wersji receptury jest bliżej prawdy niż
