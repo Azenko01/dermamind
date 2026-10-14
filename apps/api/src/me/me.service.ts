@@ -1,4 +1,4 @@
-import { computeSkinProfile, type Budget, type QuizAnswers } from '@dermamind/scoring';
+import { aliasKey, computeSkinProfile, type Budget, type QuizAnswers } from '@dermamind/scoring';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Budget as DbBudget, Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -14,9 +14,6 @@ const toDbBudget: Record<Budget, DbBudget> = {
 const fromDbBudget = Object.fromEntries(
   Object.entries(toDbBudget).map(([api, db]) => [db, api]),
 ) as Record<DbBudget, Budget>;
-
-/** `ingredient_aliases.alias` is stored lower-case without spaces (PLAN.md 3.1). */
-const aliasKey = (inci: string) => inci.toLowerCase().replace(/\s+/g, '');
 
 const meInclude = {
   profile: {
