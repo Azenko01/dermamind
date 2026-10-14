@@ -260,3 +260,108 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
 - Prawdziwe logowanie Apple / Google (po założeniu kont deweloperskich — decyzja Oleksandra).
 - Wysyłka e-maila z resetem hasła (Sprint 6), wyszukiwarka składników w O16 i produktów w O21
   (Sprint 2), skaner (Sprint 3), edycja profilu skóry D6.
+
+---
+
+## Sprint 2 (14.10.2026)
+
+### D-27. Pełny skład INCI — po co i dlaczego uzupełniamy go ręcznie
+
+- **Decyzja:** potrzebujemy pełnych składów, ale w bazie Sa.Shy jest tylko 4–9 kluczowych składników
+  na produkt (z prawdziwą pozycją w składzie). Pełne składy wpisujemy ręcznie do `data/inci_full.json`
+  ze stron produktów, a import (`pnpm import:catalog`) za każdym razem bierze to, co już jest. Do tego
+  czasu produkt ma `inci_complete = false`.
+- **Dlaczego pełny skład:** bez niego nie da się uczciwie powiedzieć „bez zapachów” czy „bez silikonów”
+  — brak składnika na liście kluczowych nie znaczy, że go nie ma. Unikane składniki (np. Limonene) też
+  zwykle są poza „kluczowymi”. Algorytm i tak działa na kluczowych, ale oznacza wynik jako niepewny.
+- **Dlaczego nie automatycznie:** plan zakładał jednorazowe pobranie 42 stron z hebe.pl, ale ich
+  `robots.txt` zabrania wstępu agentowi `ClaudeBot` (i innym botom AI) na całej domenie. To samo robi
+  Open Beauty Facts. Uszanowaliśmy to: nie pobieramy tych stron, a składów nie zgadujemy.
+- **Alternatywy:** skrypt-scraper uruchamiany przez nas (to samo obejście zakazu), zgadywanie składu
+  z nazw (niedopuszczalne w aplikacji o składnikach), zakup danych (poza budżetem).
+
+### D-28. Słownik składników w kodzie
+
+- **Decyzja:** `scripts/catalog/dictionary.ts` trzyma kanoniczne nazwy INCI, aliasy (angielskie i polskie,
+  np. „Shea Butter” i „Masło shea” → BUTYROSPERMUM PARKII BUTTER, „Olej kokosowy” → COCOS NUCIFERA OIL),
+  funkcje i flagi. Flagi wpisujemy tylko tam, gdzie wynikają z samej nazwy (26 alergenów zapachowych UE,
+  parabeny, siarczany, silikony, oleje…), komedogenność tylko według popularnych tabel opartych na
+  Fulton (1989), resztę zostawiamy pustą.
+- **Klucz aliasu:** małe litery, tylko litery i cyfry (`aliasKey` w `@dermamind/scoring`), więc
+  „Alcohol Denat.”, „ALCOHOL DENAT” i „alcohol-denat” trafiają w ten sam składnik.
+- **Dlaczego w kodzie:** zmiany przechodzą przez review w PR i mają historię; import nadpisuje bazę.
+  Przed obroną słownik sprawdza kosmetolog (4.5).
+- **Alternatywy:** CosIng jako pełne źródło funkcji — dobry kierunek na Sprint 6, ale wymaga osobnego
+  importu i licencji.
+
+### D-29. Jak mapujemy bazę Sa.Shy
+
+- **Decyzja:** `good` / `bad` z `ingredient_effects` → wpływ +1 / −1 (skala planu to −2…+2, a Sa.Sha nie
+  rozróżniała siły). Problemy: `acne` → `breakouts`, `oily_skin` → `oiliness`, `dry_skin` → `dryness`,
+  `sensitive_skin` → `sensitivity`, `dehydrated_skin` → `hydration`, `redness` → `redness`,
+  `barrier_damage` → nowy kod `barrier`. Kategorie: `cream` → `moisturizer`, `spf` → `sunscreen`,
+  `micellar_water` → `cleanser`. Z nazw usuwamy powtórzoną markę („Bielenda Hydro…” → „Hydro…”).
+  Testowych użytkowników z tej bazy nie importujemy.
+- **Dlaczego:** zachowujemy całą wiedzę Sa.Shy bez dopisywania siły efektu, której nikt nie ocenił.
+
+### D-30. Import jako idempotentny skrypt w osobnym pakiecie
+
+- **Decyzja:** pakiet `scripts` w monorepo (`tsx`), upsert po naturalnych kluczach (`inci_name`, alias,
+  nazwa marki, `source_url`), skład produktu wymieniany w całości. Czysta część (`buildCatalog`) ma testy
+  bez bazy. Każde uruchomienie zapisuje `data/import-report.md` i odświeża `data/inci_missing.md`.
+  CI uruchamia import dwa razy na czystej bazie.
+- **Dlaczego:** pełne składy będą dochodzić partiami — import musi dać się powtarzać bez duplikatów.
+- **Alternatywy:** jeden plik SQL (trudno go aktualizować), seed Prismy (miesza dane testowe z katalogiem).
+
+### D-31. Match Score — doprecyzowania do sekcji 4
+
+- **Decyzja:** algorytm jest w `packages/scoring/src/match.ts`, wszystkie wagi w jednym obiekcie
+  `WEIGHTS`. Doprecyzowania:
+  - zbiór problemów C uzupełniamy o `sensitivity` (skóra wrażliwa, priorytet 2) i `barrier` (bariera
+    osłabiona — priorytet 2, nadwerężona — 1); bez tego efekty Sa.Shy dla skóry wrażliwej i bariery nic
+    by nie znaczyły;
+  - przy kilku źródłach tego samego problemu bierzemy najwyższą wagę;
+  - „niepewny wynik” także wtedy, gdy znamy tylko kluczowe składniki;
+  - każdy składnik dostaje ocenę (dobry / ostrożnie / zły / neutralny) do kolorowych kropli na liście.
+- **Znane uproszczenie:** zapach u osoby wrażliwej liczy się dwa razy — jako efekt z bazy (−1 dla
+  `sensitivity`) i jako kara z planu (−8 × waga). Zostawiamy to do kalibracji (4.5).
+- **Testy:** 64 testy Vitest, 100% linii.
+
+### D-32. „Co jest w środku” przy niepełnym składzie
+
+- **Decyzja:** flaga jest „tak” tylko przy pełnym składzie. Przy niepełnym mówimy „nie”, gdy znany
+  składnik ją łamie (np. Parfum → nie jest „bez zapachów”), a w pozostałych przypadkach „brak danych”.
+  „Bez testów na zwierzętach” to cecha marki — dziś wszędzie „brak danych”.
+- **Dlaczego:** fałszywe „✓ bez alergenów” jest gorsze niż jego brak.
+
+### D-33. Unikane składniki dopasowujemy przy każdym zapytaniu
+
+- **Decyzja:** przy liczeniu wyniku serwer łączy `avoided_ingredients` z nazwami z quizu dopasowanymi
+  przez `inci_name` i aliasy.
+- **Dlaczego:** użytkownik mógł wpisać „masło shea” zanim składnik trafił do katalogu. Dzięki temu po
+  imporcie wykluczenie działa bez ponownego quizu. Koszt to jedno zapytanie.
+
+### D-34. Lista produktów i wyszukiwanie
+
+- **Decyzja:** `GET /v1/products` filtruje w SQL (prefiksowe wyszukiwanie po `tsvector` nazwy + marka +
+  polskie słowa kategorii: „krem”, „tonik”, „pianka”…), a wynik liczy w pamięci dla wszystkich trafień,
+  żeby dało się sortować po dopasowaniu. Domyślne sortowanie: po wyniku, gdy użytkownik ma profil.
+  Katalog jest publiczny; z tokenem każdy produkt ma wynik.
+- **Dlaczego:** przy setkach produktów to kilkanaście milisekund (4.4). Nazwy z bazy Sa.Shy są angielskie,
+  więc bez słów kategorii „krem” nie znajdowałby niczego.
+- **Alternatywy:** tabela `user_product_scores` odświeżana po zmianie profilu — gdy katalog urośnie.
+
+### D-35. Ekrany Odkrywaj i karta produktu
+
+- **Decyzja:** zamiast zdjęć (jeszcze ich nie mamy) piktogram kategorii na szarym tle. Pomijamy przyciski
+  funkcji, których jeszcze nie ma (serduszko, „Dodaj do rutyny”, „Porównaj”, „Analizuj skład”, tekst AI),
+  zamiast „Filtry” jest „Sortuj”. Skaner w wyszukiwarce mówi „już niedługo”. Link „Zobacz w sklepie Hebe”
+  prowadzi do strony źródłowej.
+- **Dlaczego:** martwe przyciski mylą użytkownika i testerów; dodamy je razem z funkcjami.
+
+### Świadomie odłożone ze Sprintu 2
+
+- Pełne składy 42 produktów (ręcznie, `data/inci_missing.md`).
+- Uzupełnienie `ingredient_effects` dla 80 najczęstszych składników — to zadanie dla kosmetologa,
+  nie dla kodu; dziś mamy 35 efektów z bazy Sa.Shy.
+- Alternatywy na karcie produktu, zdjęcia produktów, filtr budżetu i `must_haves` w rankingu.
