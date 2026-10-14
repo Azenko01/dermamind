@@ -470,3 +470,76 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   zostaje, ale bez autora (`user_id = null`). Zdjęcie opakowania — później, gdy wybierzemy magazyn
   plików.
 - **Dlaczego konto:** łatwiej odsiać spam i odpowiedzieć autorowi, a gość powstaje jednym kliknięciem.
+
+---
+
+## Sprint 4 (14.10.2026)
+
+### D-42. AI tylko objaśnia — wynik zawsze z reguł
+
+- **Decyzja:** moduł `ai` serwera ma trzy funkcje: opis składnika (`ai-ingredient-explain`),
+  „Dlaczego taki wynik” (`ai-product-summary`) i zapasowy parser składu (`ai-parse-inci`). Model
+  dostaje gotowy wynik z `@dermamind/scoring` i dane z bazy; prompt systemowy zabrania podawania lub
+  zmiany liczb, polecania produktów spoza danych, porad medycznych i diagnoz. Dane trafiają do promptu
+  w znacznikach `<data>` jako JSON, a prompt każe traktować je jako dane, nie polecenia — wklejony
+  skład może zawierać cokolwiek.
+- **Dlaczego:** ten sam produkt i profil zawsze dają ten sam wynik, a AI nie może go „zmyślić” (plan 2).
+- **Prompty** są w `apps/api/src/ai/prompts/*.ts` ze stałą `PROMPT_VERSION`; piszemy je po angielsku,
+  a język odpowiedzi (pl / en / uk) jest parametrem.
+
+### D-43. Modele i ustawienia
+
+- **Decyzja:** `AI_MODEL_FAST=claude-haiku-5-5` dla opisów składników i parsera, `AI_MODEL_SMART=
+  claude-sonnet-5-5` dla „Dlaczego taki wynik”. Identyfikatory sprawdzone w dokumentacji Anthropic
+  (14.10.2026), w `.env.example`, nie w kodzie. Wysiłek modelu `low` — to krótkie teksty, nie zadania
+  wymagające długiego rozumowania.
+- **Dlaczego mocniejszy model do wyniku:** tekst jest osobisty (profil × produkt) i musi wiernie oddać
+  powody; opis składnika jest ogólny i liczony raz dla wszystkich.
+
+### D-44. Odpowiedź strukturalna: narzędzie + Zod + jedna ponowna próba
+
+- **Decyzja:** każda funkcja ma jedno narzędzie z `strict: true` i schematem bez dodatkowych pól;
+  odpowiedź z wywołania narzędzia sprawdza Zod. `tool_choice` jest `auto`, a prompt każe wywołać
+  narzędzie — najnowsze modele (m.in. Sonnet 5.5) odrzucają wymuszone `tool_choice` błędem 400.
+  Jedna ponowna próba przy braku lub złej odpowiedzi, błędzie sieci, 429 i 5xx; bez ponawiania przy
+  4xx i odmowie. Potem stały tekst zastępczy (pl / en / uk). SDK ma wyłączone własne ponawianie,
+  limit czasu 20 s na próbę (najwyżej ok. 40 s na żądanie).
+- **Odmowa modelu:** dla Sonnet 5.5 włączamy serwerowy fallback (`fallbacks: "default"`, beta
+  `server-side-fallback-2026-07-01`) — przy odmowie z powodów bezpieczeństwa API samo powtarza
+  zapytanie na innym modelu. Haiku 5.5 tego nie ma; wtedy pokazujemy tekst zastępczy.
+- **Alternatywy:** wolny tekst + wyrażenia regularne (kruche), `output_config.format` (równie dobre;
+  wybraliśmy narzędzie, bo tak opisuje to plan 5.1).
+
+### D-45. Cache i limit
+
+- **Decyzja:** klucz `ai_cache` = SHA-256 z (wersja promptu, funkcja, język, model, dokładne dane
+  wejściowe). Opis składnika nie zawiera danych użytkownika, więc jest wspólny dla wszystkich
+  (składnik × język); „Dlaczego” zależy od profilu i wyniku (produkt × profil × język) — zmiana wyniku
+  po imporcie daje nowy wpis. Zapisujemy tylko udane odpowiedzi. Limit 30 wywołań modelu na
+  użytkownika dziennie (strefa Europe/Warsaw) w tabeli `ai_usage`, liczony atomowym `INSERT … ON
+  CONFLICT`; trafienia w cache są za darmo. Endpointy wymagają konta (gość wystarczy).
+- **Prompt caching Anthropic** — nie używamy: prompt systemowy jest krótszy niż minimalny fragment,
+  który API cache'uje, więc nic by to nie dało. Nasz `ai_cache` oszczędza więcej, bo całe odpowiedzi.
+
+### D-46. Prywatność i działanie bez klucza
+
+- **Decyzja:** do API trafia tylko typ skóry, wrażliwość, stan bariery, problemy, grupy unikania
+  i nazwy wykluczonych składników z danego produktu — bez e-maila, imienia i identyfikatora (test e2e
+  to sprawdza). Bez `ANTHROPIC_API_KEY` endpointy zwracają tekst zastępczy, a reszta aplikacji działa
+  bez zmian. Klucz czyta tylko `config.ts`, nigdy nie trafia do logów (logujemy nazwę błędu i status).
+- **Testy:** klient Claude jest wstrzykiwany (`AI_TRANSPORT`) i w testach zawsze podmieniony — `null`
+  albo atrapa; `test/env.ts` dodatkowo czyści klucz, więc ani testy, ani CI nie wołają prawdziwego API.
+
+### D-47. Parser AI jako zapas
+
+- **Decyzja:** `/v1/analyze/inci` pyta AI o odczytanie listy tylko wtedy, gdy reguły nie rozpoznały
+  ponad 30% nazw, tylko dla zalogowanych (limit) i bierze wynik AI tylko, gdy rozpoznaje więcej
+  składników. AI zwraca same nazwy — dopasowanie i ocena zostają regułowe; odpowiedź ma pole
+  `parsedBy`, a aplikacja mówi wtedy, że skład odczytało AI.
+
+### D-48. AI w aplikacji
+
+- **Decyzja:** „Dlaczego taki wynik?” na karcie produktu i „Co to jest” na karcie składnika ładują się
+  osobno od karty (szkielet podczas ładowania). Tekst z AI ma dopisek „Opis wygenerowany przez AI · nie
+  jest poradą medyczną”; tekst zastępczy z serwera jest bez dopisku. Błąd sieci przy tekście AI nic nie
+  pokazuje — ekran jest kompletny bez niego.
