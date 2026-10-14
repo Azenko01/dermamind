@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
+import { AI_TRANSPORT } from './ai/ai-transport';
 import { AppModule } from './app.module';
 import { PrismaService } from './prisma/prisma.service';
 import { setupApp } from './setup';
@@ -19,6 +20,8 @@ describe('API v1 (e2e)', () => {
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(PrismaService)
       .useValue(prisma)
+      .overrideProvider(AI_TRANSPORT)
+      .useValue(null)
       .compile();
     app = moduleRef.createNestApplication();
     setupApp(app);

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { AiModule } from './ai/ai.module';
 import { AnalyzeModule } from './analyze/analyze.module';
 import { AppConfigModule } from './app-config/app-config.module';
 import { AuthModule } from './auth/auth.module';
@@ -28,6 +29,7 @@ import { SubmissionsModule } from './submissions/submissions.module';
     MeModule,
     CatalogModule,
     IngredientsModule,
+    AiModule,
     AnalyzeModule,
     SubmissionsModule,
   ],

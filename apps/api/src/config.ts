@@ -11,6 +11,12 @@ export interface AppEnv {
   authRateLimit: number;
   minAppVersion: string;
   latestAppVersion: string;
+  /** Claude API (PLAN.md 5). No key = AI endpoints answer with fixed fallback texts. */
+  anthropicApiKey: string | null;
+  aiModelFast: string;
+  aiModelSmart: string;
+  aiDailyLimit: number;
+  aiTimeoutMs: number;
 }
 
 export function loadEnv(env: NodeJS.ProcessEnv = process.env): AppEnv {
@@ -31,5 +37,10 @@ export function loadEnv(env: NodeJS.ProcessEnv = process.env): AppEnv {
     authRateLimit: Number(env.AUTH_RATE_LIMIT ?? 20),
     minAppVersion: env.MIN_APP_VERSION ?? '0.1.0',
     latestAppVersion: env.LATEST_APP_VERSION ?? env.MIN_APP_VERSION ?? '0.1.0',
+    anthropicApiKey: env.ANTHROPIC_API_KEY?.trim() || null,
+    aiModelFast: env.AI_MODEL_FAST || 'claude-haiku-5-5',
+    aiModelSmart: env.AI_MODEL_SMART || 'claude-sonnet-5-5',
+    aiDailyLimit: Number(env.AI_DAILY_LIMIT ?? 30),
+    aiTimeoutMs: Number(env.AI_TIMEOUT_MS ?? 20_000),
   };
 }
