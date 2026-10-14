@@ -982,6 +982,17 @@ export interface components {
             /** @description "am:protect" etc. — steps without any suitable product */
             emptySteps: string[];
         };
+        TodayDoneDto: {
+            /**
+             * @example [
+             *       1,
+             *       2
+             *     ]
+             */
+            am: number[];
+            /** @example [] */
+            pm: number[];
+        };
         TodayDayDto: {
             /** @example 2026-10-14 */
             day: string;
@@ -994,17 +1005,8 @@ export interface components {
              */
             day: string;
             mood: number | null;
-            /**
-             * @description Done step positions today
-             * @example {
-             *       "am": [
-             *         1,
-             *         2
-             *       ],
-             *       "pm": []
-             *     }
-             */
-            done: Record<string, never>;
+            /** @description Done step positions today */
+            done: components["schemas"]["TodayDoneDto"];
             /** @description Monday…Sunday of this week */
             week: components["schemas"]["TodayDayDto"][];
         };

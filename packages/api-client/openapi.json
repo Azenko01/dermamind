@@ -3084,6 +3084,32 @@
           "emptySteps"
         ]
       },
+      "TodayDoneDto": {
+        "type": "object",
+        "properties": {
+          "am": {
+            "example": [
+              1,
+              2
+            ],
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "pm": {
+            "example": [],
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "am",
+          "pm"
+        ]
+      },
       "TodayDayDto": {
         "type": "object",
         "properties": {
@@ -3114,15 +3140,12 @@
             "nullable": true
           },
           "done": {
-            "type": "object",
             "description": "Done step positions today",
-            "example": {
-              "am": [
-                1,
-                2
-              ],
-              "pm": []
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TodayDoneDto"
+              }
+            ]
           },
           "week": {
             "description": "Monday…Sunday of this week",

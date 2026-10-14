@@ -184,6 +184,11 @@ export class TodayDayDto {
   @ApiProperty({ type: Number, nullable: true }) mood!: number | null;
 }
 
+export class TodayDoneDto {
+  @ApiProperty({ type: [Number], example: [1, 2] }) am!: number[];
+  @ApiProperty({ type: [Number], example: [] }) pm!: number[];
+}
+
 export class TodayDto {
   @ApiProperty({ example: '2026-10-14', description: 'Today in Europe/Warsaw' })
   day!: string;
@@ -191,8 +196,8 @@ export class TodayDto {
   @ApiProperty({ type: Number, nullable: true })
   mood!: number | null;
 
-  @ApiProperty({ description: 'Done step positions today', example: { am: [1, 2], pm: [] } })
-  done!: { am: number[]; pm: number[] };
+  @ApiProperty({ type: TodayDoneDto, description: 'Done step positions today' })
+  done!: TodayDoneDto;
 
   @ApiProperty({ type: [TodayDayDto], description: 'Monday…Sunday of this week' })
   week!: TodayDayDto[];
