@@ -4,9 +4,10 @@
 // live in raw SQL inside the migrations — see prisma/migrations/*_init/migration.sql.
 
 generator client {
-  provider     = "prisma-client"
-  output       = "../src/generated/prisma"
-  moduleFormat = "cjs"
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "cjs"
+  importFileExtension = "js"
 }
 
 datasource db {
@@ -130,7 +131,7 @@ model Product {
   isPublished Boolean                  @default(true) @map("is_published")
   createdAt   DateTime                 @default(now()) @map("created_at") @db.Timestamptz
   /// GENERATED ALWAYS AS (to_tsvector('simple', name)) STORED — defined in migration SQL
-  search      Unsupported("tsvector")?
+  search      Unsupported("tsvector")? @default(dbgenerated("to_tsvector('simple'::regconfig, COALESCE(name, ''::text))"))
 
   ingredients  ProductIngredient[]
   shelfItems   ShelfItem[]
