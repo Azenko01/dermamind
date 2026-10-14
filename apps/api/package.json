@@ -20,7 +20,7 @@
     "openapi": "pnpm build && node dist/openapi.js"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.134.0",
+    "@anthropic-ai/sdk": "~0.133.0",
     "@dermamind/scoring": "workspace:*",
     "@nestjs/common": "^11.2.7",
     "@nestjs/config": "^4.0.4",
