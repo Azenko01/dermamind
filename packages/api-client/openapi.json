@@ -830,6 +830,362 @@
           "submissions"
         ]
       }
+    },
+    "/v1/me/shelves": {
+      "get": {
+        "operationId": "ShelvesController_list_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShelvesDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
+    "/v1/me/shelves/{kind}/items": {
+      "post": {
+        "operationId": "ShelvesController_add_v1",
+        "parameters": [
+          {
+            "name": "kind",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "own",
+                "like",
+                "avoid"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddShelfItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "401": {
+            "description": ""
+          },
+          "404": {
+            "description": "Unknown product"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
+    "/v1/me/shelves/{kind}/items/{productId}": {
+      "delete": {
+        "operationId": "ShelvesController_remove_v1",
+        "parameters": [
+          {
+            "name": "kind",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "own",
+                "like",
+                "avoid"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "productId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
+    "/v1/me/routines": {
+      "get": {
+        "operationId": "RoutinesController_get_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoutinesDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "routines"
+        ]
+      },
+      "put": {
+        "operationId": "RoutinesController_put_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutRoutinesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoutinesDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Step not in that routine, product category not fitting the step"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "routines"
+        ]
+      }
+    },
+    "/v1/me/routines/generate": {
+      "post": {
+        "operationId": "RoutinesController_generate_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateRoutinesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateResultDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "409": {
+            "description": "No skin profile yet"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "routines"
+        ]
+      }
+    },
+    "/v1/me/today": {
+      "get": {
+        "operationId": "RoutinesController_getToday_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodayDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "routines"
+        ]
+      }
+    },
+    "/v1/me/today/mood": {
+      "put": {
+        "operationId": "RoutinesController_mood_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoodDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodayDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "routines"
+        ]
+      }
+    },
+    "/v1/me/today/routine/{time}": {
+      "put": {
+        "operationId": "RoutinesController_done_v1",
+        "parameters": [
+          {
+            "name": "time",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "am",
+                "pm"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoutineLogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodayDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "404": {
+            "description": "No routine for that time of day"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "routines"
+        ]
+      }
     }
   },
   "info": {
@@ -1654,6 +2010,10 @@
           "confidence": {
             "$ref": "#/components/schemas/MatchConfidenceDto"
           },
+          "avoidedByUser": {
+            "type": "boolean",
+            "description": "The user put this product on the \"Unikam\" shelf"
+          },
           "pros": {
             "type": "array",
             "items": {
@@ -1679,6 +2039,7 @@
           "label",
           "lowConfidence",
           "confidence",
+          "avoidedByUser",
           "pros",
           "cons",
           "excludedBy"
@@ -1875,6 +2236,18 @@
             "nullable": true,
             "description": "Shop page the data came from"
           },
+          "myShelves": {
+            "type": "array",
+            "description": "My shelves with this product („Mam”, „Lubię”, „Unikam”); empty without a token",
+            "items": {
+              "type": "string",
+              "enum": [
+                "own",
+                "like",
+                "avoid"
+              ]
+            }
+          },
           "flags": {
             "description": "null = no data (incomplete INCI / brand info)",
             "allOf": [
@@ -1900,6 +2273,7 @@
           "inciComplete",
           "match",
           "sourceUrl",
+          "myShelves",
           "flags",
           "ingredients"
         ]
@@ -2337,6 +2711,461 @@
           "id",
           "status",
           "createdAt"
+        ]
+      },
+      "ShelfItemDto": {
+        "type": "object",
+        "properties": {
+          "addedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "product": {
+            "$ref": "#/components/schemas/ProductListItemDto"
+          }
+        },
+        "required": [
+          "addedAt",
+          "product"
+        ]
+      },
+      "ShelfDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "own",
+              "like",
+              "avoid"
+            ],
+            "description": "own = „Mam”, like = „Lubię”, avoid = „Unikam”"
+          },
+          "items": {
+            "description": "Newest first",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShelfItemDto"
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "items"
+        ]
+      },
+      "ShelvesDto": {
+        "type": "object",
+        "properties": {
+          "shelves": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShelfDto"
+            }
+          }
+        },
+        "required": [
+          "shelves"
+        ]
+      },
+      "AddShelfItemDto": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "productId"
+        ]
+      },
+      "RoutineSlotDto": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "number",
+            "description": "1-based, in application order"
+          },
+          "step": {
+            "type": "string",
+            "enum": [
+              "cleanse",
+              "tone",
+              "treat",
+              "moisturize",
+              "protect"
+            ]
+          },
+          "product": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductListItemDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "position",
+          "step",
+          "product"
+        ]
+      },
+      "RoutineDto": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "enum": [
+              "am",
+              "pm"
+            ]
+          },
+          "steps": {
+            "description": "Every step of this time of day, filled or not",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoutineSlotDto"
+            }
+          },
+          "generatedBy": {
+            "type": "string",
+            "enum": [
+              "ai",
+              "rules"
+            ],
+            "nullable": true,
+            "description": "Set after generation, cleared on manual edits"
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true,
+            "description": "Explanation of a generated routine"
+          }
+        },
+        "required": [
+          "time",
+          "steps",
+          "generatedBy",
+          "summary"
+        ]
+      },
+      "ConflictSideDto": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "number"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "ingredient": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "productName",
+          "ingredient"
+        ]
+      },
+      "RoutineConflictDto": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "enum": [
+              "am",
+              "pm"
+            ]
+          },
+          "severity": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 2,
+            "description": "1 = take care, 2 = don’t combine"
+          },
+          "noteKey": {
+            "type": "string",
+            "example": "retinoid_exfoliant",
+            "description": "Key for the Polish explanation in the app"
+          },
+          "a": {
+            "$ref": "#/components/schemas/ConflictSideDto"
+          },
+          "b": {
+            "$ref": "#/components/schemas/ConflictSideDto"
+          }
+        },
+        "required": [
+          "time",
+          "severity",
+          "noteKey",
+          "a",
+          "b"
+        ]
+      },
+      "RoutineScoreDto": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "nullable": true,
+            "description": "null = empty routine or no skin profile"
+          },
+          "averageProductScore": {
+            "type": "number",
+            "nullable": true
+          },
+          "missingSpf": {
+            "type": "boolean",
+            "description": "Morning has products but no sunscreen (−10)"
+          },
+          "conflicts": {
+            "description": "−10 each",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoutineConflictDto"
+            }
+          },
+          "productCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "score",
+          "averageProductScore",
+          "missingSpf",
+          "conflicts",
+          "productCount"
+        ]
+      },
+      "RoutinesDto": {
+        "type": "object",
+        "properties": {
+          "am": {
+            "$ref": "#/components/schemas/RoutineDto"
+          },
+          "pm": {
+            "$ref": "#/components/schemas/RoutineDto"
+          },
+          "score": {
+            "$ref": "#/components/schemas/RoutineScoreDto"
+          },
+          "disclaimer": {
+            "type": "string",
+            "description": "Fixed text (not from the model): see a dermatologist for skin problems"
+          }
+        },
+        "required": [
+          "am",
+          "pm",
+          "score",
+          "disclaimer"
+        ]
+      },
+      "RoutineStepInputDto": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string",
+            "enum": [
+              "cleanse",
+              "tone",
+              "treat",
+              "moisturize",
+              "protect"
+            ]
+          },
+          "productId": {
+            "type": "number",
+            "nullable": true,
+            "description": "null = empty slot"
+          }
+        },
+        "required": [
+          "step",
+          "productId"
+        ]
+      },
+      "PutRoutinesDto": {
+        "type": "object",
+        "properties": {
+          "am": {
+            "description": "Morning; any of the 5 steps, each once",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoutineStepInputDto"
+            }
+          },
+          "pm": {
+            "description": "Evening; no \"protect\" step",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoutineStepInputDto"
+            }
+          }
+        },
+        "required": [
+          "am",
+          "pm"
+        ]
+      },
+      "GenerateRoutinesDto": {
+        "type": "object",
+        "properties": {
+          "times": {
+            "type": "array",
+            "default": [
+              "am",
+              "pm"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "am",
+                "pm"
+              ]
+            }
+          }
+        }
+      },
+      "GenerateResultDto": {
+        "type": "object",
+        "properties": {
+          "am": {
+            "$ref": "#/components/schemas/RoutineDto"
+          },
+          "pm": {
+            "$ref": "#/components/schemas/RoutineDto"
+          },
+          "score": {
+            "$ref": "#/components/schemas/RoutineScoreDto"
+          },
+          "disclaimer": {
+            "type": "string",
+            "description": "Fixed text (not from the model): see a dermatologist for skin problems"
+          },
+          "generatedBy": {
+            "type": "string",
+            "enum": [
+              "ai",
+              "rules"
+            ]
+          },
+          "fallbackReason": {
+            "type": "string",
+            "enum": [
+              "not_configured",
+              "limit",
+              "error",
+              "refused",
+              "invalid_pick"
+            ],
+            "nullable": true,
+            "description": "Why the rules were used instead of AI"
+          },
+          "emptySteps": {
+            "description": "\"am:protect\" etc. — steps without any suitable product",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "am",
+          "pm",
+          "score",
+          "disclaimer",
+          "generatedBy",
+          "fallbackReason",
+          "emptySteps"
+        ]
+      },
+      "TodayDayDto": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "example": "2026-10-14"
+          },
+          "mood": {
+            "type": "number",
+            "nullable": true
+          }
+        },
+        "required": [
+          "day",
+          "mood"
+        ]
+      },
+      "TodayDto": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "example": "2026-10-14",
+            "description": "Today in Europe/Warsaw"
+          },
+          "mood": {
+            "type": "number",
+            "nullable": true
+          },
+          "done": {
+            "type": "object",
+            "description": "Done step positions today",
+            "example": {
+              "am": [
+                1,
+                2
+              ],
+              "pm": []
+            }
+          },
+          "week": {
+            "description": "Monday…Sunday of this week",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TodayDayDto"
+            }
+          }
+        },
+        "required": [
+          "day",
+          "mood",
+          "done",
+          "week"
+        ]
+      },
+      "MoodDto": {
+        "type": "object",
+        "properties": {
+          "mood": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "1 źle … 5 super"
+          }
+        },
+        "required": [
+          "mood"
+        ]
+      },
+      "RoutineLogDto": {
+        "type": "object",
+        "properties": {
+          "doneSteps": {
+            "description": "Positions (1…5) of the steps done today",
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "doneSteps"
         ]
       }
     }

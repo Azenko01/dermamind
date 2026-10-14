@@ -340,6 +340,134 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/me/shelves": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ShelvesController_list_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/shelves/{kind}/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["ShelvesController_add_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/shelves/{kind}/items/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["ShelvesController_remove_v1"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/routines": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["RoutinesController_get_v1"];
+        put: operations["RoutinesController_put_v1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/routines/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["RoutinesController_generate_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/today": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["RoutinesController_getToday_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/today/mood": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["RoutinesController_mood_v1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/today/routine/{time}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["RoutinesController_done_v1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -556,6 +684,8 @@ export interface components {
             /** @description Incomplete INCI or > 30% of ingredients without data */
             lowConfidence: boolean;
             confidence: components["schemas"]["MatchConfidenceDto"];
+            /** @description The user put this product on the "Unikam" shelf */
+            avoidedByUser: boolean;
             pros: components["schemas"]["MatchProDto"][];
             cons: components["schemas"]["MatchConDto"][];
             excludedBy: components["schemas"]["MatchExclusionDto"][];
@@ -612,6 +742,8 @@ export interface components {
             match: components["schemas"]["MatchDetailDto"] | null;
             /** @description Shop page the data came from */
             sourceUrl: string | null;
+            /** @description My shelves with this product („Mam”, „Lubię”, „Unikam”); empty without a token */
+            myShelves: ("own" | "like" | "avoid")[];
             /** @description null = no data (incomplete INCI / brand info) */
             flags: components["schemas"]["ProductFlagsDto"];
             ingredients: components["schemas"]["ProductIngredientDto"][];
@@ -737,6 +869,152 @@ export interface components {
             status: "pending" | "approved" | "rejected";
             /** Format: date-time */
             createdAt: string;
+        };
+        ShelfItemDto: {
+            /** Format: date-time */
+            addedAt: string;
+            product: components["schemas"]["ProductListItemDto"];
+        };
+        ShelfDto: {
+            /**
+             * @description own = „Mam”, like = „Lubię”, avoid = „Unikam”
+             * @enum {string}
+             */
+            kind: "own" | "like" | "avoid";
+            /** @description Newest first */
+            items: components["schemas"]["ShelfItemDto"][];
+        };
+        ShelvesDto: {
+            shelves: components["schemas"]["ShelfDto"][];
+        };
+        AddShelfItemDto: {
+            productId: number;
+        };
+        RoutineSlotDto: {
+            /** @description 1-based, in application order */
+            position: number;
+            /** @enum {string} */
+            step: "cleanse" | "tone" | "treat" | "moisturize" | "protect";
+            product: components["schemas"]["ProductListItemDto"] | null;
+        };
+        RoutineDto: {
+            /** @enum {string} */
+            time: "am" | "pm";
+            /** @description Every step of this time of day, filled or not */
+            steps: components["schemas"]["RoutineSlotDto"][];
+            /**
+             * @description Set after generation, cleared on manual edits
+             * @enum {string|null}
+             */
+            generatedBy: "ai" | "rules" | null;
+            /** @description Explanation of a generated routine */
+            summary: string | null;
+        };
+        ConflictSideDto: {
+            productId: number;
+            productName: string;
+            ingredient: string;
+        };
+        RoutineConflictDto: {
+            /** @enum {string} */
+            time: "am" | "pm";
+            /** @description 1 = take care, 2 = don’t combine */
+            severity: number;
+            /**
+             * @description Key for the Polish explanation in the app
+             * @example retinoid_exfoliant
+             */
+            noteKey: string;
+            a: components["schemas"]["ConflictSideDto"];
+            b: components["schemas"]["ConflictSideDto"];
+        };
+        RoutineScoreDto: {
+            /** @description null = empty routine or no skin profile */
+            score: number | null;
+            averageProductScore: number | null;
+            /** @description Morning has products but no sunscreen (−10) */
+            missingSpf: boolean;
+            /** @description −10 each */
+            conflicts: components["schemas"]["RoutineConflictDto"][];
+            productCount: number;
+        };
+        RoutinesDto: {
+            am: components["schemas"]["RoutineDto"];
+            pm: components["schemas"]["RoutineDto"];
+            score: components["schemas"]["RoutineScoreDto"];
+            /** @description Fixed text (not from the model): see a dermatologist for skin problems */
+            disclaimer: string;
+        };
+        RoutineStepInputDto: {
+            /** @enum {string} */
+            step: "cleanse" | "tone" | "treat" | "moisturize" | "protect";
+            /** @description null = empty slot */
+            productId: number | null;
+        };
+        PutRoutinesDto: {
+            /** @description Morning; any of the 5 steps, each once */
+            am: components["schemas"]["RoutineStepInputDto"][];
+            /** @description Evening; no "protect" step */
+            pm: components["schemas"]["RoutineStepInputDto"][];
+        };
+        GenerateRoutinesDto: {
+            /**
+             * @default [
+             *       "am",
+             *       "pm"
+             *     ]
+             */
+            times: ("am" | "pm")[];
+        };
+        GenerateResultDto: {
+            am: components["schemas"]["RoutineDto"];
+            pm: components["schemas"]["RoutineDto"];
+            score: components["schemas"]["RoutineScoreDto"];
+            /** @description Fixed text (not from the model): see a dermatologist for skin problems */
+            disclaimer: string;
+            /** @enum {string} */
+            generatedBy: "ai" | "rules";
+            /**
+             * @description Why the rules were used instead of AI
+             * @enum {string|null}
+             */
+            fallbackReason: "not_configured" | "limit" | "error" | "refused" | "invalid_pick" | null;
+            /** @description "am:protect" etc. — steps without any suitable product */
+            emptySteps: string[];
+        };
+        TodayDayDto: {
+            /** @example 2026-10-14 */
+            day: string;
+            mood: number | null;
+        };
+        TodayDto: {
+            /**
+             * @description Today in Europe/Warsaw
+             * @example 2026-10-14
+             */
+            day: string;
+            mood: number | null;
+            /**
+             * @description Done step positions today
+             * @example {
+             *       "am": [
+             *         1,
+             *         2
+             *       ],
+             *       "pm": []
+             *     }
+             */
+            done: Record<string, never>;
+            /** @description Monday…Sunday of this week */
+            week: components["schemas"]["TodayDayDto"][];
+        };
+        MoodDto: {
+            /** @description 1 źle … 5 super */
+            mood: number;
+        };
+        RoutineLogDto: {
+            /** @description Positions (1…5) of the steps done today */
+            doneSteps: number[];
         };
     };
     responses: never;
@@ -1402,6 +1680,282 @@ export interface operations {
                 };
             };
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ShelvesController_list_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShelvesDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ShelvesController_add_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                kind: "own" | "like" | "avoid";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddShelfItemDto"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unknown product */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ShelvesController_remove_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                kind: "own" | "like" | "avoid";
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    RoutinesController_get_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoutinesDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    RoutinesController_put_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PutRoutinesDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoutinesDto"];
+                };
+            };
+            /** @description Step not in that routine, product category not fitting the step */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    RoutinesController_generate_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GenerateRoutinesDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GenerateResultDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No skin profile yet */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    RoutinesController_getToday_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TodayDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    RoutinesController_mood_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MoodDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TodayDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    RoutinesController_done_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                time: "am" | "pm";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoutineLogDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TodayDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No routine for that time of day */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
