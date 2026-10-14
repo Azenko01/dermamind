@@ -1,4 +1,4 @@
-import { CheckIcon, type IconProps } from 'phosphor-react-native';
+import { CaretRightIcon, CheckIcon, type IconProps } from 'phosphor-react-native';
 import type { ComponentType } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useTheme } from '@/theme';
@@ -9,19 +9,26 @@ interface Props {
   title: string;
   description?: string;
   icon?: ComponentType<IconProps>;
-  selected: boolean;
-  /** radio = single choice, checkbox = multiple */
-  mode: 'radio' | 'checkbox';
+  selected?: boolean;
+  /** radio = single choice, checkbox = multiple, action = navigates somewhere */
+  mode: 'radio' | 'checkbox' | 'action';
   onPress: () => void;
 }
 
 /** Answer card: radius 20, 1 px border; selected → 2 px primary border + filled control (PLAN.md 7.3). */
-export function OptionCard({ title, description, icon: Icon, selected, mode, onPress }: Props) {
+export function OptionCard({
+  title,
+  description,
+  icon: Icon,
+  selected = false,
+  mode,
+  onPress,
+}: Props) {
   const { colors, spacing, radius } = useTheme();
   return (
     <Pressable
-      accessibilityRole={mode}
-      accessibilityState={{ checked: selected }}
+      accessibilityRole={mode === 'action' ? 'button' : mode}
+      accessibilityState={mode === 'action' ? undefined : { checked: selected }}
       onPress={onPress}
       style={({ pressed }) => [
         styles.card,
@@ -47,7 +54,9 @@ export function OptionCard({ title, description, icon: Icon, selected, mode, onP
           </Text>
         ) : null}
       </View>
-      {mode === 'radio' ? <Radio selected={selected} /> : <Checkbox selected={selected} />}
+      {mode === 'radio' ? <Radio selected={selected} /> : null}
+      {mode === 'checkbox' ? <Checkbox selected={selected} /> : null}
+      {mode === 'action' ? <CaretRightIcon size={20} color={colors.textSecondary} /> : null}
     </Pressable>
   );
 }
