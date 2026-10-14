@@ -1,6 +1,6 @@
 # Brakujące pełne składy INCI
 
-Stan: 14.10.2026. **Brakuje wszystkich 42.**
+Stan: 2026-10-14. Brakuje: **42 z 42**.
 
 Strony nie zostały pobrane automatycznie: `robots.txt` sklepu hebe.pl blokuje agenta `ClaudeBot`
 (i inne boty AI) na całej domenie, więc Claude ich nie pobiera. To samo dotyczy Open Beauty Facts.
@@ -9,11 +9,9 @@ Składów nie zgadujemy.
 ## Jak uzupełnić
 
 1. Otwórz stronę produktu, zakładka **Skład**.
-2. Skopiuj cały skład i wklej do `data/inci_full.json` w polu `inci` danego produktu — jako listę
-   nazw w kolejności z opakowania, np. `["Aqua", "Glycerin", "Niacinamide"]`. Można też wkleić jeden
-   napis z przecinkami: `["Aqua, Glycerin, Niacinamide"]` — import sam go podzieli.
-3. Uruchom ponownie `pnpm import:catalog`. Produkty z pełnym składem przestaną być oznaczone jako
-   niekompletne, a ten plik i `data/import-report.md` się zaktualizują.
+2. Skopiuj cały skład do `data/inci_full.json`, pole `inci` danego produktu: lista nazw w kolejności
+   z opakowania (`["Aqua", "Glycerin"]`) albo jeden napis z przecinkami (`["Aqua, Glycerin"]`).
+3. Uruchom ponownie `pnpm import:catalog` — ten plik i `data/import-report.md` się zaktualizują.
 
 | # | Marka | Produkt (nazwa z bazy Sa.Shy) | Strona |
 | --- | --- | --- | --- |

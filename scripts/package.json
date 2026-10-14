@@ -1,0 +1,21 @@
+{
+  "name": "@dermamind/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "import:catalog": "tsx --conditions=source import-catalog.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@dermamind/scoring": "workspace:*",
+    "@prisma/adapter-pg": "7.10.0",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "vitest": "^5.0.4"
+  }
+}

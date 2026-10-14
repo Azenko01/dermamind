@@ -12,7 +12,8 @@
     "typecheck": "pnpm -r --parallel typecheck",
     "test": "pnpm -r test",
     "db:up": "docker compose up -d db",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "import:catalog": "pnpm --filter @dermamind/scripts import:catalog"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
