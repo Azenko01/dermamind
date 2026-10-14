@@ -3,13 +3,21 @@
     "url": "https://www.hebe.pl/bielenda-delikatna-emulsja-do-mycia-twarzy-i-demakijazu-300-ml-000000000000459599.html",
     "name": "Bielenda Hydro Lipidium Emulsion",
     "brand": "Bielenda",
-    "inci": []
+    "inci": [
+      "Water, Glycerin, Sodium Cocoyl Isethionate, Polyglyceryl-4 Oleate, Glyceryl Stearate, Cetearyl Alcohol, Sorbitol, Cocoglycerides, Squalane, Panthenol, Sodium Hyaluronate, Phosphatidylserine, Glycolipids, Phospholipids, Ceramide NP, Ceramide AP, Phytosphingosine, Cholesterol, Ceramide EOP, Ethylhexylglycerin, Caprylic/Capric Triglyceride, Sodium Lauroyl Lactylate, Hydroxypropyl Starch Phosphate, Microcrystalline Cellulose, Xanthan Gum, Cellulose Gum, Disodium EDTA, Citric Acid, Carbomer, Phenoxyethanol"
+    ],
+    "inciSource": "https://skinsort.com/products/bielenda/hydro-lipidium-maximum-tolerance-delicate-emulsion-for-washing-and-removing-make-up",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/bielenda-wysokolipidowy-krem-barierowy-silnie-regenerujacy-do-twarzy-50-ml-000000000000459600.html",
     "name": "Bielenda Hydro Lipidium Barrier Cream",
     "brand": "Bielenda",
-    "inci": []
+    "inci": [
+      "Water, Caprylic/Capric Triglyceride, Sorbitan Stearate, Propanediol, Squalane, Coco-Caprylate/Caprate, Behenyl Alcohol, Glyceryl Stearate, Orbignya Oleifera Seed Oil, Glycerin, Cetearyl Ethylhexanoate, Prunus Amygdalus Dulcis Oil, Hydrogenated Rapeseed Oil, Panthenol, Alpha-Glucan Oligosaccharide, Centella Asiatica Extract, Polymnia Sonchifolia Root Juice, Maltodextrin, Phosphatidylserine, Glycolipids, Phospholipids, Beta-Sitosterol, Lactobacillus, Ceramide NP, Ceramide AP, Phytosphingosine, Cholesterol, Ceramide EOP, Dimethicone, Ethylhexylglycerin, Glycine Soja Oil, Squalene, Sorbityl Laurate, Sodium Stearoyl Glutamate, Sodium Lauroyl Lactylate, Xanthan Gum, Disodium EDTA, Ascorbyl Palmitate, Citric Acid, Tocopherol, Carbomer, Phenoxyethanol, Methylparaben"
+    ],
+    "inciSource": "https://skinsort.com/products/bielenda/hydro-lipidium-high-lipid-barrier-cream-strongly",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/bielenda-krem-barierowy-nawilzajaco-ochronny-z-spf50-do-twarzy-30-ml-000000000000459601.html",
@@ -21,25 +29,41 @@
     "url": "https://www.hebe.pl/bielenda-serum-barierowe-nawilzajaco-kojace-do-twarzy-30-ml-000000000000459602.html",
     "name": "Bielenda Hydro Lipidium Serum",
     "brand": "Bielenda",
-    "inci": []
+    "inci": [
+      "Water, Glycerin, Isodecyl Neopentanoate, Propanediol, Squalane, Cetearyl Ethylhexanoate, Behenyl Alcohol, Glyceryl Stearate, Gossypium Herbaceum Seed Oil, Panthenol, Allantoin, Hydrogenated Rapeseed Oil, Tocopheryl Acetate, Sodium Hyaluronate Crosspolymer, Sodium Hyaluronate, Phosphatidylserine, Glycolipids, Beta-Sitosterol, Phospholipids, Ceramide NP, Ceramide AP, Phytosphingosine, Cholesterol, Ceramide EOP, Caprylic/Capric Triglyceride, Dimethicone, Cetearyl Olivate, Ethylhexyl Stearate, Ethylhexylglycerin, Glycine Soja Oil, Squalene, Sodium Stearoyl Glutamate, Sorbitan Olivate, Polyglyceryl-4 Diisostearate/Polyhydroxystearate/Sebacate, Sodium Isostearate, Sodium Lauroyl Lactylate, Xanthan Gum, Disodium EDTA, Lactic Acid, Ascorbyl Palmitate, Citric Acid, Tocopherol, Carbomer, Phenoxyethanol, Methylparaben"
+    ],
+    "inciSource": "https://skinsort.com/products/bielenda/hydro-lipidium-moisturizing-soothing-barrier-serum",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/bielenda-serum-z-kwasem-hialuronowym-do-twarzy-30-ml-000000000000428152.html",
     "name": "Bielenda Skin Clinic Hyaluronic Serum",
     "brand": "Bielenda",
-    "inci": []
+    "inci": [
+      "Water, Panthenol, Trehalose, Propanediol, Hyaluronic Acid, Copper Tripeptide-1, Sodium Hyaluronate, Hydroxyethylcellulose, Polysorbate 20, Disodium Phosphate, Sodium Phosphate, Phenoxyethanol, Ethylhexylglycerin, Parfum"
+    ],
+    "inciSource": "https://skinsort.com/products/bielenda/skin-clinic-professional-hyaluronic-acid-moisturizing-soothing-serum",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/bielenda-serum-z-niacynamidem-do-twarzy-30-ml-000000000000428151.html",
     "name": "Bielenda Skin Clinic Niacinamide Serum",
     "brand": "Bielenda",
-    "inci": []
+    "inci": [
+      "Water, Niacinamide, Lactobionic Acid, Panthenol, Glycerin, Propanediol, Alpha-Arbutin, Hydroxyethylcellulose, Disodium Phosphate, Sodium Phosphate, Ethylhexylglycerin, Phenoxyethanol, CI 42090, CI 17200"
+    ],
+    "inciSource": "https://skinsort.com/products/bielenda/skin-clinic-professional-niacinamide-normalizing-smoothing-serum",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/bielenda-serum-z-witamina-c-do-twarzy-30-ml-000000000000428149.html",
     "name": "Bielenda Skin Clinic Vitamin C Serum",
     "brand": "Bielenda",
-    "inci": []
+    "inci": [
+      "Water, Propanediol, 3-O-Ethyl Ascorbic Acid, Citric Acid, Glycerin, Curcuma Longa Root Extract, Ferulic Acid, Panthenol, Hydroxyethylcellulose, Disodium Phosphate, Sodium Phosphate, Sodium Benzoate, Potassium Sorbate, Disodium EDTA, Phenoxyethanol, Ethylhexylglycerin, CI 19140"
+    ],
+    "inciSource": "https://skinsort.com/products/bielenda/skin-clinic-professional-vitamin-c-brightening-nourishing-serum",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/bielenda-wzmacniajaco-kojacy-krem-do-twarzy-40-ml-000000000000649030.html",
@@ -51,37 +75,61 @@
     "url": "https://www.hebe.pl/nacomi-oczyszczajacy-zel-antybakteryjny-do-mycia-twarzy-150-ml-000000000000424295.html",
     "name": "Nacomi Antibacterial Gel",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Water, Lauryl Glucoside, Sodium Cocoyl Isethionate, Glycerin, Niacinamide, Sorbitol, Cocamidopropyl Betaine, Lactitol, Potassium Palmitoyl Hydrolyzed Wheat Protein, Hexamidine Diisethionate, Panthenol, Lecithin, Hydrogenated Palm Glycerides, Tocopherol, Xylitol, Citric Acid, Glyceryl Stearate, Glycol Distearate, Cellulose Gum, Inulin, Xanthan Gum, Cellulose, Fructose, Glucose, Guar Hydroxypropyltrimonium Chloride, Tetrasodium Glutamate Diacetate, Sodium Hydroxide, Coco-Glucoside, Glyceryl Oleate, Parfum, Potassium Sorbate, Sodium Benzoate, Phenoxyethanol"
+    ],
+    "inciSource": "https://skinsort.com/products/nacomi/niacinamide-face-cleansing-gel",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/nacomi-emulsja-do-mycia-twarzy-150-ml-000000000000424294.html",
     "name": "Nacomi Cleansing Emulsion",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Water, Prunus Amygdalus Dulcis Oil, Glycerin, Helianthus Annuus Seed Oil, Hydroxypropyl Starch Phosphate, Coco-Caprylate/Caprate, Propanediol, Coco-Glucoside, Glyceryl Oleate, Lauryl Glucoside, Polyglyceryl-2 Dipolyhydroxystearate, Betaine, Caprylic/Capric Triglyceride, Trehalose, Lactic Acid, Ceramide NP, Ceramide AP, Ceramide EOP, Tocopherol, Cholesterol, Inulin, Lecithin, Phytosphingosine, Hydrogenated Palm Glycerides Citrate, Ascorbyl Palmitate, Tetrasodium Glutamate Diacetate, Polyglyceryl-10 Stearate, Polyglyceryl-6 Behenate, Sodium Cetearyl Sulfate, Sodium Hydroxide, Tocopheryl Acetate, Citric Acid, Fructose, Glucose, Cellulose, Cellulose Gum, Xanthan Gum, Cetearyl Alcohol, Glyceryl Stearate, Triethyl Citrate, Sodium Levulinate, Behenic Acid, Parfum, Potassium Sorbate, Sodium Benzoate"
+    ],
+    "inciSource": "https://skinsort.com/products/nacomi/ceramides-face-cleansing-lotion",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/nacomi-plyn-micelarny-do-skory-suchej-i-wrazliwej-200-ml-000000000000433817.html",
     "name": "Nacomi Micellar Water Sensitive",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Water, Propanediol, Glycerin, Sorbitan Oleate Decylglucoside Crosspolymer, Niacinamide, Allantoin, Sodium Hydroxide, Tetrasodium Glutamate Diacetate, Polyacrylic Acid, Phenoxyethanol"
+    ],
+    "inciSource": "https://skinsort.com/products/nacomi/micellar-cleansing-water",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/nacomi-krem-do-twarzy-na-tradzik-50-ml-000000000000424296.html",
     "name": "Nacomi Acne Cream",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Aqua, Niacinamide, Propanediol, Glycerin, Coco-Caprylate/Caprate, Propylheptyl Caprylate, Trehalose, Sodium Polyacrylate, Bisabolol, Glycyrrhetinic Acid, Allantoin, Hexamidine Diisethionate, Biosaccharide Gum-1, Lactic Acid, Tocopherol, Glycine Soja Oil, Tocopheryl Acetate, Maltodextrin, Parfum, Dehydroacetic Acid, Benzyl Alcohol"
+    ],
+    "inciSource": "https://www.notino.pl/nacomi/next-level-dermo-lekki-krem-przeciwtradzikowy-regulujacy-produkcje-sebum/",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/nacomi-nawilzajacy-krem-do-twarzy-50-ml-000000000000424298.html",
     "name": "Nacomi Moisturizing Cream",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Aqua, Propanediol, Cetyl Alcohol, Persea Gratissima Oil, Caprylic/Capric Triglyceride, Cetearyl Alcohol, Glyceryl Stearate, Butyrospermum Parkii Butter, Niacinamide, Prunus Amygdalus Dulcis Oil, Shorea Stenoptera Seed Butter, Tocopheryl Acetate, Sorbitol, Stearic Acid, Adansonia Digitata Seed Oil, Serine, Algin, Pullulan, Trehalose, Urea, Allantoin, Olea Europaea Fruit Oil, Ascorbyl Palmitate, Phytosterols, Hyaluronic Acid, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate Crosspolymer, Hydrolyzed Glycosaminoglycans, Lactic Acid, Glycerin, Ethylhexylglycerin, Raspberry Ketone, Sorbitan Oleate, Benzyl Glycol, Caprylyl Glycol, Disodium Phosphate, Polyglyceryl-3 PCA, Pentylene Glycol, Glyceryl Polyacrylate, Parfum, Potassium Phosphate, Sodium Lauroyl Glutamate, Dehydroacetic Acid, Benzyl Alcohol"
+    ],
+    "inciSource": "https://www.notino.pl/nacomi/next-level-dermo-nawilzajacy-krem-do-twarzy/",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/nacomi-tonik-do-skory-suchej-i-wrazliwej-100-ml-000000000000433322.html",
     "name": "Nacomi Dry Skin Toner",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Aqua, Glycerin, Propanediol, Sodium Hyaluronate, Allantoin, Trehalose, Urea, Serine, Algin, Biosaccharide Gum-1, Pullulan, Maltodextrin, Lactic Acid, Tetrasodium Glutamate Diacetate, Pentylene Glycol, Caprylyl Glycol, Disodium Phosphate, Glyceryl Polyacrylate, Sodium Hydroxide, Potassium Phosphate, Sodium Benzoate, Potassium Sorbate"
+    ],
+    "inciSource": "https://www.notino.pl/nacomi/next-level-dermo-tonik-nawilzajacy-wyrownujacy-ph-skory/",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/nacomi-tonik-do-skory-tlustej-i-tradzikowej-100-ml-000000000000433325.html",
@@ -93,49 +141,81 @@
     "url": "https://www.hebe.pl/nacomi-kwas-salicylowy-2-pha-30-ml-000000000000505251.html",
     "name": "Nacomi Salicylic Acid Serum",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Water, Niacinamide, Glycerin, Salicylic Acid, Charcoal Powder, Amylopectin, Polydextrose, Dextrin, Cellulose Gum, Xanthan Gum, Cellulose, Fructose, Glucose, Inulin, Dehydroacetic Acid, Benzyl Alcohol"
+    ],
+    "inciSource": "https://skinsort.com/products/nacomi/no-more-pores-salicylic-acid-serum-2",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/nacomi-peptydy-10-30-ml-000000000000381696.html",
     "name": "Nacomi Peptides Serum",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Water, Glycerin, Trifluoroacetyl Tripeptide-2, Hydrolyzed Rice Protein, Hydrolyzed Pea Protein, Hydrolyzed Sodium Hyaluronate, N-Prolyl Palmitoyl Tripeptide-56 Acetate, Palmitoyl Tripeptide-1, Palmitoyl Tetrapeptide-7, Proline, Glycine, Inulin, Dextran, Cellulose, Fructose, Glucose, Cellulose Gum, Xanthan Gum, Carbomer, Sodium Lactate, Citric Acid, Dehydroacetic Acid, Butylene Glycol, Pentylene Glycol, Sodium Benzoate, Caprylyl Glycol, Polysorbate 20, Potassium Sorbate, Benzyl Alcohol"
+    ],
+    "inciSource": "https://skinsort.com/products/nacomi/next-level-lift-it-up-peptide-serum-10",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/nacomi-azeloglicyna-5-30-ml-000000000000405433.html",
     "name": "Nacomi Azeloglycine Serum",
     "brand": "Nacomi",
-    "inci": []
+    "inci": [
+      "Water, Glycerin, Coco-Caprylate/Caprate, Panthenol, Butyrospermum Parkii Butter, Passiflora Incarnata Seed Oil, Cetearyl Alcohol, Glyceryl Stearate, Hydroxypropyl Starch Phosphate, Potassium Azeloyl Diglycinate, Prunus Amygdalus Dulcis Oil, Rosa Canina Seed Oil, Trehalose, Hydrolyzed Yeast Extract, Stearic Acid, Tocopheryl Acetate, Syringa Vulgaris Extract, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Sodium Hyaluronate Crosspolymer, Sodium Lauroyl Glutamate, Lecithin, Maltodextrin, Propanediol, Hydrolyzed Glycosaminoglycans, Tetrasodium Glutamate Diacetate, Cetyl Hydroxyethylcellulose, Ethylhexylglycerin, Citric Acid, Polyglucuronic Acid, Dehydroacetic Acid, Raspberry Ketone, Potassium Sorbate, Sodium Benzoate, Sodium Hydroxide, Benzyl Glycol, Benzyl Alcohol"
+    ],
+    "inciSource": "https://skinsort.com/products/nacomi/azeloglycine-5",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/skin1004-lekki-olejek-myjacy-do-twarzy-z-wakrota-azjatycka-30-ml-000000000000559273.html",
     "name": "SKIN1004 Centella Cleansing Oil",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Ethylhexyl Stearate, Cetyl Ethylhexanoate, Sorbeth-30 Tetraoleate, Caprylic/Capric Triglyceride, Citrus Aurantium Bergamia Fruit Oil, Centella Asiatica Extract, Simmondsia Chinensis Seed Oil, Olea Europaea Fruit Oil, Helianthus Annuus Seed Oil, Ethylhexylglycerin, Pelargonium Graveolens Flower Oil, Rosa Damascena Flower Oil, Limonene, Linalool"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-light-cleansing-oil",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/skin1004-oczyszczajaca-pianka-do-twarzy-z-wakrota-azjatycka-20-ml-000000000000559274.html",
     "name": "SKIN1004 Centella Foam",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Water, Sodium Cocoyl Isethionate, Glycerin, Sodium Methyl Cocoyl Taurate, Coco-Betaine, Centella Asiatica Extract, Potassium Cocoyl Glycinate, 1, 2-Hexanediol, Potassium Cocoate, Potassium Benzoate, Polyquaternium-67, Citric Acid, Sodium Chloride, Butylene Glycol, Dextrin, Theobroma Cacao Extract, Disodium EDTA, Sodium Acetate, Sodium Bicarbonate, Coptis Chinensis Root Extract, Sodium Hyaluronate, Coccinia Indica Fruit Extract, Eclipta Prostrata Extract"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-ampoule-foam",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/skin1004-odzywcze-serum-do-twarzy-z-wakrota-azjatycka-30-ml-000000000000559279.html",
     "name": "SKIN1004 Centella Serum",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Water, Glycerin, Butylene Glycol, Centella Asiatica Extract, 1, 2-Hexanediol, Cellulose Gum, Ethylhexylglycerin"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-ampoule",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/skin1004-serum-dla-cery-tlustej-i-mieszanej-30-ml-000000000000559316.html",
     "name": "SKIN1004 Poremizing Serum",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Water, Butylene Glycol, Propanediol, 1, 2-Hexanediol, Aloe Barbadensis Leaf Extract, Centella Asiatica Extract, Glycereth-26, Hydroxyacetophenone, Glycerin, Carbomer, Tromethamine, Panthenol, Ethylhexylglycerin, Disodium EDTA, Dipotassium Glycyrrhizate, Ammonium Polyacryloyldimethyl Taurate, Biosaccharide Gum-1, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Hydroxyethylcellulose, Chamomilla Recutita Flower Extract, Mineral Salts, Tripeptide-3, Acetyl Hexapeptide-8, Acetyl Octapeptide-3, Copper Tripeptide-1, Palmitoyl Pentapeptide-4, Palmitoyl Tetrapeptide-7, Palmitoyl Tripeptide-1, Tripeptide-1, Tripeptide-2"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-poremizing-fresh-ampoule",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/skin1004-wzmacniajace-serum-do-twarzy-dla-skory-suchej-wrazliwej-i-podraznionej-50-ml-000000000000559148.html",
     "name": "SKIN1004 Probio-Cica Serum",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Water, Butylene Glycol, Glycerin, Propanediol, Caprylic/Capric Triglyceride, Niacinamide, 1, 2-Hexanediol, Dipropylene Glycol, Centella Asiatica Extract, Polyglyceryl-3 Distearate, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, C14-22 Alcohols, Arginine, Hydrogenated Lecithin, Hydroxystearic Acid, Betaine, Panthenol, Allantoin, Ethylhexylglycerin, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Adenosine, Glyceryl Stearate Citrate, Sodium Polyacrylate, C12-20 Alkyl Glucoside, Cetearyl Alcohol, Xanthan Gum, Macadamia Ternifolia Seed Oil, Sodium Hyaluronate, Sodium Phytate, Stearic Acid, Ceramide NP, Sorbitan Isostearate, Glyceryl Acrylate/Acrylic Acid Copolymer, Lactobacillus Ferment, Polyglyceryl-10 Myristate, Madecassic Acid, Asiaticoside, Phytosphingosine, Asiatic Acid, Sucrose Distearate, Polyglutamic Acid, Lauric Acid, Phytosterols"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-probio-cica-intensive-ampoule",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/skin1004-lekki-nawilzajacy-krem-przeciwsloneczny-spf50-pa-15-ml-000000000000559289.html",
@@ -147,43 +227,71 @@
     "url": "https://www.hebe.pl/skin1004-regenerujacy-krem-do-twarzy-z-wakrota-azjatycka-30-ml-000000000000559280.html",
     "name": "SKIN1004 Centella Cream",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Water, Glycerin, Propanediol, Dipropylene Glycol, Cyclopentasiloxane, Centella Asiatica Extract, 1, 2-Hexanediol, Cyclohexasiloxane, Trehalose, Caprylyl Methicone, C12-14 Pareth-12, Carbomer, Tromethamine, C30-45 Alkyl Cetearyl Dimethicone Crosspolymer, Ammonium Acryloyldimethyltaurate/Vp Copolymer, Butylene Glycol, Xanthan Gum, Zingiber Officinale Root Extract, Mentha Piperita Leaf Extract, Ethylhexylglycerin, Dipotassium Glycyrrhizate, Tranexamic Acid, Dextrin, Theobroma Cacao Seed Extract, Leuconostoc/Radish Root Ferment Filtrate, Biosaccharide Gum-1, Disodium EDTA, Sodium Hyaluronate, Beta-Glucan, Hydrogenated Lecithin, Coptis Chinensis Root Extract, Cetearyl Alcohol, Stearic Acid, Ceramide NP, Ceramide NG, Cholesterol, Phytosphingosine, Ceramide AS, Ceramide AP, Ceramide EOP"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-soothing-cream",
+    "inciNote": "2 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/skin1004-intensywnie-regenerujacy-krem-z-probiotykami-15-ml-000000000000559147.html",
     "name": "SKIN1004 Probio-Cica Cream",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Centella Asiatica Extract, Glycerin, Diglycerin, 1, 2-Hexanediol, Butylene Glycol, Niacinamide, Water, Polyglyceryl-3 Distearate, Caprylic/Capric Triglyceride, Neopentyl Glycol Diheptanoate, Isostearyl Isostearate, Pentaerythrityl Tetraisostearate, Hydrogenated Poly(C6-14 Olefin), Heptyl Undecylenate, Lactobacillus/Centella Asiatica Extract Ferment Filtrate, Bis-Diglyceryl Polyacyladipate-2, Glyceryl Stearate, C14-22 Alcohols, Cetearyl Alcohol, Butyrospermum Parkii Butter, Polyglyceryl-2 Stearate, Sodium Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Glyceryl Stearate Citrate, Arginine, Stearyl Alcohol, Polyisobutene, C12-20 Alkyl Glucoside, Squalane, Sodium Surfactin, Sodium Polyacrylate, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Carbomer, Hydroxystearic Acid, Ethylhexylglycerin, Adenosine, Hydrogenated Lecithin, Sorbitan Oleate, Caprylyl/Capryl Glucoside, Macadamia Ternifolia Seed Oil, Sodium Hyaluronate, Moringa Oleifera Seed Oil, Sodium Phytate, Ceramide NP, Dextrin, Theobroma Cacao Extract, Glyceryl Acrylate/Acrylic Acid Copolymer, Polyglyceryl-10 Myristate, Glucose, Stearic Acid, Phytosphingosine, Madecassic Acid, Asiaticoside, Sucrose Distearate, Asiatic Acid, Lauric Acid, Phytosterols, Polyglutamic Acid"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-probio-cica-enrich-cream",
+    "inciNote": "3 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/skin1004-lekki-krem-dla-cery-tlustej-i-mieszanej-75-ml-000000000000559307.html",
     "name": "SKIN1004 Poremizing Cream",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Centella Asiatica Extract, Water, Propanediol, Aloe Barbadensis Leaf Extract, 1, 2-Hexanediol, Niacinamide, Glycerin, Xylitol, Butylene Glycol, Carbomer, Tromethamine, Sodium Polyacryloyldimethyl Taurate, Biosaccharide Gum-1, Betaine, PVP, Sedum Sarmentosum Extract, Hydrogenated Polydecene, Ethylhexylglycerin, Adenosine, Hydroxyethylcellulose, Coccinia Indica Fruit Extract, Eclipta Prostrata Extract, Hydrolyzed Gardenia Florida Extract, Hydrolyzed Malt Extract, Disodium EDTA, Hydrolyzed Viola Tricolor Extract, Melia Azadirachta Flower Extract, Ocimum Sanctum Leaf Extract, Melia Azadirachta Leaf Extract, Trideceth-10, Sea Water, Panthenol, Curcuma Longa Root Extract, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Xylitylglucoside, Corallina Officinalis Extract, Anhydroxylitol, Oenothera Biennis Flower Extract, Pueraria Lobata Root Extract, Pinus Palustris Leaf Extract, Ulmus Davidiana Root Extract, Castanea Crenata Shell Extract, Hamamelis Virginiana Leaf Water, Lavandula Angustifolia Flower Extract, Chamaecyparis Obtusa Water, Chenopodium Quinoa Seed Extract, Allantoin, CI 77004, Mineral Salts"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/poremizing-light-gel-cream",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/skin1004-delikatnie-zluszczajacy-toner-z-kwasami-pha-30-ml-000000000000559277.html",
     "name": "SKIN1004 PHA Toner",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Centella Asiatica Extract, Water, Dipropylene Glycol, 1, 2-Hexanediol, Niacinamide, Gluconolactone, Tromethamine, Carbomer, Sodium Citrate, Adenosine, Disodium EDTA, Dipotassium Glycyrrhizate, Betaine, Hyaluronic Acid, Ethylhexylglycerin"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-toning-toner",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/skin1004-rozjasniajacy-tonik-do-twarzy-z-wakrota-azjatycka-i-kwasem-hialuronowym-30-ml-000000000000559284.html",
     "name": "SKIN1004 Hyalu-Cica Toner",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Centella Asiatica Leaf Water, Butylene Glycol, Glycerin, 1, 2-Hexanediol, Niacinamide, Water, Betaine, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Hyaluronic Acid, Hibiscus Esculentus Fruit Extract, Xylitol, Polyglyceryl-10 Oleate, Polyglyceryl-10 Myristate, Polyglyceryl-6 Dioleate, Pyrus Communis Fruit Extract, Pentylene Glycol, Polyglyceryl-4 Laurate, Ethylhexylglycerin, Rosa Damascena Flower Water, Adenosine, Cucumis Melo Fruit Extract, Iris Florentina Root Extract, Hedera Helix Leaf/Stem Extract, Sodium Phytate, Methylpropanediol, Xanthan Gum, Citric Acid, Artemisia Princeps Leaf Extract, Caprylic/Capric Triglyceride, Polyglutamic Acid, Hydrogenated Lecithin, Ceramide NP, Capryloyl Salicylic Acid"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-hyalu-cica-brightening-toner",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/skin1004-odzywczy-toner-z-probiotykami-210-ml-000000000000559154.html",
     "name": "SKIN1004 Probio-Cica Toner",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Centella Asiatica Extract, Water, Butylene Glycol, Glycerin, Propanediol, 1, 2-Hexanediol, Lactobacillus/Centella Asiatica Extract Ferment Filtrate, Polyglyceryl-10 Laurate, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Trehalose, Panthenol, Ethylhexylglycerin, Sodium Citrate, Xanthan Gum, Tromethamine, Dipotassium Glycyrrhizate, Caprylic/Capric Triglyceride, Sodium Phytate, Citric Acid, Hydrogenated Lecithin, Polyglyceryl-10 Myristate, Ceramide NP, Sodium Hyaluronate Crosspolymer, Sucrose Distearate, Madecassic Acid, Asiaticoside, Hydrolyzed Glycosaminoglycans, Lauric Acid, Asiatic Acid, Phytosterols, Sodium Hyaluronate, Betaine, Hydroxystearic Acid, Benzyl Glycol, Hydrolyzed Hyaluronic Acid, Macadamia Ternifolia Seed Oil, Hyaluronic Acid, Raspberry Ketone, Phytosphingosine"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-probio-cica-essence-toner",
+    "inciNote": "1 rozbieżności z bazą Sa.Shy — sprawdzić z opakowaniem"
   },
   {
     "url": "https://www.hebe.pl/skin1004-toner-minimalizujacy-widocznosc-porow-210-ml-000000000000559295.html",
     "name": "SKIN1004 Poremizing Toner",
     "brand": "SKIN1004",
-    "inci": []
+    "inci": [
+      "Centella Asiatica Extract, Water, Propanediol, 1, 2-Hexanediol, Glycerin, Hydroxyacetophenone, Betaine, Mineral Salts, Panthenol, Ethylhexylglycerin, Sodium Polyacryloyldimethyl Taurate, Disodium EDTA, Butylene Glycol, Salix Alba Bark Extract, Castanea Crenata Shell Extract, Lavandula Angustifolia Flower Extract, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Allantoin, Citric Acid, Capryloyl Salicylic Acid, Gluconolactone, Sodium Citrate, Salicylic Acid, Glycolic Acid"
+    ],
+    "inciSource": "https://skinsort.com/products/skin-1004/madagascar-centella-poremizing-clear-toner",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/pharmaceris-antybakteryjny-zel-myjacy-do-twarzy-przeciw-niedoskonalosciom-190-ml-000000000000250691.html",
@@ -207,7 +315,11 @@
     "url": "https://www.hebe.pl/pharmaceris-krem-redukujacy-niedoskonalosci-i-zaskorniki-tradzik-mlodzienczy-40-ml-000000000000389535.html",
     "name": "Pharmaceris T Comedo Acne",
     "brand": "Pharmaceris",
-    "inci": []
+    "inci": [
+      "Water, Dicaprylyl Ether, Dibutyl Adipate, Glycerin, Propanediol, Cetyl Alcohol, Polyacrylamide, Silica, Glyceryl Stearate, Potassium Azeloyl Diglycinate, Shikimic Acid, Niacinamide, C13-14 Isoparaffin, Hydroxyacetophenone, PEG-75 Stearate, Ceteth-20, Steareth-20, Laureth-7, Parfum"
+    ],
+    "inciSource": "https://skinsort.com/products/pharmaceris/anti-comedone-cream",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/pharmaceris-zel-myjacy-z-kwasem-hialuronowym-do-twarzy-i-okolic-oczu-190-ml-000000000000257871.html",
@@ -219,7 +331,11 @@
     "url": "https://www.hebe.pl/pharmaceris-lagodzaca-pianka-myjaca-do-twarzy-i-okolic-oczu-150-ml-000000000000225425.html",
     "name": "Pharmaceris Puri-Sensilium",
     "brand": "Pharmaceris",
-    "inci": []
+    "inci": [
+      "Water, Glycerin, Polyglyceryl-4 Caprate, Methyl Gluceth-20, Propanediol, Pentylene Glycol, Poloxamer 188, Betaine, Panthenol, Inulin, Alpha-Glucan Oligosaccharide, Humulus Lupulus Extract, Lactobacillus Ferment Lysate, Hydroxyacetophenone, Sodium Cocoamphoacetate, Sodium Cocoyl Glutamate, Lauryl Glucoside, Sodium Lauryl Glucose Carboxylate, Citric Acid, Sodium Benzoate, Potassium Sorbate"
+    ],
+    "inciSource": "https://skinsort.com/products/pharmaceris/a-puri-sensilium-calming-cleansing-face-foam",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/pharmaceris-dermo-naprawczy-krem-regenerujacy-do-twarzy-i-ciala-dla-doroslych-dzieci-i-niemowlat-75-ml-000000000000389543.html",
@@ -237,7 +353,11 @@
     "url": "https://www.hebe.pl/pharmaceris-kojacy-fizjologiczny-zel-do-mycia-twarzy-i-okolic-oczu-190-ml-000000000000257825.html",
     "name": "Pharmaceris R Puri-Rosalgin",
     "brand": "Pharmaceris",
-    "inci": []
+    "inci": [
+      "Water, Propanediol, Betaine, Cocamidopropyl Betaine, Panthenol, Hydroxyethylcellulose, Sodium Cocoyl Glutamate, Isopentyldiol, Glycerin, Citric Acid, Sodium Phytate, Calcium Gluconate, Agastache Mexicana Flower/Leaf/Stem Extract, Gluconolactone, Sodium Benzoate"
+    ],
+    "inciSource": "https://skinsort.com/products/pharmaceris/puri-rosalgin-soothing-physiological-face-gel-wash",
+    "inciNote": "zweryfikowane z kluczowymi pozycjami z bazy Sa.Shy"
   },
   {
     "url": "https://www.hebe.pl/pharmaceris-multikojacy-krem-spf30-do-twarzy-dla-skory-suchej-normalnej-i-wrazliwej-30-ml-000000000000225424.html",
