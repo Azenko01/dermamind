@@ -12,7 +12,14 @@ function useLang(): Lang {
 }
 
 // AI texts are fetched separately from the card, so the card never waits for them (PLAN.md 6.5).
-const aiQuery = { staleTime: 24 * 60 * 60 * 1000, retry: 0 } as const;
+// A real text is kept for a day; a fallback (no key, no credit, limit, error) is refetched next time
+// the screen opens, so it disappears as soon as the server can answer again.
+const DAY = 24 * 60 * 60 * 1000;
+const aiQuery = {
+  staleTime: (q: { state: { data?: AiText } }) => (q.state.data?.source === 'fallback' ? 0 : DAY),
+  gcTime: DAY,
+  retry: 0,
+} as const;
 
 export function useIngredientExplain(id: number) {
   const lang = useLang();
