@@ -56,6 +56,7 @@ export default function RootLayout() {
           {/* Account first only at the end of the quiz (PLAN.md 6.5): signed-out users see onboarding. */}
           <Stack.Protected guard={signedIn}>
             <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="product/[id]" />
           </Stack.Protected>
           <Stack.Protected guard={!signedIn}>
             <Stack.Screen name="onboarding" />
