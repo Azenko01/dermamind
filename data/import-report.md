@@ -10,6 +10,7 @@ Wygenerowano: 2026-10-14 przez `pnpm import:catalog`. Plik jest nadpisywany przy
 | Produkty | 42 |
 | — z pełnym składem INCI | 30 |
 | — tylko kluczowe składniki (niekompletne) | 12 |
+| — z kodem EAN (`data/barcodes.json`) | 0 |
 | Składniki w bazie | 381 |
 | Usunięte nieużywane składniki z poprzednich importów | 0 |
 | Aliasy (warianty nazw, PL/EN) | 600 |

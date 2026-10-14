@@ -1,4 +1,11 @@
-import { aliasKey, normalizeInciName, splitInci } from '@dermamind/scoring';
+import {
+  aliasKey,
+  inciLookupKeys,
+  isValidEan,
+  normalizeEan,
+  normalizeInciName,
+  splitInci,
+} from '@dermamind/scoring';
 import { CATEGORY_MAP, DICTIONARY, PROBLEM_TO_CONCERN, type DictionaryEntry } from './dictionary';
 import type { SashaDb } from './sasha';
 
@@ -20,6 +27,9 @@ export interface CatalogProduct {
   pricePln: number | null;
   inciRaw: string | null;
   inciComplete: boolean;
+  /** valid EAN from data/barcodes.json, or null */
+  barcode: string | null;
+  barcodeSource: string | null;
   /** canonical INCI names with their position in the full list */
   ingredients: { inci: string; position: number }[];
   /** where the full list came from (data/inci_full.json inciSource) and the filler's note */
@@ -70,7 +80,18 @@ export interface FullInciEntry {
   inciNote?: string | null;
 }
 
-export function buildCatalog(sasha: SashaDb, fullInci: FullInciEntry[]): Catalog {
+export interface BarcodeEntry {
+  url: string;
+  name?: string;
+  ean: string;
+  source?: string;
+}
+
+export function buildCatalog(
+  sasha: SashaDb,
+  fullInci: FullInciEntry[],
+  barcodes: BarcodeEntry[] = [],
+): Catalog {
   const ingredients = new Map<string, CatalogIngredient>();
   const byAlias = new Map<string, string>();
   const aliasConflicts: string[] = [];
@@ -101,8 +122,9 @@ export function buildCatalog(sasha: SashaDb, fullInci: FullInciEntry[]): Catalog
   const unknown = new Map<string, string[]>();
   const resolveName = (raw: string, product: string): string => {
     const inci = normalizeInciName(raw);
-    const hit =
-      byAlias.get(aliasKey(inci)) ?? byAlias.get(aliasKey(inci.replace(/\s*[([].*$/, '')));
+    const hit = inciLookupKeys(inci)
+      .map((k) => byAlias.get(k))
+      .find(Boolean);
     if (hit && !unknown.has(hit)) return hit;
     const key = hit ?? inci;
     if (!ingredients.has(key)) {
@@ -114,6 +136,27 @@ export function buildCatalog(sasha: SashaDb, fullInci: FullInciEntry[]): Catalog
   };
 
   const fullByUrl = new Map(fullInci.map((f) => [f.url, f]));
+
+  // EANs: only valid check digits, each code on one product
+  const barcodeByUrl = new Map<string, { ean: string; source: string | null }>();
+  const seenEan = new Map<string, string>();
+  for (const b of barcodes) {
+    if (!b.ean?.trim()) continue;
+    const ean = normalizeEan(b.ean);
+    if (!isValidEan(ean)) {
+      warnings.push(`Nieprawidłowy EAN „${b.ean}” (${b.name ?? b.url}) — pominięty`);
+      continue;
+    }
+    const other = seenEan.get(ean);
+    if (other) {
+      warnings.push(
+        `EAN ${ean} przypisany dwa razy (${other} i ${b.name ?? b.url}) — pominięty drugi`,
+      );
+      continue;
+    }
+    seenEan.set(ean, b.name ?? b.url);
+    barcodeByUrl.set(b.url, { ean, source: b.source?.trim() || null });
+  }
   const products: CatalogProduct[] = sasha.products.map((p) => {
     const category = CATEGORY_MAP[p.category];
     if (!category) warnings.push(`Nieznana kategoria "${p.category}" (${p.name}) → other`);
@@ -172,6 +215,8 @@ export function buildCatalog(sasha: SashaDb, fullInci: FullInciEntry[]): Catalog
       pricePln: p.price,
       inciRaw: full.length ? full.join(', ') : null,
       inciComplete: full.length > 0,
+      barcode: barcodeByUrl.get(p.url)?.ean ?? null,
+      barcodeSource: barcodeByUrl.get(p.url)?.source ?? null,
       ingredients: list,
     };
   });

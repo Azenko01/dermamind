@@ -100,6 +100,11 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
         const b = await tx.brand.upsert({ where: { name }, create: { name }, update: {} });
         brandIds.set(name, b.id);
       }
+      // free the codes first, so moving an EAN between products doesn't hit the unique index
+      await tx.product.updateMany({
+        where: { sourceUrl: { in: catalog.products.map((p) => p.sourceUrl) } },
+        data: { barcode: null },
+      });
       let productIngredients = 0;
       for (const p of catalog.products) {
         const data = {
@@ -110,6 +115,7 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
           source: 'hebe',
           inciRaw: p.inciRaw,
           inciComplete: p.inciComplete,
+          barcode: p.barcode,
         };
         const row = await tx.product.upsert({
           where: { sourceUrl: p.sourceUrl },

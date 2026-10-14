@@ -18,6 +18,7 @@ export function renderReport(c: Catalog, n: ImportCounts): string {
     `| Produkty | ${n.products} |`,
     `| — z pełnym składem INCI | ${n.products - incomplete.length} |`,
     `| — tylko kluczowe składniki (niekompletne) | ${incomplete.length} |`,
+    `| — z kodem EAN (\`data/barcodes.json\`) | ${c.products.filter((p) => p.barcode).length} |`,
     `| Składniki w bazie | ${n.ingredients} |`,
     `| Usunięte nieużywane składniki z poprzednich importów | ${n.removedIngredients} |`,
     `| Aliasy (warianty nazw, PL/EN) | ${n.aliases} |`,

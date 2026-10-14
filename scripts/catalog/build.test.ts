@@ -140,3 +140,30 @@ describe('verify (full INCI vs Sa.Sha positions)', () => {
     expect(c.products[1]!.verification).toBeNull();
   });
 });
+
+describe('barcodes', () => {
+  it('takes valid EANs only, once each', () => {
+    const c = buildCatalog(
+      sasha,
+      [],
+      [
+        { url: 'https://example.com/a', ean: '590 1234 123457', source: 'opakowanie' },
+        { url: 'https://example.com/b', ean: '5901234123458' },
+      ],
+    );
+    expect(c.products[0]).toMatchObject({ barcode: '5901234123457', barcodeSource: 'opakowanie' });
+    expect(c.products[1]!.barcode).toBeNull();
+    expect(c.warnings[0]).toContain('Nieprawidłowy EAN');
+
+    const dup = buildCatalog(
+      sasha,
+      [],
+      [
+        { url: 'https://example.com/a', ean: '5901234123457' },
+        { url: 'https://example.com/b', ean: '5901234123457' },
+      ],
+    );
+    expect(dup.products[1]!.barcode).toBeNull();
+    expect(dup.warnings[0]).toContain('dwa razy');
+  });
+});
