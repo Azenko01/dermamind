@@ -57,6 +57,15 @@ export default function RootLayout() {
           <Stack.Protected guard={signedIn}>
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="product/[id]" />
+            <Stack.Screen name="ingredient/[id]" />
+            <Stack.Screen
+              name="scan/index"
+              options={{ presentation: 'fullScreenModal', animation: 'fade' }}
+            />
+            <Stack.Screen name="scan/[ean]" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="analyze" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="submit" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="scans" />
           </Stack.Protected>
           <Stack.Protected guard={!signedIn}>
             <Stack.Screen name="onboarding" />

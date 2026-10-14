@@ -1,4 +1,5 @@
 import { SlidersHorizontalIcon, SparkleIcon } from 'phosphor-react-native';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,9 +20,6 @@ const SORT_LABELS: Record<Sort, string> = {
   price_desc: 'Cena: od najwyższej',
   name: 'Nazwa A–Z',
 };
-
-const soon = () =>
-  Alert.alert('Już niedługo', 'Skaner kodów kreskowych pojawi się w kolejnej wersji.');
 
 /** T2 (mockup 06). */
 export function ExploreScreen() {
@@ -51,7 +49,14 @@ export function ExploreScreen() {
 
   const header = (
     <View style={{ gap: spacing.xl }}>
-      <SearchBar value={text} onChangeText={setText} onScan={soon} />
+      <SearchBar value={text} onChangeText={setText} onScan={() => router.push('/scan')} />
+      <View style={[styles.shortcuts, { gap: spacing.xl }]}>
+        <LinkButton
+          title="Analizuj skład ›"
+          color="primary"
+          onPress={() => router.push('/analyze')}
+        />
+      </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -195,5 +200,6 @@ function BrowseSections({
 const styles = StyleSheet.create({
   root: { flex: 1 },
   divider: { width: 1, height: 56, alignSelf: 'center', marginHorizontal: 4, marginBottom: 24 },
+  shortcuts: { flexDirection: 'row' },
   sectionHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
 });
