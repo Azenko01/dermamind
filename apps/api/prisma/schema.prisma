@@ -284,6 +284,7 @@ model User {
 
   profile       Profile?
   refreshTokens RefreshToken[]
+  aiUsage       AiUsage[]
 
   @@map("users")
 }
@@ -490,4 +491,15 @@ model AiCache {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   @@map("ai_cache")
+}
+
+/// AI calls per user per day (Europe/Warsaw), PLAN.md 5.1 limit. Cache hits don't count.
+model AiUsage {
+  userId String   @map("user_id") @db.Uuid
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day    DateTime @db.Date
+  calls  Int      @default(0) @db.SmallInt
+
+  @@id([userId, day])
+  @@map("ai_usage")
 }
