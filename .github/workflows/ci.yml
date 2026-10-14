@@ -28,8 +28,9 @@ jobs:
           --health-interval 5s --health-timeout 3s --health-retries 10
 
     env:
-      # Throwaway CI database, not a secret.
+      # Throwaway CI database and key, not secrets.
       DATABASE_URL: postgresql://dermamind:dermamind@localhost:5432/dermamind?schema=public
+      JWT_SECRET: ci-only-secret-that-is-at-least-32-characters
 
     steps:
       - uses: actions/checkout@v5
@@ -58,6 +59,11 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: API e2e tests (Postgres)
+        run: pnpm --filter @dermamind/api test:e2e
+        env:
+          TEST_DATABASE_URL: postgresql://dermamind:dermamind@localhost:5432/dermamind_test?schema=public
 
       - name: Migrations apply cleanly and match schema.prisma
         working-directory: apps/api
