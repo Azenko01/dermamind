@@ -15,7 +15,7 @@ const config: ExpoConfig = {
   android: {
     package: 'com.dermamind.app',
   },
-  plugins: ['expo-router', 'expo-font', 'expo-splash-screen'],
+  plugins: ['expo-router', 'expo-font', 'expo-splash-screen', 'expo-secure-store'],
   experiments: {
     typedRoutes: true,
   },
