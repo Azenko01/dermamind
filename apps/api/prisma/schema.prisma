@@ -114,24 +114,28 @@ model Brand {
 }
 
 model Product {
-  id          Int                      @id @default(autoincrement())
-  name        String
-  brandId     Int?                     @map("brand_id")
-  brand       Brand?                   @relation(fields: [brandId], references: [id])
-  category    ProductCategory
+  id           Int                      @id @default(autoincrement())
+  name         String
+  brandId      Int?                     @map("brand_id")
+  brand        Brand?                   @relation(fields: [brandId], references: [id])
+  category     ProductCategory
   /// EAN-13 / EAN-8
-  barcode     String?                  @unique
-  imageUrl    String?                  @map("image_url")
-  volumeMl    Decimal?                 @map("volume_ml")
-  pricePln    Decimal?                 @map("price_pln") @db.Decimal(8, 2)
+  barcode      String?                  @unique
+  imageUrl     String?                  @map("image_url")
+  volumeMl     Decimal?                 @map("volume_ml")
+  pricePln     Decimal?                 @map("price_pln") @db.Decimal(8, 2)
   /// 'hebe', 'user_submission', ...
-  source      String?
+  source       String?
   /// ingredient list exactly as printed on the package
-  inciRaw     String?                  @map("inci_raw")
-  isPublished Boolean                  @default(true) @map("is_published")
-  createdAt   DateTime                 @default(now()) @map("created_at") @db.Timestamptz
+  inciRaw      String?                  @map("inci_raw")
+  /// product page the data came from (unique key for the idempotent import)
+  sourceUrl    String?                  @unique @map("source_url")
+  /// false = only key ingredients are known (their positions are real, the rest is missing)
+  inciComplete Boolean                  @default(false) @map("inci_complete")
+  isPublished  Boolean                  @default(true) @map("is_published")
+  createdAt    DateTime                 @default(now()) @map("created_at") @db.Timestamptz
   /// GENERATED ALWAYS AS (to_tsvector('simple', name)) STORED — defined in migration SQL
-  search      Unsupported("tsvector")? @default(dbgenerated("to_tsvector('simple'::regconfig, COALESCE(name, ''::text))"))
+  search       Unsupported("tsvector")? @default(dbgenerated("to_tsvector('simple'::regconfig, COALESCE(name, ''::text))"))
 
   ingredients  ProductIngredient[]
   shelfItems   ShelfItem[]
