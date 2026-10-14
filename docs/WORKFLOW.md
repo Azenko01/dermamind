@@ -42,7 +42,7 @@
 
 - [x] Спринт 0 — фундамент (монорепо, API, база, 5 вкладок) — 14.10.2026
 - [ ] Спринт 0 (залишок) — імпорт даних: покласти SQL Саші і файл Hebe (42 продукти) у `data/`
-- [ ] Спринт 1 — акаунт і анкета (онбординг O1–O22)
+- [x] Спринт 1 — акаунт і анкета (онбординг O1–O22) — 14.10.2026
 - [ ] Спринт 2 — алгоритм і каталог
 - [ ] Спринт 3 — сканер і аналіз складу
 - [ ] Спринт 4 — функції AI
@@ -74,3 +74,10 @@ Ask me before anything that needs real Apple/Google credentials.
 ```
 Add web support to apps/mobile: npx expo install react-native-web react-dom @expo/metro-runtime, so `expo start --web` works. Commit.
 ```
+
+## Do poprawki później (z testów na telefonie)
+
+- [ ] Unikane składniki: zapisywać nazwę INCI (Cocos Nucifera Oil, Lanolin), polską tylko jako podpis — teraz mieszane („Olej kokosowy”, „Lanolina”)
+- [ ] Sprawdzić jasny motyw na telefonie (makiety są jasne; testowane tylko w ciemnym)
+- [ ] „Kontynuuj z Apple / Google” — teraz zaślepki; ukryć albo pokazać komunikat, dopóki nie ma kluczy
+- [ ] Ekran wyniku O14: nagłówek „Twój typ skóry” lekko ucięty pod paskiem postępu przy przewijaniu
