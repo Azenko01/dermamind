@@ -203,6 +203,34 @@ describe('ai (e2e, mocked Claude)', () => {
       expect(create).toHaveBeenCalledTimes(1);
     });
 
+    it('no credit (400) gives the fallback, caches nothing, and works right after a top-up', async () => {
+      const noCredit = new Anthropic.BadRequestError(
+        400,
+        {
+          type: 'error',
+          error: {
+            type: 'invalid_request_error',
+            message: 'Your credit balance is too low to access the Anthropic API.',
+          },
+        },
+        'credit balance too low',
+        new Headers(),
+      );
+      create.mockRejectedValueOnce(noCredit);
+      expect((await explain().expect(200)).body).toMatchObject({
+        source: 'fallback',
+        fallbackReason: 'error',
+      });
+      expect(await prisma.aiCache.count()).toBe(0);
+
+      create.mockResolvedValueOnce(reply(EXPLAIN, goodExplain));
+      expect((await explain().expect(200)).body).toMatchObject({
+        source: 'ai',
+        text: goodExplain.summary,
+      });
+      expect(create).toHaveBeenCalledTimes(2);
+    });
+
     it('404 for an unknown ingredient, 401 without a token, 400 for a bad language', async () => {
       await explain(999999).expect(404);
       await http().get(`/v1/ai/ingredients/${s.niacinamide.id}/explain`).expect(401);

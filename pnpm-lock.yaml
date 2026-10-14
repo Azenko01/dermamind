@@ -387,6 +387,9 @@ importers:
 
   scripts:
     dependencies:
+      '@anthropic-ai/sdk':
+        specifier: ~0.133.0
+        version: 0.133.0(zod@4.6.7)
       '@dermamind/scoring':
         specifier: workspace:*
         version: link:../packages/scoring

@@ -68,9 +68,14 @@ export async function runTool<T>(
         err instanceof Anthropic.RateLimitError ||
         err instanceof Anthropic.InternalServerError ||
         (err instanceof Anthropic.APIError && (err.status ?? 0) >= 500);
-      const status = err instanceof Anthropic.APIError ? err.status : undefined;
+      // API error bodies carry the reason ("credit balance is too low", "model not found") and no
+      // secrets — log them so the cause is visible in the server log; prompts/answers never are.
+      const api = err instanceof Anthropic.APIError ? err : null;
+      const body = api?.error as { error?: { type?: string; message?: string } } | undefined;
       logger.warn(
-        `${label}: ${(err as Error).constructor.name}${status ? ` ${status}` : ''} on attempt ${attempt}`,
+        `${label}: ${(err as Error).constructor.name}${api?.status ? ` ${api.status}` : ''}` +
+          `${body?.error?.type ? ` ${body.error.type}` : ''}${body?.error?.message ? ` "${body.error.message}"` : ''}` +
+          `${api?.requestID ? ` request-id=${api.requestID}` : ''} on attempt ${attempt}`,
       );
       if (!retryable) return { ok: false, reason: 'error' };
     }

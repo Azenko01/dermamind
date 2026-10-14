@@ -6,9 +6,11 @@
   "scripts": {
     "import:catalog": "tsx --conditions=source import-catalog.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "ai:check": "tsx --conditions=source ai-check.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "~0.133.0",
     "@dermamind/scoring": "workspace:*",
     "@prisma/adapter-pg": "7.10.0",
     "pg": "^8.23.1"

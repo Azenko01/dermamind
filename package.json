@@ -13,7 +13,8 @@
     "test": "pnpm -r test",
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
-    "import:catalog": "pnpm --filter @dermamind/scripts import:catalog"
+    "import:catalog": "pnpm --filter @dermamind/scripts import:catalog",
+    "ai:check": "pnpm --filter @dermamind/scripts ai:check"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
