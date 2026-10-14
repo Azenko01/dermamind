@@ -37,4 +37,11 @@ export class AnalyzeResultDto {
 
   @ApiProperty({ type: MatchDetailDto, nullable: true, description: 'null without a skin profile' })
   match!: MatchDetailDto | null;
+
+  @ApiProperty({
+    enum: ['rules', 'ai'],
+    description:
+      'ai = the rule parser left many names unknown and the AI parser read the list better',
+  })
+  parsedBy!: 'rules' | 'ai';
 }
