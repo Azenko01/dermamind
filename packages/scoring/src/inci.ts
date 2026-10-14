@@ -30,7 +30,8 @@ export function aliasKey(name: string): string {
 
 /**
  * Splits an ingredient list as printed on the package into names, in order. Commas inside
- * parentheses don't split ("Parfum (Fragrance, Aroma)"); "Skład:" / "Ingredients:" prefixes,
+ * parentheses ("Parfum (Fragrance, Aroma)") or between digits ("1,2-Hexanediol") don't split;
+ * "Skład:" / "Ingredients:" prefixes,
  * "(and)" and "may contain" tails are dropped.
  */
 export function splitInci(raw: string): string[] {
@@ -42,10 +43,13 @@ export function splitInci(raw: string): string[] {
   const names: string[] = [];
   let depth = 0;
   let current = '';
-  for (const ch of text) {
+  const chars = [...text];
+  for (const [i, ch] of chars.entries()) {
     if (ch === '(' || ch === '[') depth++;
     if (ch === ')' || ch === ']') depth = Math.max(0, depth - 1);
-    if ((ch === ',' || ch === ';' || ch === '•') && depth === 0) {
+    // "1,2-Hexanediol": a comma between digits is part of the name
+    const inNumber = ch === ',' && /\d/.test(chars[i - 1] ?? '') && /\d/.test(chars[i + 1] ?? '');
+    if ((ch === ',' || ch === ';' || ch === '•') && depth === 0 && !inNumber) {
       names.push(current);
       current = '';
     } else {

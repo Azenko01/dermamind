@@ -55,6 +55,15 @@ describe('splitInci', () => {
     ).toEqual(['AQUA', 'CETEARYL ALCOHOL', 'CETEARETH-20', 'GLYCERIN']);
   });
 
+  it('keeps commas between digits inside a name', () => {
+    expect(splitInci('Aqua, 1,2-Hexanediol, Glycerin,1,3-Propanediol')).toEqual([
+      'AQUA',
+      '1,2-HEXANEDIOL',
+      'GLYCERIN',
+      '1,3-PROPANEDIOL',
+    ]);
+  });
+
   it('ignores empty items', () => {
     expect(splitInci('Aqua,, Glycerin, ')).toEqual(['AQUA', 'GLYCERIN']);
   });
