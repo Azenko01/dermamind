@@ -543,3 +543,14 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   osobno od karty (szkielet podczas ładowania). Tekst z AI ma dopisek „Opis wygenerowany przez AI · nie
   jest poradą medyczną”; tekst zastępczy z serwera jest bez dopisku. Błąd sieci przy tekście AI nic nie
   pokazuje — ekran jest kompletny bez niego.
+
+### D-49. Diagnostyka AI i teksty zastępcze w aplikacji
+
+- **Kontekst:** na telefonie oba teksty AI pokazywały tekst zastępczy mimo ustawionego klucza. Przyczyna:
+  brak środków na koncie Anthropic (API odpowiadało `400 invalid_request_error` „credit balance is too
+  low”), a nie kod czy identyfikatory modeli.
+- **Decyzja:** `pnpm ai:check` robi po jednym minimalnym wywołaniu na model tym samym transportem co
+  moduł `ai`, sprawdza modele przez Models API i wypisuje typ błędu, status i request-id — nigdy klucza.
+  Log serwera pokazuje teraz także powód błędu z API. Teksty zastępcze nigdy nie trafiają do `ai_cache`
+  (zapisujemy tylko udane odpowiedzi — jest na to test), a aplikacja nie trzyma ich w swoim cache, więc
+  po naprawie właściwy tekst pojawia się przy następnym otwarciu ekranu.
