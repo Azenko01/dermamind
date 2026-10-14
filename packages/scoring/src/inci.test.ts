@@ -56,6 +56,7 @@ describe('splitInci', () => {
   });
 
   it('keeps commas between digits inside a name', () => {
+    expect(splitInci('Aqua, 1, 2-Hexanediol')).toEqual(['AQUA', '1,2-HEXANEDIOL']);
     expect(splitInci('Aqua, 1,2-Hexanediol, Glycerin,1,3-Propanediol')).toEqual([
       'AQUA',
       '1,2-HEXANEDIOL',

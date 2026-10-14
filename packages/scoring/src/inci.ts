@@ -58,5 +58,13 @@ export function splitInci(raw: string): string[] {
   }
   names.push(current);
 
-  return names.map(normalizeInciName).filter((n) => n.length > 0);
+  // Some shops write "1, 2-Hexanediol" — glue a lone number back onto "2-…".
+  const merged: string[] = [];
+  for (const raw of names.map(normalizeInciName)) {
+    const prev = merged.at(-1);
+    if (prev !== undefined && /^\d+$/.test(prev) && /^\d+-/.test(raw))
+      merged[merged.length - 1] = `${prev},${raw}`;
+    else merged.push(raw);
+  }
+  return merged.filter((n) => n.length > 0);
 }
