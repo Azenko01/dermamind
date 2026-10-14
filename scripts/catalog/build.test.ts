@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildCatalog, verify } from './build';
+import { conflictPairs } from './conflicts';
+import { DICTIONARY } from './dictionary';
 import type { SashaDb } from './sasha';
 
 const sasha: SashaDb = {
@@ -165,5 +167,26 @@ describe('barcodes', () => {
     );
     expect(dup.products[1]!.barcode).toBeNull();
     expect(dup.warnings[0]).toContain('dwa razy');
+  });
+});
+
+describe('conflict rules', () => {
+  it('expands groups into unique pairs that all exist in the dictionary', () => {
+    const known = new Set(DICTIONARY.map((d) => d.inci));
+    const pairs = conflictPairs();
+    expect(pairs.length).toBeGreaterThan(10);
+    for (const p of pairs) {
+      expect(known.has(p.a)).toBe(true);
+      expect(known.has(p.b)).toBe(true);
+      expect(p.a).not.toBe(p.b);
+    }
+    const keys = pairs.map((p) => [p.a, p.b].sort().join('|'));
+    expect(new Set(keys).size).toBe(keys.length);
+    expect(
+      pairs.find((p) => [p.a, p.b].sort().join('|') === 'GLYCOLIC ACID|RETINOL'),
+    ).toMatchObject({
+      severity: 2,
+      noteKey: 'retinoid_exfoliant',
+    });
   });
 });

@@ -25,6 +25,7 @@ export function renderReport(c: Catalog, n: ImportCounts): string {
     `| Powiązania produkt–składnik | ${n.productIngredients} |`,
     `| Wpływy składników na problemy skóry | ${n.effects} |`,
     `| Przypisania do grup unikania | ${n.groupMembers} |`,
+    `| Pary konfliktowych składników (\`catalog/conflicts.ts\`) | ${n.conflicts} |`,
     '',
     '## Nieznane składniki',
     '',

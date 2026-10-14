@@ -303,6 +303,36 @@ const ROWS: Row[] = [
   ['SERINE', ['humectant']],
   ['GLYCINE', ['humectant']],
   ['PROLINE', ['humectant']],
+  // actives used by the conflict rules (catalog/conflicts.ts)
+  [
+    'RETINAL',
+    ['skin_conditioning'],
+    { aliases: ['Retinaldehyde', 'Retinaldehyd'], irritationRisk: 2 },
+  ],
+  [
+    'RETINYL PALMITATE',
+    ['skin_conditioning'],
+    { aliases: ['Palmitynian retinylu'], irritationRisk: 1 },
+  ],
+  [
+    'HYDROXYPINACOLONE RETINOATE',
+    ['skin_conditioning'],
+    { aliases: ['HPR', 'Granactive Retinoid'], irritationRisk: 1 },
+  ],
+  [
+    'ASCORBIC ACID',
+    ['antioxidant', 'brightening'],
+    {
+      aliases: ['L-Ascorbic Acid', 'Kwas askorbinowy', 'Witamina C', 'Vitamin C'],
+      irritationRisk: 1,
+    },
+  ],
+  [
+    'BENZOYL PEROXIDE',
+    ['skin_conditioning'],
+    { aliases: ['Nadtlenek benzoilu', 'BPO'], irritationRisk: 2 },
+  ],
+  ['MANDELIC ACID', ['exfoliant'], { aliases: ['Kwas migdałowy'], irritationRisk: 1 }],
   // peptides
   ['COPPER TRIPEPTIDE-1', ['peptide'], { aliases: ['GHK-Cu', 'Peptyd miedziowy'] }],
   ['PALMITOYL TRIPEPTIDE-1', ['peptide']],

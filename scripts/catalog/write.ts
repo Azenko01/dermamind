@@ -1,5 +1,6 @@
 import type { PrismaClient } from '../../apps/api/src/generated/prisma/client';
 import type { Catalog } from './build';
+import { conflictPairs } from './conflicts';
 
 export interface ImportCounts {
   removedIngredients: number;
@@ -10,6 +11,7 @@ export interface ImportCounts {
   productIngredients: number;
   effects: number;
   groupMembers: number;
+  conflicts: number;
 }
 
 const GROUP_FLAGS = {
@@ -94,6 +96,19 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
         });
       }
 
+      // conflicts, rebuilt from catalog/conflicts.ts every time (a_id < b_id, CHECK in SQL)
+      await tx.ingredientConflict.deleteMany({});
+      const conflictRows = conflictPairs().map((c) => {
+        const [x, y] = [id(c.a), id(c.b)];
+        return {
+          aId: Math.min(x, y),
+          bId: Math.max(x, y),
+          severity: c.severity,
+          noteKey: c.noteKey,
+        };
+      });
+      await tx.ingredientConflict.createMany({ data: conflictRows });
+
       // brands + products + their ingredient lists
       const brandIds = new Map<string, number>();
       for (const name of new Set(catalog.products.map((p) => p.brand))) {
@@ -152,6 +167,7 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
         productIngredients,
         effects: catalog.effects.length,
         groupMembers,
+        conflicts: conflictRows.length,
       };
     },
     { timeout: 120_000 },
