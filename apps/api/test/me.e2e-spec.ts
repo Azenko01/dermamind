@@ -32,7 +32,7 @@ describe('me (e2e)', () => {
       data: {
         inciName: 'ALCOHOL',
         displayName: 'Alcohol',
-        aliases: { create: { alias: 'alcoholdenat.' } },
+        aliases: { create: { alias: 'alcoholdenat' } },
       },
     });
 
