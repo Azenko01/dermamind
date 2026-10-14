@@ -10,6 +10,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { syncPendingQuiz } from '@/features/auth/actions';
 import { queryClient } from '@/lib/queryClient';
 import { useSession } from '@/stores/session';
 import { useTheme } from '@/theme';
@@ -30,6 +31,10 @@ export default function RootLayout() {
   useEffect(() => {
     void hydrate();
   }, [hydrate]);
+
+  useEffect(() => {
+    if (status === 'signedIn') void syncPendingQuiz();
+  }, [status]);
 
   const ready = fontsLoaded && status !== 'loading';
   useEffect(() => {

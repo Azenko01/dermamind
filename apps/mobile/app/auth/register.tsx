@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { PrimaryButton } from '@/components/ui/Button';
+import { LinkButton, PrimaryButton } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import { TextField } from '@/components/ui/TextField';
 import { registerWithEmail } from '@/features/auth/actions';
@@ -78,6 +78,15 @@ export default function RegisterScreen() {
           disabled={!emailOk || !passwordOk}
           loading={busy}
         />
+        {isGuest ? null : (
+          <View style={{ alignItems: 'center' }}>
+            <LinkButton
+              title="Mam już konto — zaloguj się"
+              color="textSecondary"
+              onPress={() => router.replace('/auth/login')}
+            />
+          </View>
+        )}
       </View>
     </AuthForm>
   );

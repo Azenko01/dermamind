@@ -7,18 +7,24 @@ import { useSession } from '@/stores/session';
 export type Result = { ok: true } | { ok: false; message: string };
 
 /**
- * After sign-up / sign-in: store tokens, send the local quiz answers (if the quiz was finished on this
- * device), then enter the app. The quiz is kept locally if sending fails, so nothing is lost.
+ * Sends quiz answers finished on this device but not yet saved on the account. Called right after
+ * sign-in and again on every app start, so a failed request (e.g. no signal in the shop) isn't lost.
  */
+export async function syncPendingQuiz(): Promise<boolean> {
+  const answers = completeAnswers(useQuiz.getState().answers);
+  if (!answers || !useSession.getState().session) return true;
+  const { error } = await api.PUT('/v1/me/quiz', { body: answers }).catch(() => ({ error: true }));
+  if (error) return false;
+  useQuiz.getState().reset();
+  await queryClient.invalidateQueries({ queryKey: ['me'] });
+  return true;
+}
+
+/** After sign-up / sign-in: store tokens, try to send the local quiz, enter the app. */
 async function finish(tokens: AuthTokens): Promise<Result> {
   await useSession.getState().saveTokens(tokens);
-  const answers = completeAnswers(useQuiz.getState().answers);
-  if (answers) {
-    const { error, response } = await api.PUT('/v1/me/quiz', { body: answers });
-    if (error) return { ok: false, message: errorText(response.status) };
-    useQuiz.getState().reset();
-  }
   queryClient.clear();
+  await syncPendingQuiz(); // on failure the answers stay on the device and go out on next start
   useSession.getState().enterApp();
   return { ok: true };
 }

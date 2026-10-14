@@ -53,7 +53,12 @@ export function ProfileScreen() {
         </Card>
 
         <Card padded={false}>
-          <MenuRow icon={SignOutIcon} label="Wyloguj" tone="bad" onPress={confirmSignOut} />
+          <MenuRow
+            icon={SignOutIcon}
+            label="Wyloguj"
+            tone="bad"
+            onPress={() => confirmSignOut(me.data?.isGuest ?? false)}
+          />
           <MenuRow
             icon={TrashIcon}
             label="Usuń konto i dane"
@@ -224,8 +229,11 @@ function MenuRow(props: {
   );
 }
 
-function confirmSignOut() {
-  Alert.alert('Wylogować się?', 'Konto gościa po wylogowaniu nie da się odzyskać.', [
+function confirmSignOut(isGuest: boolean) {
+  const message = isGuest
+    ? 'Konta gościa nie da się potem odzyskać. Zapisz profil na koncie, jeśli chcesz zachować dane.'
+    : undefined;
+  Alert.alert('Wylogować się?', message, [
     { text: 'Anuluj', style: 'cancel' },
     { text: 'Wyloguj', style: 'destructive', onPress: () => void signOut() },
   ]);
