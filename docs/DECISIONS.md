@@ -365,3 +365,37 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
 - Uzupełnienie `ingredient_effects` dla 80 najczęstszych składników — to zadanie dla kosmetologa,
   nie dla kodu; dziś mamy 35 efektów z bazy Sa.Shy.
 - Alternatywy na karcie produktu, zdjęcia produktów, filtr budżetu i `must_haves` w rankingu.
+
+---
+
+## Sprint 2 — pełne składy (14.10.2026)
+
+### D-36. Skąd mamy pełne składy INCI i jak je sprawdzamy
+
+- **Decyzja:** pełne składy 30 z 42 produktów zostały skopiowane ręcznie z kart produktów w SkinSort (27)
+  i Notino (3). Źródło każdego składu jest w `data/inci_full.json` (`inciSource`), obok notatka osoby,
+  która go wpisała (`inciNote`). 12 produktów nadal ma tylko kluczowe składniki z bazy Sa.Shy.
+- **Dlaczego nie Hebe:** dane Sa.Shy pochodzą z Hebe, ale `robots.txt` hebe.pl blokuje boty AI
+  (D-27). Nie omijaliśmy tego, tylko sięgnęliśmy do innych, publicznie dostępnych stron.
+- **Weryfikacja:** Sa.Sha zapisała prawdziwe pozycje kluczowych składników (z Hebe), więc import
+  porównuje z nimi każdy pełny skład i wpisuje wynik do `data/import-report.md`:
+  - **zgodny** — wszystkie kluczowe składniki na tych samych pozycjach (7);
+  - **przesunięty** — ta sama kolejność, przesunięcie o najwyżej 2 (inny sklep podaje o składnik więcej
+    lub mniej, np. „Aqua” rozbite na dwie pozycje) (10);
+  - **rozbieżny** — składnika brak, inna kolejność albo większe przesunięcie (13). Najczęściej SKIN1004,
+    gdzie w Hebe pierwszym składnikiem jest Centella Asiatica Extract, a w SkinSort woda — to wygląda
+    na inną wersję receptury. Te produkty trzeba sprawdzić z opakowaniem.
+  Automatyczna ocena różni się w kilku przypadkach od ręcznych notatek (np. przesunięcie o 3 pozycje
+  ręcznie uznane za zgodne), dlatego raport pokazuje obie.
+- **Dlaczego importujemy także rozbieżne:** pełny skład z innej wersji receptury jest bliżej prawdy niż
+  4–9 kluczowych składników. Raport mówi, co sprawdzić; po poprawce wystarczy ponowny import.
+- **Słownik:** 275 nowych składników z tych list dopisaliśmy do `scripts/catalog/dictionary-extra.ts` —
+  funkcje według CosIng, aliasy (także polskie: „Mocznik”, „Kwas traneksamowy”, „Olej z awokado”…)
+  i flagi tylko tam, gdzie wynikają z nazwy: silikony, siarczany (Sodium Cetearyl Sulfate), oleje
+  roślinne, olejki eteryczne jako zapachy (CosIng: *perfuming*), estry kwasów tłuszczowych C12–C22
+  jako wyzwalacze trądziku grzybiczego (ta sama reguła co w D-28). Wpływów na problemy skóry ani
+  komedogenności nie dopisywaliśmy — to wymaga kosmetologa.
+- **Poprawki przy okazji:** parser dzielił „1,2-Hexanediol” (i „1, 2-Hexanediol” ze spacją) na dwa
+  składniki; import usuwa teraz składniki z poprzednich przebiegów, których nic już nie używa.
+- **Alternatywy:** brać tylko produkty zgodne z Sa.Shą (straciliśmy by 13 składów), uznać jedno źródło
+  za wzorzec bez porównania (nie wiedzielibyśmy o różnicach recept).
