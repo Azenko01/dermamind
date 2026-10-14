@@ -372,21 +372,27 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
 
 ### D-36. Skąd mamy pełne składy INCI i jak je sprawdzamy
 
-- **Decyzja:** pełne składy 30 z 42 produktów zostały skopiowane ręcznie z kart produktów w SkinSort (27)
-  i Notino (3). Źródło każdego składu jest w `data/inci_full.json` (`inciSource`), obok notatka osoby,
-  która go wpisała (`inciNote`). 12 produktów nadal ma tylko kluczowe składniki z bazy Sa.Shy.
-- **Dlaczego nie Hebe:** dane Sa.Shy pochodzą z Hebe, ale `robots.txt` hebe.pl blokuje boty AI
-  (D-27). Nie omijaliśmy tego, tylko sięgnęliśmy do innych, publicznie dostępnych stron.
-- **Weryfikacja:** Sa.Sha zapisała prawdziwe pozycje kluczowych składników (z Hebe), więc import
-  porównuje z nimi każdy pełny skład i wpisuje wynik do `data/import-report.md`:
+- **Decyzja:** pełne składy 30 z 42 produktów zebrał asystent Claude (w czacie, na prośbę zespołu)
+  z publicznych kart produktów w SkinSort (27) i Notino (3). Adres źródła każdego składu jest
+  w `data/inci_full.json` (`inciSource`). Pozostałe 12 produktów zespół uzupełni ręcznie; do tego czasu
+  mają tylko kluczowe składniki z bazy Sa.Shy.
+- **Dlaczego nie Hebe:** dane Sa.Shy pochodzą z Hebe, ale `robots.txt` hebe.pl blokuje boty AI na całej
+  domenie (D-27). SkinSort blokuje tylko `ClaudeBot` (zbieranie danych do trenowania), a narzędzia
+  działające na prośbę użytkownika (`Claude-User`) wprost kieruje do ogólnych reguł, które karty
+  produktów dopuszczają. Notino nie ma osobnych reguł dla AI. Zbieranie składów w czacie mieści się
+  więc w zasadach obu stron.
+- **Weryfikacja:** Sa.Sha zapisała prawdziwe pozycje kluczowych składników (z Hebe), więc każdy pełny
+  skład porównujemy z nimi. Pole `inciNote` w `data/inci_full.json` to wynik takiego porównania
+  zrobionego przez asystenta przy zbieraniu danych. Import robi je jeszcze raz sam i zapisuje wynik
+  do `data/import-report.md`:
   - **zgodny** — wszystkie kluczowe składniki na tych samych pozycjach (7);
   - **przesunięty** — ta sama kolejność, przesunięcie o najwyżej 2 (lista w innym sklepie ma składnik
-    więcej lub mniej przed kluczowymi) (10);
-  - **rozbieżny** — składnika brak, inna kolejność albo większe przesunięcie (13). Najczęściej SKIN1004:
+    więcej lub mniej przed kluczowymi) (11);
+  - **rozbieżny** — składnika brak, inna kolejność albo większe przesunięcie (12). Najczęściej SKIN1004:
     według bazy Sa.Shy pierwszym składnikiem jest Centella Asiatica Extract, a w SkinSort woda — to
     wygląda na inną wersję receptury. Te produkty trzeba sprawdzić z opakowaniem.
-  Automatyczna ocena różni się w kilku przypadkach od ręcznych notatek (np. przesunięcie o 3 pozycje
-  ręcznie uznane za zgodne), dlatego raport pokazuje obie.
+  Oba porównania różnią się w kilku przypadkach (np. przesunięcie o 3 pozycje w `inciNote` uznane za
+  zgodne), dlatego raport pokazuje oba.
 - **Dlaczego importujemy także rozbieżne:** pełny skład z innej wersji receptury jest bliżej prawdy niż
   4–9 kluczowych składników. Raport mówi, co sprawdzić; po poprawce wystarczy ponowny import.
 - **Słownik:** 275 nowych składników z tych list dopisaliśmy do `scripts/catalog/dictionary-extra.ts` —
@@ -397,5 +403,5 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   komedogenności nie dopisywaliśmy — to wymaga kosmetologa.
 - **Poprawki przy okazji:** parser dzielił „1,2-Hexanediol” (i „1, 2-Hexanediol” ze spacją) na dwa
   składniki; import usuwa teraz składniki z poprzednich przebiegów, których nic już nie używa.
-- **Alternatywy:** brać tylko produkty zgodne z Sa.Shą (straciliśmy by 13 składów), uznać jedno źródło
+- **Alternatywy:** brać tylko produkty zgodne lub przesunięte względem Sa.Shy (stracilibyśmy 12 składów), uznać jedno źródło
   za wzorzec bez porównania (nie wiedzielibyśmy o różnicach recept).
