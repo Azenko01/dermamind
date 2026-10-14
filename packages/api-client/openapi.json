@@ -1,0 +1,951 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/health": {
+      "get": {
+        "operationId": "HealthController_check_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "API and database are up"
+          },
+          "503": {
+            "description": "Database is unreachable"
+          }
+        },
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/v1/app-config": {
+      "get": {
+        "operationId": "AppConfigController_get_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppConfigDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app-config"
+        ]
+      }
+    },
+    "/v1/auth/guest": {
+      "post": {
+        "operationId": "AuthController_guest_v1",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit per IP"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/register": {
+      "post": {
+        "operationId": "AuthController_register_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "E-mail taken, or caller already has an account"
+          },
+          "429": {
+            "description": "Rate limit per IP"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong e-mail or password"
+          },
+          "429": {
+            "description": "Rate limit per IP"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unknown, expired or already used refresh token"
+          },
+          "429": {
+            "description": "Rate limit per IP"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "429": {
+            "description": "Rate limit per IP"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/password/reset": {
+      "post": {
+        "operationId": "AuthController_passwordReset_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Same answer whether or not the e-mail exists"
+          },
+          "429": {
+            "description": "Rate limit per IP"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/apple": {
+      "post": {
+        "operationId": "AuthController_apple_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppleSignInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "429": {
+            "description": "Rate limit per IP"
+          },
+          "501": {
+            "description": "Until Apple credentials are configured"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/google": {
+      "post": {
+        "operationId": "AuthController_google_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoogleSignInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "429": {
+            "description": "Rate limit per IP"
+          },
+          "501": {
+            "description": "Until Google credentials are configured"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "operationId": "MeController_get_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      },
+      "delete": {
+        "operationId": "MeController_delete_v1",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Account and all its data deleted"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
+    "/v1/me/quiz": {
+      "put": {
+        "operationId": "MeController_saveQuiz_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizAnswersDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile with skin type, barrier and sensitivity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "DermaMind API",
+    "description": "REST API for the DermaMind mobile app",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "FeatureFlagsDto": {
+        "type": "object",
+        "properties": {
+          "ai": {
+            "type": "boolean",
+            "description": "AI texts and routine generator (Sprint 4)"
+          },
+          "scanner": {
+            "type": "boolean",
+            "description": "Barcode scanner (Sprint 3)"
+          }
+        },
+        "required": [
+          "ai",
+          "scanner"
+        ]
+      },
+      "AppConfigDto": {
+        "type": "object",
+        "properties": {
+          "minAppVersion": {
+            "type": "string",
+            "example": "0.1.0",
+            "description": "Older app builds must show the update screen"
+          },
+          "latestAppVersion": {
+            "type": "string",
+            "example": "0.1.0"
+          },
+          "features": {
+            "$ref": "#/components/schemas/FeatureFlagsDto"
+          }
+        },
+        "required": [
+          "minAppVersion",
+          "latestAppVersion",
+          "features"
+        ]
+      },
+      "AuthUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "isGuest": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "isGuest"
+        ]
+      },
+      "AuthTokensDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "JWT, valid 15 minutes"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Opaque, valid 30 days, single use (rotated on refresh)"
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Access token lifetime in seconds",
+            "example": 900
+          },
+          "user": {
+            "$ref": "#/components/schemas/AuthUserDto"
+          }
+        },
+        "required": [
+          "accessToken",
+          "refreshToken",
+          "expiresIn",
+          "user"
+        ]
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ola@example.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Ola"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ola@example.com"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "RefreshDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "PasswordResetDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ola@example.com"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "AppleSignInDto": {
+        "type": "object",
+        "properties": {
+          "identityToken": {
+            "type": "string",
+            "description": "identityToken from expo-apple-authentication"
+          }
+        },
+        "required": [
+          "identityToken"
+        ]
+      },
+      "GoogleSignInDto": {
+        "type": "object",
+        "properties": {
+          "idToken": {
+            "type": "string",
+            "description": "ID token from Google Sign-In"
+          }
+        },
+        "required": [
+          "idToken"
+        ]
+      },
+      "ShineDto": {
+        "type": "object",
+        "properties": {
+          "tZone": {
+            "type": "string",
+            "enum": [
+              "very",
+              "slightly",
+              "none",
+              "dry"
+            ],
+            "description": "Forehead and nose"
+          },
+          "cheeks": {
+            "type": "string",
+            "enum": [
+              "very",
+              "slightly",
+              "none",
+              "dry"
+            ]
+          },
+          "jaw": {
+            "type": "string",
+            "enum": [
+              "very",
+              "slightly",
+              "none",
+              "dry"
+            ],
+            "description": "Chin and jaw"
+          }
+        },
+        "required": [
+          "tZone",
+          "cheeks",
+          "jaw"
+        ]
+      },
+      "QuizAnswersDto": {
+        "type": "object",
+        "properties": {
+          "struggle": {
+            "type": "string",
+            "enum": [
+              "irritation",
+              "no_results",
+              "too_many_products",
+              "want_routine"
+            ]
+          },
+          "concerns": {
+            "type": "array",
+            "description": "First = main concern",
+            "items": {
+              "type": "string",
+              "enum": [
+                "breakouts",
+                "oiliness",
+                "pores",
+                "texture",
+                "dark_spots",
+                "radiance",
+                "redness",
+                "rosacea_prone",
+                "eczema_prone",
+                "hydration",
+                "wrinkles"
+              ]
+            }
+          },
+          "shine": {
+            "$ref": "#/components/schemas/ShineDto"
+          },
+          "afterWash": {
+            "type": "string",
+            "enum": [
+              "tight",
+              "comfortable",
+              "shiny"
+            ]
+          },
+          "symptoms": {
+            "type": "array",
+            "description": "Empty = none",
+            "items": {
+              "type": "string",
+              "enum": [
+                "flaking",
+                "roughness",
+                "tightness",
+                "dullness",
+                "cracking"
+              ]
+            }
+          },
+          "reactionFrequency": {
+            "type": "string",
+            "enum": [
+              "never",
+              "rarely",
+              "sometimes",
+              "often"
+            ]
+          },
+          "triggers": {
+            "type": "array",
+            "description": "Empty = none",
+            "items": {
+              "type": "string",
+              "enum": [
+                "cosmetics",
+                "temperature",
+                "wind",
+                "hard_water",
+                "sun",
+                "stress"
+              ]
+            }
+          },
+          "seasonal": {
+            "type": "string",
+            "enum": [
+              "oilier_in_summer",
+              "drier_in_winter",
+              "both",
+              "no_change"
+            ]
+          },
+          "avoidGroups": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "fragrance",
+                "drying_alcohol",
+                "fungal_acne",
+                "parabens",
+                "sulfates",
+                "silicones",
+                "eu_allergens"
+              ]
+            }
+          },
+          "avoidIngredients": {
+            "example": [
+              "LIMONENE",
+              "ALCOHOL DENAT."
+            ],
+            "description": "INCI names",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mustHaves": {
+            "type": "array",
+            "description": "Empty = no requirements",
+            "items": {
+              "type": "string",
+              "enum": [
+                "vegan",
+                "cruelty_free",
+                "reef_safe"
+              ]
+            }
+          },
+          "usesSpf": {
+            "type": "string",
+            "enum": [
+              "daily",
+              "sometimes",
+              "rarely"
+            ]
+          },
+          "budget": {
+            "type": "string",
+            "enum": [
+              "lt30",
+              "30_70",
+              "70_150",
+              "gt150"
+            ]
+          }
+        },
+        "required": [
+          "struggle",
+          "concerns",
+          "shine",
+          "afterWash",
+          "symptoms",
+          "reactionFrequency",
+          "triggers",
+          "seasonal",
+          "avoidGroups",
+          "avoidIngredients",
+          "mustHaves",
+          "usesSpf",
+          "budget"
+        ]
+      },
+      "ProfileDto": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "locale": {
+            "type": "string",
+            "example": "pl"
+          },
+          "skinType": {
+            "type": "string",
+            "enum": [
+              "dry",
+              "oily",
+              "combination",
+              "normal"
+            ],
+            "nullable": true
+          },
+          "oilLevel": {
+            "type": "number",
+            "nullable": true,
+            "minimum": -3,
+            "maximum": 3
+          },
+          "barrierLevel": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 3
+          },
+          "sensitivityLevel": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 0,
+            "maximum": 4
+          },
+          "isSensitive": {
+            "type": "boolean"
+          },
+          "concerns": {
+            "type": "array",
+            "description": "Ordered by priority",
+            "items": {
+              "type": "string",
+              "enum": [
+                "breakouts",
+                "oiliness",
+                "pores",
+                "texture",
+                "dark_spots",
+                "radiance",
+                "redness",
+                "rosacea_prone",
+                "eczema_prone",
+                "hydration",
+                "wrinkles"
+              ]
+            }
+          },
+          "avoidGroups": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "fragrance",
+                "drying_alcohol",
+                "fungal_acne",
+                "parabens",
+                "sulfates",
+                "silicones",
+                "eu_allergens"
+              ]
+            }
+          },
+          "avoidIngredients": {
+            "description": "INCI names as entered in the quiz",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mustHaves": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "vegan",
+                "cruelty_free",
+                "reef_safe"
+              ]
+            }
+          },
+          "usesSpf": {
+            "type": "string",
+            "enum": [
+              "daily",
+              "sometimes",
+              "rarely"
+            ],
+            "nullable": true
+          },
+          "budget": {
+            "type": "string",
+            "enum": [
+              "lt30",
+              "30_70",
+              "70_150",
+              "gt150"
+            ],
+            "nullable": true
+          },
+          "quizAnswers": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/QuizAnswersDto"
+              }
+            ]
+          },
+          "onboardedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "displayName",
+          "locale",
+          "skinType",
+          "oilLevel",
+          "barrierLevel",
+          "sensitivityLevel",
+          "isSensitive",
+          "concerns",
+          "avoidGroups",
+          "avoidIngredients",
+          "mustHaves",
+          "usesSpf",
+          "budget",
+          "quizAnswers",
+          "onboardedAt"
+        ]
+      },
+      "MeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "isGuest": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/ProfileDto"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "isGuest",
+          "createdAt",
+          "profile"
+        ]
+      }
+    }
+  }
+}

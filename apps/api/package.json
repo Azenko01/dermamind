@@ -16,7 +16,8 @@
     "postinstall": "prisma generate",
     "prebuild": "pnpm --filter @dermamind/scoring build",
     "predev": "pnpm --filter @dermamind/scoring build",
-    "test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config test/jest-e2e.config.js"
+    "test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config test/jest-e2e.config.js",
+    "openapi": "pnpm build && node dist/openapi.js"
   },
   "dependencies": {
     "@dermamind/scoring": "workspace:*",

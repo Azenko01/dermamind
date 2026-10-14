@@ -65,6 +65,11 @@ jobs:
         env:
           TEST_DATABASE_URL: postgresql://dermamind:dermamind@localhost:5432/dermamind_test?schema=public
 
+      - name: API client matches the API (OpenAPI contract)
+        run: |
+          pnpm --filter @dermamind/api-client generate
+          git diff --exit-code -- packages/api-client
+
       - name: Migrations apply cleanly and match schema.prisma
         working-directory: apps/api
         run: |

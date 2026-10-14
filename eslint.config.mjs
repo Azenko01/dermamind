@@ -14,6 +14,7 @@ export default tseslint.config(
       '**/.expo/**',
       '**/generated/**',
       'apps/mobile/expo-env.d.ts',
+      'packages/api-client/src/schema.d.ts',
     ],
   },
   js.configs.recommended,

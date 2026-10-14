@@ -1,0 +1,17 @@
+{
+  "name": "@dermamind/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Types generated from the API's OpenAPI document. Never edit src/schema.d.ts by hand.",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "pnpm --filter @dermamind/api openapi && openapi-typescript openapi.json -o src/schema.d.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.13.0"
+  }
+}
