@@ -372,7 +372,6 @@ export interface components {
             createdAt: string;
             profile: components["schemas"]["ProfileDto"];
         };
-        Object: Record<string, never>;
         MatchSummaryDto: {
             score: number;
             /**
@@ -904,8 +903,8 @@ export interface operations {
                 category?: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
                 /** @description Default: score for users with a skin profile, otherwise name */
                 sort?: "score" | "name" | "price_asc" | "price_desc";
-                page?: components["schemas"]["Object"];
-                pageSize?: components["schemas"]["Object"];
+                page?: number;
+                pageSize?: number;
             };
             header?: never;
             path?: never;
