@@ -7,3 +7,4 @@ CLAUDE.md
 packages/api-client/openapi.json
 packages/api-client/src/schema.d.ts
 apps/mobile/expo-env.d.ts
+data/
