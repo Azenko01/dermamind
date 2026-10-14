@@ -36,4 +36,6 @@ pnpm --filter @dermamind/mobile start
 
 ```sh
 pnpm lint && pnpm format:check && pnpm typecheck && pnpm test
+pnpm --filter @dermamind/api test:e2e          # needs `pnpm db:up`, uses its own dermamind_test DB
+pnpm --filter @dermamind/api-client generate   # after changing API DTOs/endpoints
 ```
