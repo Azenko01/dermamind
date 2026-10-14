@@ -554,3 +554,75 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   Log serwera pokazuje teraz także powód błędu z API. Teksty zastępcze nigdy nie trafiają do `ai_cache`
   (zapisujemy tylko udane odpowiedzi — jest na to test), a aplikacja nie trzyma ich w swoim cache, więc
   po naprawie właściwy tekst pojawia się przy następnym otwarciu ekranu.
+
+---
+
+## Sprint 5 (15.10.2026)
+
+### D-50. Konflikty składników — mały, ostrożny zestaw
+
+- **Decyzja:** `ingredient_conflicts` wypełnia import z reguł w `scripts/catalog/conflicts.ts` (30 par):
+  - retinoidy (Retinol, Retinal, Retinyl Palmitate, Hydroxypinacolone Retinoate) × AHA (glikolowy,
+    mlekowy, migdałowy) / BHA (salicylowy) — **2, nie łączyć**: oba działają złuszczająco i drażniąco,
+    razem częściej dają podrażnienie i osłabienie bariery;
+  - retinoidy × nadtlenek benzoilu — **2**: nadtlenek utlenia część retinoidów (opisane dla tretynoiny)
+    i oba mocno wysuszają;
+  - witamina C (tylko L-Ascorbic Acid, nie łagodniejsze pochodne) × AHA/BHA — **1, uwaga**: kwas
+    askorbinowy działa przy niskim pH, z kwasami złuszczającymi częściej szczypie i podrażnia;
+  - AHA × inne AHA/BHA — **1**: podwójne złuszczanie.
+  Kwas cytrynowy (zwykle regulator pH) i PHA (glukonolakton, kwas laktobionowy) świadomie pominięte.
+- **Jak liczymy:** konflikt to para składników w **różnych** produktach tej samej pory dnia (w jednym
+  produkcie odpowiada za to formulacja). Liczą się tylko składniki do 15. pozycji w składzie —
+  ostrożne przybliżenie „stężenia aktywnego”; wolimy przeoczyć słaby przypadek niż straszyć fałszywym.
+- **Źródła (do sprawdzenia z kosmetologiem i uzupełnienia o dokładne dane bibliograficzne przed
+  obroną):** zalecenia American Academy of Dermatology dotyczące retinoidów i bezpiecznego złuszczania
+  w domu; Martin B. i in., stabilność adapalenu i tretynoiny z nadtlenkiem benzoilu, Br J Dermatol
+  1998; Pinnell S. R. i in., wchłanianie miejscowego kwasu L-askorbinowego a pH, Dermatol Surg 2001.
+  Teksty dla użytkownika (po polsku) są w aplikacji pod kluczami `note_key`.
+- **Alternatywy:** szeroka lista „mitów o łączeniu” z internetu — zbyt wiele fałszywych alarmów.
+
+### D-51. Rutyna i jej wynik
+
+- **Decyzja:** jedna rutyna na porę dnia (`UNIQUE (user_id, time_of_day)`), stałe kroki: rano
+  oczyszczanie, tonizowanie, serum, nawilżanie, SPF; wieczorem bez SPF. Każdy krok przyjmuje tylko
+  pasujące kategorie (`STEP_CATEGORIES` w `@dermamind/scoring`, np. SPF tylko `sunscreen`), jeden
+  produkt w jednym kroku. Wynik rutyny = średnia Match Score produktów − 10 za każdy konflikt − 10,
+  gdy rano są produkty, ale nie ma filtra (plan 4). Liczy to `computeRoutineScore` (testy Vitest).
+- **Dlaczego stałe kroki:** prosty model danych i interfejsu (numerowane sloty z makiety), a generator
+  ma jasne miejsce na każdy produkt. Własne kroki — po MVP.
+
+### D-52. Generator rutyny
+
+- **Decyzja:** `POST /v1/me/routines/generate` (plan 5.2): kandydaci z reguł — pasująca kategoria,
+  bez wykluczeń i bez półki „Unikam”, wynik ≥ 50, top 3 na krok. Gdy AI jest dostępne, `ai-routine`
+  (model SMART) wybiera po jednym produkcie i pisze wyjaśnienie; wybór jest odrzucany, jeśli
+  zawiera produkt spoza kandydatów, pomija krok z kandydatami, używa produktu dwa razy w jednej porze
+  albo tworzy konflikt. Wtedy — i zawsze bez klucza / bez środków / po limicie — działa wybór regułowy:
+  w każdym kroku najlepszy kandydat, który nie dokłada konfliktu (jeśli każdy dokłada — najlepszy,
+  a konflikt widać w wyniku). Tekst do rutyny regułowej i formułka o konsultacji z dermatologiem są
+  stałe, z aplikacji, nie z modelu. Odpowiedź mówi, kto ułożył rutynę i dlaczego nie AI
+  (`fallbackReason`). Ręczna zmiana później czyści znacznik „wygenerowana” i opis.
+- **Dlaczego „najlepszy bez konfliktu” zamiast czystego top 1:** plan mówi „top 1 z SQL”, ale top 1
+  potrafi sam stworzyć konflikt (retinol + tonik z kwasem), a aplikacja nie powinna go proponować.
+
+### D-53. Półki
+
+- **Decyzja:** `GET/POST/DELETE /v1/me/shelves` dla trzech półek systemowych (Mam, Lubię, Unikam),
+  tworzonych przy rejestracji i odtwarzanych, gdyby ich brakowało. „Lubię” i „Unikam” wykluczają się
+  nawzajem. Produkt z „Unikam” jest traktowany jak produkt z unikanym składnikiem: status „Nie pasuje”,
+  wynik ≤ 40, nie trafia do kandydatów rutyny; karta produktu mówi dlaczego (`avoidedByUser`).
+  Własne półki — po MVP.
+
+### D-54. Dziś: samopoczucie skóry i odhaczanie rutyny
+
+- **Decyzja:** `GET /v1/me/today`, `PUT /v1/me/today/mood` (1–5) i `PUT /v1/me/today/routine/:time`
+  (pozycje zrobionych kroków). „Dziś” to data w strefie Europe/Warsaw, niezależnie od strefy serwera.
+  Tydzień pon.–niedz. z zaznaczonymi dniami, w których zapisano samopoczucie. Aplikacja pokazuje rano
+  (do 15:00) poranną, potem wieczorną rutynę.
+
+### D-55. Ekrany Dziś, Rutyna, Półka i przyciski na karcie produktu
+
+- **Decyzja:** T1, T3 i T4 według makiet 05 i 08; wszystko działa bez AI (rutyna z reguł i stały
+  tekst). Na karcie produktu „Dodaj do rutyny” sam dobiera krok po kategorii i pyta tylko o porę dnia
+  (i o zastąpienie zajętego slotu); zakładka w nagłówku i przycisk „Na półkę” przełączają półki.
+  Usuwanie z rutyny i półki — długim przytrzymaniem z potwierdzeniem.
