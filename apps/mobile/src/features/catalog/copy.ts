@@ -138,6 +138,15 @@ export const functionCopy: Record<string, string> = {
   uv_filter: 'filtr UV',
   emulsifier: 'emulgator',
   sebum_regulating: 'reguluje sebum',
+  thickener: 'zagęszcza',
+  chelating: 'stabilizuje formułę',
+  colorant: 'barwnik',
+  film_forming: 'tworzy film ochronny',
+  absorbent: 'pochłania sebum',
+  brightening: 'rozjaśnia przebarwienia',
+  peptide: 'peptyd',
+  probiotic: 'ferment / probiotyk',
+  plant_extract: 'ekstrakt roślinny',
 };
 
 /** "Dla skóry mieszanej" — genitive of the skin type names. */
