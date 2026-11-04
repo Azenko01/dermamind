@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@12.11.2",
   "engines": {
-    "node": ">=22.12 <23"
+    "node": ">=22.13 <23"
   },
   "scripts": {
     "lint": "eslint .",

@@ -626,3 +626,26 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   tekst). Na karcie produktu „Dodaj do rutyny” sam dobiera krok po kategorii i pyta tylko o porę dnia
   (i o zastąpienie zajętego slotu); zakładka w nagłówku i przycisk „Na półkę” przełączają półki.
   Usuwanie z rutyny i półki — długim przytrzymaniem z potwierdzeniem.
+
+---
+
+## Utrzymanie (05.11.2026)
+
+### D-56. Aktualizacja do Expo SDK 58
+
+- **Decyzja:** aplikacja przechodzi z Expo SDK 57 na SDK 58 (React Native 0.88, React 19.3, Expo
+  Router 58). Wersje bibliotek natywnych wyrównało `npx expo install expo@^58.0.0 --fix`,
+  `expo-doctor` nie zgłasza problemów.
+- **Dlaczego teraz:** nowe Expo Go ze sklepów obsługuje tylko SDK 58, więc projekt na SDK 57 przestał
+  się otwierać na telefonach zespołu. Bez aktualizacji testowanie wymagałoby własnego buildu
+  deweloperskiego (EAS) na każdym telefonie.
+- **Co zmieniliśmy w kodzie:** RN 0.88 domyślnie używa ścisłych typów TypeScript — `TextField`
+  przyjmuje teraz `ref` jako zwykły prop (React 19) z typem `TextInputInstance` zamiast `forwardRef`.
+  Minimalny Node w `engines` podniesiony do 22.13 (wymóg SDK 58). Usunięte w RN 0.88 API
+  (`InteractionManager`, `Touchable`, `Modal animated`, niektóre propsy `StatusBar`) nie były używane;
+  dla `expo-camera` (skaner), `expo-secure-store`, `expo-font` i używanych przez nas funkcji Expo
+  Router changelog nie wymienia zmian łamiących.
+- **Do pamiętania później:** w buildach release na Androida R8 jest teraz domyślnie włączony (do
+  sprawdzenia przy pierwszym buildzie EAS w Sprincie 7–8); w iOS prebuild tworzy `SceneDelegate`.
+- **Alternatywy:** zostać na SDK 57 i robić development buildy przez EAS — wolniej dla zespołu
+  i wbrew zasadzie „wdrożenia robi Oleksandr ręcznie”.
