@@ -1,6 +1,7 @@
 /**
  * Design tokens — PLAN.md 7.1 (colours) and 7.3 (shapes, spacing).
- * Values read from SkinSort screenshots; WCAG AA contrast still to be confirmed.
+ * Values read from SkinSort screenshots. Text pairs are checked for WCAG AA in
+ * src/theme/contrast.test.ts (run: pnpm --filter @dermamind/mobile test).
  */
 const light = {
   primary: '#2F2A7D',
@@ -19,6 +20,23 @@ const light = {
   cautionSoft: '#FDE9C8',
   bad: '#D93636',
   badSoft: '#FDDCDC',
+  /** text and icons on `primary` (the main button) */
+  onPrimary: '#FFFFFF',
+  /** text on `primaryDisabled` */
+  onPrimaryDisabled: '#FFFFFF',
+  /** camera overlay: the same in both themes, it always sits on a live camera picture */
+  camera: '#000000',
+  scrim: 'rgba(0,0,0,0.55)',
+  scrimStrong: 'rgba(0,0,0,0.65)',
+  onScrim: '#FFFFFF',
+  /** dimmed backdrop behind sheets and dialogs */
+  backdrop: 'rgba(0,0,0,0.4)',
+  /** SkinScale (O14): very dry → very oily */
+  scale1: '#A9D2F3',
+  scale2: '#BFE6D4',
+  scale3: '#CFEBA6',
+  scale4: '#F2DE8E',
+  scale5: '#F5C16C',
 } as const;
 
 export type ColorToken = keyof typeof light;
@@ -41,6 +59,18 @@ const dark: Palette = {
   cautionSoft: '#3D2A10',
   bad: '#F06B6B',
   badSoft: '#3D1515',
+  onPrimary: '#0E0E12',
+  onPrimaryDisabled: '#9A97C4',
+  camera: '#000000',
+  scrim: 'rgba(0,0,0,0.55)',
+  scrimStrong: 'rgba(0,0,0,0.65)',
+  onScrim: '#FFFFFF',
+  backdrop: 'rgba(0,0,0,0.6)',
+  scale1: '#3E6E92',
+  scale2: '#3F7A63',
+  scale3: '#6B8A3A',
+  scale4: '#9A8634',
+  scale5: '#A8742A',
 };
 
 export const palettes: Record<'light' | 'dark', Palette> = { light, dark };

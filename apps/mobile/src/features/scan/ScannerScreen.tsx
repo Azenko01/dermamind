@@ -2,7 +2,7 @@ import { isValidEan, normalizeEan } from '@dermamind/scoring';
 import { CameraView, useCameraPermissions, type BarcodeScanningResult } from 'expo-camera';
 import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
-import { ClipboardTextIcon, FlashlightIcon, XIcon } from 'phosphor-react-native';
+import { ClipboardTextIcon, FlashlightIcon, KeyboardIcon, XIcon } from 'phosphor-react-native';
 import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -15,9 +15,8 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PrimaryButton, SecondaryButton } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
-import { api, errorText } from '@/lib/api';
-import { queryClient } from '@/lib/queryClient';
 import { useTheme } from '@/theme';
+import { openByEan } from './lookup';
 
 const FRAME_W = 0.8;
 const FRAME_H = 0.36;
@@ -42,26 +41,15 @@ export function ScannerScreen() {
     setError(undefined);
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
-    const res = await api
-      .GET('/v1/products/barcode/{ean}', { params: { path: { ean } } })
-      .catch(() => null);
-    void queryClient.invalidateQueries({ queryKey: ['scans'] });
-    if (res?.data) {
-      queryClient.setQueryData(['product', res.data.id], res.data);
-      router.replace({ pathname: '/product/[id]', params: { id: String(res.data.id) } });
-      return;
-    }
-    if (res?.response.status === 404) {
-      router.replace({ pathname: '/scan/[ean]', params: { ean } });
-      return;
-    }
-    setError(errorText(res?.response.status));
+    const error = await openByEan(ean);
+    if (!error) return;
+    setError(error);
     setBusy(false);
     // let the user move the phone away before trying the same code again
     setTimeout(() => (handling.current = false), 1500);
   };
 
-  if (!permission) return <View style={[styles.root, { backgroundColor: '#000' }]} />;
+  if (!permission) return <View style={[styles.root, { backgroundColor: colors.camera }]} />;
 
   if (!permission.granted) {
     return (
@@ -83,6 +71,7 @@ export function ScannerScreen() {
         ) : (
           <PrimaryButton title="Otwórz ustawienia" onPress={() => void Linking.openSettings()} />
         )}
+        <SecondaryButton title="Wpisz kod ręcznie" onPress={() => router.replace('/scan/manual')} />
         <SecondaryButton
           title="Wklej skład zamiast skanować"
           onPress={() => router.replace('/analyze')}
@@ -92,10 +81,11 @@ export function ScannerScreen() {
     );
   }
 
+  const dim = { flex: 1, backgroundColor: colors.scrim };
   const frameW = width * FRAME_W;
   const frameH = width * FRAME_H;
   return (
-    <View style={[styles.root, { backgroundColor: '#000' }]}>
+    <View style={[styles.root, { backgroundColor: colors.camera }]}>
       <CameraView
         style={StyleSheet.absoluteFill}
         facing="back"
@@ -106,29 +96,29 @@ export function ScannerScreen() {
 
       {/* dimmed surroundings with a clear frame in the middle */}
       <View style={StyleSheet.absoluteFill} pointerEvents="none">
-        <View style={styles.dim} />
+        <View style={dim} />
         <View style={{ flexDirection: 'row', height: frameH }}>
-          <View style={styles.dim} />
+          <View style={dim} />
           <View style={{ width: frameW, height: frameH }}>
             {(['tl', 'tr', 'bl', 'br'] as const).map((c) => (
               <View
                 key={c}
-                style={[styles.corner, cornerStyle(c), { borderColor: colors.background }]}
+                style={[styles.corner, cornerStyle(c), { borderColor: colors.onScrim }]}
               />
             ))}
           </View>
-          <View style={styles.dim} />
+          <View style={dim} />
         </View>
         <View
           style={[
-            styles.dim,
+            dim,
             { alignItems: 'center', paddingTop: spacing.xl, paddingHorizontal: spacing.screen },
           ]}
         >
           {busy ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color={colors.onScrim} />
           ) : (
-            <Text align="center" style={{ color: '#fff' }}>
+            <Text align="center" color="onScrim">
               {error ?? 'Skieruj aparat na kod kreskowy na opakowaniu'}
             </Text>
           )}
@@ -139,7 +129,7 @@ export function ScannerScreen() {
         style={[styles.topBar, { top: insets.top + spacing.sm, paddingHorizontal: spacing.screen }]}
       >
         <RoundButton label="Zamknij" onPress={() => router.back()}>
-          <XIcon size={24} color="#fff" weight="bold" />
+          <XIcon size={24} color={colors.onScrim} weight="bold" />
         </RoundButton>
         <RoundButton
           label={torch ? 'Wyłącz latarkę' : 'Włącz latarkę'}
@@ -148,25 +138,52 @@ export function ScannerScreen() {
         >
           <FlashlightIcon
             size={24}
-            color={torch ? '#000' : '#fff'}
+            color={torch ? colors.camera : colors.onScrim}
             weight={torch ? 'fill' : 'regular'}
           />
         </RoundButton>
       </View>
 
-      <View style={[styles.bottom, { bottom: insets.bottom + spacing.xl }]}>
-        <Pressable
-          accessibilityRole="button"
+      <View style={[styles.bottom, { bottom: insets.bottom + spacing.xl, gap: spacing.md }]}>
+        <Pill
+          label="Wpisz kod ręcznie"
+          icon={<KeyboardIcon size={20} color={colors.onScrim} />}
+          onPress={() => router.replace('/scan/manual')}
+        />
+        <Pill
+          label="Brak kodu? Wklej skład"
+          icon={<ClipboardTextIcon size={20} color={colors.onScrim} />}
           onPress={() => router.replace('/analyze')}
-          style={[styles.pill, { gap: spacing.sm }]}
-        >
-          <ClipboardTextIcon size={20} color="#fff" />
-          <Text variant="bodyStrong" style={{ color: '#fff' }}>
-            Brak kodu? Wklej skład
-          </Text>
-        </Pressable>
+        />
       </View>
     </View>
+  );
+}
+
+function Pill({
+  label,
+  icon,
+  onPress,
+}: {
+  label: string;
+  icon: React.ReactNode;
+  onPress: () => void;
+}) {
+  const { colors, spacing } = useTheme();
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.pill,
+        { gap: spacing.sm, backgroundColor: colors.scrimStrong, opacity: pressed ? 0.8 : 1 },
+      ]}
+    >
+      {icon}
+      <Text variant="bodyStrong" color="onScrim">
+        {label}
+      </Text>
+    </Pressable>
   );
 }
 
@@ -181,13 +198,14 @@ function RoundButton({
   active?: boolean;
   children: React.ReactNode;
 }) {
+  const { colors } = useTheme();
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ selected: active }}
       onPress={onPress}
-      style={[styles.round, { backgroundColor: active ? '#fff' : 'rgba(0,0,0,0.5)' }]}
+      style={[styles.round, { backgroundColor: active ? colors.onScrim : colors.scrimStrong }]}
     >
       {children}
     </Pressable>
@@ -211,7 +229,6 @@ function cornerStyle(c: 'tl' | 'tr' | 'bl' | 'br') {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   center: { alignItems: 'center', justifyContent: 'center' },
-  dim: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)' },
   corner: { position: 'absolute', width: CORNER, height: CORNER, borderRadius: 4 },
   topBar: {
     position: 'absolute',
@@ -234,6 +251,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 999,
-    backgroundColor: 'rgba(0,0,0,0.6)',
   },
 });

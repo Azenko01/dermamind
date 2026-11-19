@@ -356,7 +356,10 @@ export class CreateUserProductDto {
   @MaxLength(10_000)
   inciRaw!: string;
 
-  @ApiPropertyOptional({ enum: PRODUCT_CATEGORIES, default: 'other' })
+  @ApiPropertyOptional({
+    enum: PRODUCT_CATEGORIES,
+    description: 'Default: the Open Beauty Facts category for this code, otherwise other',
+  })
   @IsOptional()
   @IsIn(PRODUCT_CATEGORIES)
   category?: ProductCategory;

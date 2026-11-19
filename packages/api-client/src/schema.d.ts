@@ -776,10 +776,10 @@ export interface components {
             /** @description Ingredient list as printed on the package */
             inciRaw: string;
             /**
-             * @default other
+             * @description Default: the Open Beauty Facts category for this code, otherwise other
              * @enum {string}
              */
-            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+            category?: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
         };
         ScanDto: {
             id: number;
