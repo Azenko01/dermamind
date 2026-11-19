@@ -40,6 +40,7 @@ import {
 } from '../apps/api/src/catalog/product-writer';
 import { PrismaClient } from '../apps/api/src/generated/prisma/client';
 import { emptyObfStats, renderObfReport, type ObfStats } from './catalog/obf-report';
+import { readHistory, renderRecognition } from './catalog/recognition';
 
 /** Official export, documented at https://world.openbeautyfacts.org/data */
 const DUMP_URL = 'https://static.openbeautyfacts.org/data/openbeautyfacts-products.jsonl.gz';
@@ -204,7 +205,12 @@ async function main(): Promise<void> {
       unknown: Number(db!.unknown),
     };
     stats.dumpDate = statSync(dumpPath).mtime;
-    writeFileSync(resolve(root, 'data/obf-import-report.md'), renderObfReport(stats));
+    // the recognition history (pnpm catalog:relink) goes under the counts: before vs after
+    const history = readHistory(resolve(root, 'data/recognition-history.json'));
+    writeFileSync(
+      resolve(root, 'data/obf-import-report.md'),
+      renderObfReport(stats) + (history.length ? `\n${renderRecognition(history)}` : ''),
+    );
     console.log(
       `Read ${stats.read}, kept ${stats.kept} (PL market ${stats.polish}): ` +
         `${stats.created} new, ${stats.updated} updated, ${stats.unchanged} unchanged. ` +
