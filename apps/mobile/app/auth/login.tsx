@@ -53,7 +53,7 @@ export default function LoginScreen() {
           loading={busy}
         />
         <View style={{ alignItems: 'center', gap: spacing.lg }}>
-          <LinkButton title="Nie pamiętam hasła" onPress={() => router.push('/auth/reset')} />
+          {/* "Nie pamiętam hasła" returns once e-mails can be sent (no mail provider yet) */}
           <LinkButton
             title="Nie mam konta — załóż je"
             color="textSecondary"

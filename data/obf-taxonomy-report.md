@@ -1,6 +1,6 @@
 # Słownik składników z taksonomii Open Beauty Facts
 
-Wygenerowano: 2026-11-19 13:40 UTC · `pnpm catalog:import-obf-taxonomy`
+Wygenerowano: 2026-11-19 13:48 UTC · `pnpm catalog:import-obf-taxonomy`
 
 Źródło: Open Beauty Facts, `taxonomies/beauty/ingredients-cosing-obf.txt` (ODbL 1.0),
 zbudowane na podstawie bazy CosIng — European Commission.
@@ -9,9 +9,9 @@ zbudowane na podstawie bazy CosIng — European Commission.
 | --- | ---: |
 | Wpisy w taksonomii | 22536 |
 | Nowe składniki | 0 |
-| Nasze (curated) uzupełnione o CAS / EC / CosIng | 0 |
+| Nasze (curated) uzupełnione o CAS / EC / CosIng | 1 |
 | Zaktualizowane | 0 |
-| Bez zmian | 22322 |
+| Bez zmian | 22321 |
 | Nowe aliasy | 0 |
 | Aliasy zajęte przez inny składnik (zostawione) | 1 |
 | Aliasy niejednoznaczne (pominięte) | 78 |

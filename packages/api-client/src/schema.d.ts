@@ -84,6 +84,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/auth/password/change": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthController_changePassword_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/auth/refresh": {
         parameters: {
             query?: never;
@@ -177,7 +193,7 @@ export interface paths {
         delete: operations["MeController_delete_v1"];
         options?: never;
         head?: never;
-        patch?: never;
+        patch: operations["MeController_update_v1"];
         trace?: never;
     };
     "/v1/me/quiz": {
@@ -518,6 +534,10 @@ export interface components {
             email: string;
             password: string;
         };
+        ChangePasswordDto: {
+            currentPassword: string;
+            newPassword: string;
+        };
         RefreshDto: {
             refreshToken: string;
         };
@@ -611,6 +631,13 @@ export interface components {
             /** Format: date-time */
             createdAt: string;
             profile: components["schemas"]["ProfileDto"];
+        };
+        UpdateMeDto: {
+            /**
+             * @description Empty string or null removes the name
+             * @example Ola
+             */
+            displayName?: string | null;
         };
         MatchSummaryDto: {
             score: number;
@@ -1224,6 +1251,50 @@ export interface operations {
             };
         };
     };
+    AuthController_changePassword_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangePasswordDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthTokensDto"];
+                };
+            };
+            /** @description Wrong current password */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Guest account — no password */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Rate limit per IP */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     AuthController_refresh_v1: {
         parameters: {
             query?: never;
@@ -1412,6 +1483,42 @@ export interface operations {
         responses: {
             /** @description Account and all its data deleted */
             204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MeController_update_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMeDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeDto"];
+                };
+            };
+            /** @description Validation errors */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };

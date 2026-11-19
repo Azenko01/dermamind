@@ -1,4 +1,6 @@
 import { router } from 'expo-router';
+import { cancelQuizEditing, saveQuizAnswers } from '@/features/profile/quizEditing';
+import { useQuiz } from '@/stores/quiz';
 
 /** O1–O22 in order (PLAN.md 6.1). O1 is /onboarding, the rest are /onboarding/[step]. */
 export const STEPS = [
@@ -32,7 +34,71 @@ export function isStep(value: unknown): value is StepId {
   return typeof value === 'string' && (STEPS as readonly string[]).includes(value);
 }
 
-export function stepNav(id: StepId) {
+/**
+ * Retake / edit from Profil: only the questions (O6–O19, with the O14 result in its place) — no
+ * intro screens, no "add products", no account steps.
+ */
+export const QUESTION_STEPS = [
+  'struggle',
+  'concerns',
+  'shine',
+  'after-wash',
+  'symptoms',
+  'reactions',
+  'triggers',
+  'seasons',
+  'result',
+  'avoid-groups',
+  'avoid-ingredients',
+  'must-haves',
+  'spf',
+  'budget',
+] as const satisfies readonly StepId[];
+
+export type QuestionStepId = (typeof QUESTION_STEPS)[number];
+
+export function isQuestionStep(value: unknown): value is QuestionStepId {
+  return typeof value === 'string' && (QUESTION_STEPS as readonly string[]).includes(value);
+}
+
+/** Where a step lives: /onboarding before the account, /quiz afterwards. */
+export function stepHref(step: StepId) {
+  return useQuiz.getState().mode === 'onboarding'
+    ? ({ pathname: '/onboarding/[step]', params: { step } } as const)
+    : ({ pathname: '/quiz/[step]', params: { step } } as const);
+}
+
+export interface StepNav {
+  progress: number;
+  next: () => void;
+  back: () => void;
+  /** "Dalej", or "Zapisz" where the answer is saved */
+  nextLabel?: string;
+}
+
+export function stepNav(id: StepId): StepNav {
+  const { mode } = useQuiz.getState();
+  if (mode === 'edit') {
+    return {
+      progress: 1,
+      next: () => void saveQuizAnswers(),
+      back: cancelQuizEditing,
+      nextLabel: 'Zapisz',
+    };
+  }
+  if (mode === 'retake') {
+    const index = (QUESTION_STEPS as readonly string[]).indexOf(id);
+    const nextId = QUESTION_STEPS[index + 1];
+    return {
+      progress: (index + 1) / QUESTION_STEPS.length,
+      next: () =>
+        nextId
+          ? router.push({ pathname: '/quiz/[step]', params: { step: nextId } })
+          : void saveQuizAnswers(),
+      back: () => (index <= 0 ? cancelQuizEditing() : router.back()),
+      nextLabel: nextId ? undefined : 'Zapisz profil',
+    };
+  }
   const index = STEPS.indexOf(id);
   const nextId = STEPS[index + 1];
   return {

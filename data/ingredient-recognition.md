@@ -11,3 +11,4 @@ Produkty Open Beauty Facts w bazie; nazwa = jedna pozycja listy INCI po parserze
 | 3. Normalizator + literówki | 86.9% (+2.8 pp) | 1.1% | 3474 (27.1%) | 3152 | 22642 / 29092 |
 | 4. Aliasy z przeglądu top-500 | 90.5% (+3.6 pp) | 1.2% | 6478 (50.5%) | 5820 | 22949 / 29460 |
 | 5. Aroma ≠ Parfum, SD Alcohol = Alcohol Denat. | 90.5% (+0.0 pp) | 1.2% | 6489 (50.5%) | 5831 | 22950 / 29467 |
+| перевірка | 90.5% (+0.0 pp) | 1.2% | 6489 (50.5%) | 5831 | 22950 / 29467 |

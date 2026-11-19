@@ -20,7 +20,7 @@ export function AvoidIngredientsStep() {
   const selected = useQuiz((s) => s.answers.avoidIngredients) ?? [];
   const set = useQuiz((s) => s.set);
   const [query, setQuery] = useState('');
-  const { progress, next, back } = stepNav('avoid-ingredients');
+  const { progress, next, back, nextLabel } = stepNav('avoid-ingredients');
   const { spacing } = useTheme();
 
   const add = (inci: string) => {
@@ -48,7 +48,7 @@ export function AvoidIngredientsStep() {
       onBack={back}
       title="Konkretne składniki do [unikania]"
       subtitle="Np. taki, po którym skóra zareagowała. Możesz pominąć ten krok."
-      nextLabel={selected.length ? 'Dalej' : 'Pomiń'}
+      nextLabel={nextLabel ?? (selected.length ? 'Dalej' : 'Pomiń')}
       onNext={() => {
         if (!useQuiz.getState().answers.avoidIngredients) set('avoidIngredients', []);
         next();

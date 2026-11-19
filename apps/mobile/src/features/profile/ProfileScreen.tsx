@@ -7,23 +7,21 @@ import {
   FlagIcon,
   GearIcon,
   InfoIcon,
-  SignOutIcon,
-  TrashIcon,
+  UserCircleIcon,
   type IconProps,
 } from 'phosphor-react-native';
 import type { ComponentType } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PrimaryButton, SecondaryButton } from '@/components/ui/Button';
-import { DotMeter } from '@/components/ui/DotMeter';
 import { Text } from '@/components/ui/Text';
-import { deleteAccount, signOut } from '@/features/auth/actions';
 import { useMe } from '@/features/auth/useMe';
-import { barrierCopy, sensitivityCopy, skinTypeCopy } from '@/features/onboarding/content';
-import { useAppearance, type AppearanceMode } from '@/stores/appearance';
-import { useTheme, type ColorToken } from '@/theme';
+import { useTheme } from '@/theme';
+import { startRetake } from './quizEditing';
+import { NoProfile } from './SkinProfileScreen';
+import { avoidLabels, concernLabels, quizDate, SkinResultCard, TagList } from './skinSummary';
 
-/** T5 skeleton (PLAN.md 6.2): account card, skin profile, menu, sign out / delete account. */
+/** T5 Profil (PLAN.md 6.2): account, skin profile (D6), menu. Settings live in D8. */
 export function ProfileScreen() {
   const { colors, spacing } = useTheme();
   const me = useMe();
@@ -44,13 +42,20 @@ export function ProfileScreen() {
         ) : (
           <>
             <AccountCard me={me.data} />
-            <SkinCard profile={me.data.profile} />
+            {me.data.profile.skinType && me.data.profile.quizAnswers ? (
+              <SkinCard profile={me.data.profile} />
+            ) : (
+              <NoProfile />
+            )}
           </>
         )}
 
-        <AppearanceCard />
-
         <Card padded={false}>
+          <MenuRow
+            icon={UserCircleIcon}
+            label="Profil skóry i odpowiedzi"
+            onPress={() => router.push('/skin-profile')}
+          />
           <MenuRow
             icon={ClockCounterClockwiseIcon}
             label="Historia skanów"
@@ -58,21 +63,10 @@ export function ProfileScreen() {
           />
           <MenuRow icon={FlagIcon} label="Zgłoś produkt" onPress={() => router.push('/submit')} />
           <MenuRow icon={InfoIcon} label="O aplikacji" onPress={() => router.push('/about')} />
-          <MenuRow icon={GearIcon} label="Ustawienia" soon last />
-        </Card>
-
-        <Card padded={false}>
           <MenuRow
-            icon={SignOutIcon}
-            label="Wyloguj"
-            tone="bad"
-            onPress={() => confirmSignOut(me.data?.isGuest ?? false)}
-          />
-          <MenuRow
-            icon={TrashIcon}
-            label="Usuń konto i dane"
-            tone="bad"
-            onPress={confirmDelete}
+            icon={GearIcon}
+            label="Ustawienia"
+            onPress={() => router.push('/settings')}
             last
           />
         </Card>
@@ -82,57 +76,6 @@ export function ProfileScreen() {
         </Text>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-const APPEARANCE: { mode: AppearanceMode; label: string }[] = [
-  { mode: 'system', label: 'Systemowy' },
-  { mode: 'light', label: 'Jasny' },
-  { mode: 'dark', label: 'Ciemny' },
-];
-
-/** Profil → Wygląd: follow the phone, or always light / dark. Saved on the device. */
-function AppearanceCard() {
-  const { colors, spacing, radius, sizes } = useTheme();
-  const mode = useAppearance((s) => s.mode);
-  const setMode = useAppearance((s) => s.setMode);
-  return (
-    <Card>
-      <Text variant="label" color="textSecondary">
-        Wygląd
-      </Text>
-      <View
-        accessibilityRole="radiogroup"
-        style={[styles.segments, { backgroundColor: colors.surface, borderRadius: radius.chip }]}
-      >
-        {APPEARANCE.map((o) => {
-          const selected = o.mode === mode;
-          return (
-            <Pressable
-              key={o.mode}
-              accessibilityRole="radio"
-              accessibilityState={{ selected }}
-              onPress={() => setMode(o.mode)}
-              style={[
-                styles.segment,
-                {
-                  minHeight: sizes.minTouchTarget,
-                  borderRadius: radius.chip,
-                  margin: spacing.xs,
-                  backgroundColor: selected ? colors.background : 'transparent',
-                  borderWidth: selected ? 1 : 0,
-                  borderColor: colors.border,
-                },
-              ]}
-            >
-              <Text variant="bodyStrong" color={selected ? 'textPrimary' : 'textSecondary'}>
-                {o.label}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-    </Card>
   );
 }
 
@@ -162,67 +105,60 @@ function AccountCard({ me }: { me: Me }) {
   );
 }
 
+/** Skin profile in the style of the O14 result; the card opens D6 with every answer. */
 function SkinCard({ profile }: { profile: Me['profile'] }) {
-  const { spacing } = useTheme();
-  if (!profile.skinType) {
-    return (
-      <Card>
-        <Text variant="productName">Profil skóry</Text>
-        <Text variant="caption">Nie masz jeszcze profilu skóry. Quiz pojawi się tu wkrótce.</Text>
-      </Card>
-    );
-  }
-  const barrier = (profile.barrierLevel ?? 1) as 1 | 2 | 3;
-  const sensitivity = profile.sensitivityLevel ?? 0;
+  const { colors, spacing, radius } = useTheme();
+  const concerns = concernLabels(profile.concerns);
+  const avoided = avoidLabels(profile);
   return (
-    <Card>
-      <Text variant="label" color="textSecondary">
-        Profil skóry
-      </Text>
-      <Text variant="section">Skóra {skinTypeCopy[profile.skinType].name}</Text>
-      <View style={{ gap: spacing.md }}>
-        <Meter
-          label="Bariera ochronna"
-          value={barrierCopy[barrier]}
-          level={barrier}
-          max={3}
-          tint="caution"
-          soft="cautionSoft"
-        />
-        <Meter
-          label="Wrażliwość"
-          value={sensitivityCopy[sensitivity] ?? ''}
-          level={sensitivity}
-          max={4}
-          tint="bad"
-          soft="badSoft"
-        />
-      </View>
-      <SecondaryButton title="Edytuj odpowiedzi — wkrótce" onPress={() => undefined} disabled />
-    </Card>
-  );
-}
-
-function Meter(props: {
-  label: string;
-  value: string;
-  level: number;
-  max: number;
-  tint: ColorToken;
-  soft: ColorToken;
-}) {
-  return (
-    <View style={styles.row}>
-      <View style={{ flex: 1 }}>
-        <Text variant="caption">{props.label}</Text>
-        <Text variant="bodyStrong">{props.value}</Text>
-      </View>
-      <DotMeter
-        value={props.level}
-        max={props.max}
-        color={props.tint}
-        softColor={props.soft}
-        label={props.label}
+    <View
+      style={{
+        backgroundColor: colors.accentSoft,
+        borderRadius: radius.card,
+        padding: spacing.lg,
+        gap: spacing.lg,
+      }}
+    >
+      <Pressable
+        accessibilityRole="button"
+        accessibilityHint="Otwiera profil skóry z odpowiedziami"
+        onPress={() => router.push('/skin-profile')}
+        style={({ pressed }) => ({ gap: spacing.lg, opacity: pressed ? 0.85 : 1 })}
+      >
+        <SkinResultCard profile={profile} compact />
+        {concerns.length ? (
+          <View style={{ gap: spacing.sm }}>
+            <Text variant="label" color="primary">
+              Główne problemy
+            </Text>
+            <TagList items={concerns} tone="accent" />
+          </View>
+        ) : null}
+        <View style={{ gap: spacing.sm }}>
+          <Text variant="label" color="primary">
+            Unikasz
+          </Text>
+          {avoided.length ? (
+            <TagList items={avoided} tone="bad" />
+          ) : (
+            <Text variant="caption" color="primary">
+              Niczego
+            </Text>
+          )}
+        </View>
+        <View style={[styles.row, { gap: spacing.sm }]}>
+          <Text variant="caption" color="primary" style={{ flex: 1 }}>
+            {profile.onboardedAt ? `Quiz z ${quizDate(profile.onboardedAt)}` : 'Profil skóry'}
+          </Text>
+          <Text variant="caption" color="primary">
+            Szczegóły i odpowiedzi
+          </Text>
+          <CaretRightIcon size={16} color={colors.primary} />
+        </View>
+      </Pressable>
+      <SecondaryButton
+        title="Wypełnij quiz ponownie"
+        onPress={() => startRetake(profile.quizAnswers)}
       />
     </View>
   );
@@ -250,19 +186,14 @@ function Card({ children, padded = true }: { children: React.ReactNode; padded?:
 function MenuRow(props: {
   icon: ComponentType<IconProps>;
   label: string;
-  onPress?: () => void;
-  soon?: boolean;
-  tone?: 'bad';
+  onPress: () => void;
   last?: boolean;
 }) {
   const { colors, spacing, sizes } = useTheme();
   const Icon = props.icon;
-  const tint = props.tone === 'bad' ? colors.bad : colors.accent;
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ disabled: props.soon }}
-      disabled={props.soon}
       onPress={props.onPress}
       style={({ pressed }) => [
         styles.row,
@@ -276,51 +207,15 @@ function MenuRow(props: {
         },
       ]}
     >
-      <Icon size={22} color={tint} />
-      <Text color={props.tone === 'bad' ? 'bad' : 'textPrimary'} style={{ flex: 1 }}>
-        {props.label}
-      </Text>
-      {props.soon ? (
-        <Text variant="caption">wkrótce</Text>
-      ) : (
-        <CaretRightIcon size={18} color={colors.textSecondary} />
-      )}
+      <Icon size={22} color={colors.accent} />
+      <Text style={{ flex: 1 }}>{props.label}</Text>
+      <CaretRightIcon size={18} color={colors.textSecondary} />
     </Pressable>
-  );
-}
-
-function confirmSignOut(isGuest: boolean) {
-  const message = isGuest
-    ? 'Konta gościa nie da się potem odzyskać. Zapisz profil na koncie, jeśli chcesz zachować dane.'
-    : undefined;
-  Alert.alert('Wylogować się?', message, [
-    { text: 'Anuluj', style: 'cancel' },
-    { text: 'Wyloguj', style: 'destructive', onPress: () => void signOut() },
-  ]);
-}
-
-function confirmDelete() {
-  Alert.alert(
-    'Usunąć konto?',
-    'Usuniemy profil skóry, półki i całą historię. Tego nie da się cofnąć.',
-    [
-      { text: 'Anuluj', style: 'cancel' },
-      {
-        text: 'Usuń na zawsze',
-        style: 'destructive',
-        onPress: () =>
-          void deleteAccount().then((r) => {
-            if (!r.ok) Alert.alert('Nie udało się', r.message);
-          }),
-      },
-    ],
   );
 }
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  segments: { flexDirection: 'row' },
-  segment: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   row: { flexDirection: 'row', alignItems: 'center' },
   avatar: {
     width: 56,

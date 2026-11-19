@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   Logger,
   NotImplementedException,
@@ -9,7 +10,7 @@ import * as argon2 from 'argon2';
 import type { AuthUser } from '../common/auth-user';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import type { AuthTokensDto, LoginDto, RegisterDto } from './dto/auth.dto';
+import type { AuthTokensDto, ChangePasswordDto, LoginDto, RegisterDto } from './dto/auth.dto';
 import { TokensService } from './tokens.service';
 
 /** System shelves every account gets (PLAN.md 3.6). */
@@ -78,11 +79,90 @@ export class AuthService {
     }
   }
 
-  async login(dto: LoginDto): Promise<AuthTokensDto> {
+  /**
+   * E-mail sign-in. If the caller is a guest who did the quiz on this phone and the account has no
+   * skin profile yet, the guest's profile and shelves move to the account (the guest account is
+   * then deleted) — otherwise "Mam już konto" after the quiz would lose the answers.
+   */
+  async login(dto: LoginDto, caller?: AuthUser): Promise<AuthTokensDto> {
     const user = await this.prisma.user.findUnique({ where: { email: dto.email } });
     const ok = await argon2.verify(user?.passwordHash ?? (await DUMMY_HASH), dto.password);
     if (!user?.passwordHash || !ok) throw new UnauthorizedException('Wrong e-mail or password');
+    if (caller?.guest && caller.sub !== user.id) await this.adoptGuest(caller.sub, user.id);
     return this.tokens.issue(user);
+  }
+
+  /** Changes the password of a signed-in (non-guest) account; other devices are signed out. */
+  async changePassword(caller: AuthUser, dto: ChangePasswordDto): Promise<AuthTokensDto> {
+    const user = await this.prisma.user.findUnique({ where: { id: caller.sub } });
+    if (!user || user.isGuest || !user.passwordHash)
+      throw new ForbiddenException('Only e-mail accounts have a password');
+    if (!(await argon2.verify(user.passwordHash, dto.currentPassword)))
+      throw new UnauthorizedException('Wrong current password');
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash: await argon2.hash(dto.newPassword) },
+    });
+    await this.tokens.revokeAll(user.id);
+    return this.tokens.issue(user);
+  }
+
+  private async adoptGuest(guestId: string, userId: string): Promise<void> {
+    await this.prisma.$transaction(async (tx) => {
+      const [guest, target] = await Promise.all([
+        tx.profile.findFirst({
+          where: { userId: guestId, user: { isGuest: true } },
+          include: {
+            concerns: true,
+            avoidedGroups: true,
+            avoidedIngredients: true,
+            shelves: { include: { items: true } },
+          },
+        }),
+        tx.profile.findUnique({ where: { userId }, include: { shelves: true } }),
+      ]);
+      if (!guest?.onboardedAt || !target || target.onboardedAt) return;
+
+      await tx.profile.update({
+        where: { userId },
+        data: {
+          skinType: guest.skinType,
+          isSensitive: guest.isSensitive,
+          ageRange: guest.ageRange,
+          quizAnswers: guest.quizAnswers ?? Prisma.DbNull,
+          onboardedAt: guest.onboardedAt,
+          oilLevel: guest.oilLevel,
+          barrierLevel: guest.barrierLevel,
+          sensitivityLevel: guest.sensitivityLevel,
+          budget: guest.budget,
+          usesSpf: guest.usesSpf,
+          mustHaves: guest.mustHaves,
+          concerns: {
+            deleteMany: {},
+            create: guest.concerns.map((c) => ({ concernId: c.concernId, priority: c.priority })),
+          },
+          avoidedGroups: {
+            deleteMany: {},
+            create: guest.avoidedGroups.map((g) => ({ groupId: g.groupId })),
+          },
+          avoidedIngredients: {
+            deleteMany: {},
+            create: guest.avoidedIngredients.map((i) => ({ ingredientId: i.ingredientId })),
+          },
+        },
+      });
+      // products on the guest's "Mam / Lubię / Unikam" go to the same shelves of the account
+      for (const shelf of guest.shelves) {
+        const into = target.shelves.find((s) => s.kind === shelf.kind && shelf.kind !== 'custom');
+        if (!into || !shelf.items.length) continue;
+        await tx.shelfItem.createMany({
+          data: shelf.items.map((i) => ({ shelfId: into.id, productId: i.productId })),
+          skipDuplicates: true,
+        });
+      }
+      await tx.user.delete({ where: { id: guestId } });
+    });
+    this.logger.log(`Guest profile moved to account ${userId}`);
   }
 
   refresh(refreshToken: string): Promise<AuthTokensDto> {

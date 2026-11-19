@@ -8,12 +8,13 @@ import { stepNav } from '../steps';
 export function ShineStep() {
   const shine = useQuiz((s) => s.answers.shine) ?? {};
   const setShine = useQuiz((s) => s.setShine);
-  const { progress, next, back } = stepNav('shine');
+  const { progress, next, back, nextLabel } = stepNav('shine');
   const done = zones.every((z) => shine[z.id]);
   return (
     <QuestionScreen
       progress={progress}
       onBack={back}
+      nextLabel={nextLabel}
       title="Jak bardzo błyszczy się Twoja skóra po południu?"
       subtitle="W dzień bez pudru i bibułek matujących."
       nextDisabled={!done}

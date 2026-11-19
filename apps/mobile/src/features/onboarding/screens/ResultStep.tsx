@@ -10,7 +10,7 @@ import { Text } from '@/components/ui/Text';
 import { useQuiz } from '@/stores/quiz';
 import { useTheme, type ColorToken } from '@/theme';
 import { barrierCopy, sensitivityCopy, skinTypeCopy } from '../content';
-import { stepNav } from '../steps';
+import { stepHref, stepNav } from '../steps';
 
 /**
  * O14 (mockup 03). Computed on the device with the same function the API uses, so the result
@@ -19,7 +19,7 @@ import { stepNav } from '../steps';
 export function ResultStep() {
   const a = useQuiz((s) => s.answers);
   const { colors, spacing, radius } = useTheme();
-  const { progress, next, back } = stepNav('result');
+  const { progress, next, back, nextLabel } = stepNav('result');
 
   const { shine } = a;
   if (
@@ -32,7 +32,7 @@ export function ResultStep() {
     !a.reactionFrequency ||
     !a.triggers
   ) {
-    return <Redirect href={{ pathname: '/onboarding/[step]', params: { step: 'shine' } }} />;
+    return <Redirect href={stepHref('shine')} />;
   }
   const skin = computeSkinProfile({
     ...(a as Parameters<typeof computeSkinProfile>[0]),
@@ -46,7 +46,13 @@ export function ResultStep() {
       : (skin.oilLevel + 3) / 6;
 
   return (
-    <QuestionScreen progress={progress} onBack={back} onNext={next} background="accentSoft">
+    <QuestionScreen
+      progress={progress}
+      onBack={back}
+      onNext={next}
+      nextLabel={nextLabel}
+      background="accentSoft"
+    >
       <View
         style={[
           styles.titleCard,

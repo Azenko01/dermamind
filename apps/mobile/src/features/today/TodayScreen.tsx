@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import { CaretRightIcon, PlantIcon } from 'phosphor-react-native';
+import { useEffect } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MoodPicker } from '@/components/features/MoodPicker';
@@ -9,6 +10,8 @@ import { PrimaryButton, SecondaryButton } from '@/components/ui/Button';
 import { ScoreRing } from '@/components/ui/ScoreRing';
 import { Text } from '@/components/ui/Text';
 import { useMe } from '@/features/auth/useMe';
+import { startRetake } from '@/features/profile/quizEditing';
+import { useQuiz } from '@/stores/quiz';
 import { currentTime, useRoutines, useSetDone, useSetMood, useToday } from '@/features/routine/api';
 import { timeCopy } from '@/features/routine/copy';
 import { scoreColors, useTheme } from '@/theme';
@@ -30,6 +33,14 @@ export function TodayScreen() {
   const setDone = useSetDone();
   const name = me.data?.profile.displayName ?? null;
   const time = currentTime();
+
+  // O21 "Skanuj / Szukaj" chosen before the account existed: open it now, once
+  useEffect(() => {
+    const after = useQuiz.getState().afterOnboarding;
+    if (!after) return;
+    useQuiz.getState().setAfterOnboarding(null);
+    router.push(after === 'scan' ? '/scan' : '/explore');
+  }, []);
 
   const routine = routines.data?.[time];
   const filledSteps = routine?.steps.filter((s) => s.product) ?? [];
@@ -77,6 +88,31 @@ export function TodayScreen() {
             {greeting()}
             {name ? `, ${name}` : ''}
           </Text>
+
+          {me.data && !me.data.profile.skinType ? (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => startRetake(null)}
+              style={({ pressed }) => [
+                styles.card,
+                {
+                  backgroundColor: colors.primary,
+                  borderColor: colors.primary,
+                  borderRadius: radius.productCard,
+                  padding: spacing.lg,
+                  gap: spacing.xs,
+                  opacity: pressed ? 0.9 : 1,
+                },
+              ]}
+            >
+              <Text variant="bodyStrong" color="onPrimary">
+                Uzupełnij profil skóry, żeby zobaczyć dopasowanie
+              </Text>
+              <Text variant="caption" color="onPrimary">
+                Quiz trwa 2 minuty — potem każdy produkt dostanie Match Score.
+              </Text>
+            </Pressable>
+          ) : null}
 
           <View
             style={[

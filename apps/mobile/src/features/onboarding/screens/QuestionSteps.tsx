@@ -31,12 +31,13 @@ function SingleChoice<T extends string>(props: {
   value: T | undefined;
   onChange: (value: T) => void;
 }) {
-  const { progress, next, back } = stepNav(props.step);
+  const { progress, next, back, nextLabel } = stepNav(props.step);
   const { spacing } = useTheme();
   return (
     <QuestionScreen
       progress={progress}
       onBack={back}
+      nextLabel={nextLabel}
       title={props.title}
       subtitle={props.subtitle}
       nextDisabled={!props.value}
@@ -75,7 +76,7 @@ function MultiChoice<T extends string>(props: {
   /** Can continue without choosing anything (O15). */
   optional?: boolean;
 }) {
-  const { progress, next, back } = stepNav(props.step);
+  const { progress, next, back, nextLabel } = stepNav(props.step);
   const { spacing } = useTheme();
   const value = props.value;
   const toggle = (id: T | typeof NONE) => {
@@ -87,6 +88,7 @@ function MultiChoice<T extends string>(props: {
     <QuestionScreen
       progress={progress}
       onBack={back}
+      nextLabel={nextLabel}
       title={props.title}
       highlight={props.highlight}
       subtitle={props.subtitle}
@@ -135,11 +137,12 @@ export function StruggleStep() {
 export function ConcernsStep() {
   const value = useQuiz((s) => s.answers.concerns) ?? [];
   const set = useQuiz((s) => s.set);
-  const { progress, next, back } = stepNav('concerns');
+  const { progress, next, back, nextLabel } = stepNav('concerns');
   return (
     <QuestionScreen
       progress={progress}
       onBack={back}
+      nextLabel={nextLabel}
       title="Nad czym chcesz popracować?"
       subtitle="Wybierz wszystko, co pasuje. Pierwszy wybór traktujemy jako najważniejszy."
       nextDisabled={value.length === 0}
