@@ -3,6 +3,7 @@ import {
   inciLookupKeys,
   normalizeInciName,
   productFlags,
+  resolveInci,
   splitInci,
   type MatchIngredient,
 } from '@dermamind/scoring';
@@ -108,8 +109,7 @@ export class AnalyzeService {
 
   /** Name → ingredient by INCI name or alias; a second name for the same ingredient is dropped. */
   private async match(names: string[]): Promise<Row[]> {
-    const keysByName = new Map(names.map((n) => [n, inciLookupKeys(n)]));
-    const allKeys = [...new Set([...keysByName.values()].flat())];
+    const allKeys = [...new Set(names.flatMap(inciLookupKeys))];
     const [aliases, direct] = await Promise.all([
       this.prisma.ingredientAlias.findMany({
         where: { alias: { in: allKeys } },
@@ -120,23 +120,9 @@ export class AnalyzeService {
         include: scorableIngredientInclude,
       }),
     ]);
-    const byKey = new Map<string, ScorableIngredient>(aliases.map((a) => [a.alias, a.ingredient]));
-    const byInci = new Map(direct.map((i) => [i.inciName, i]));
-
-    const used = new Set<number>();
-    const rows: Row[] = [];
-    for (const input of names) {
-      const hit =
-        byInci.get(input) ??
-        keysByName
-          .get(input)!
-          .map((k) => byKey.get(k))
-          .find(Boolean) ??
-        null;
-      if (hit && used.has(hit.id)) continue;
-      if (hit) used.add(hit.id);
-      rows.push({ position: rows.length + 1, input, ingredient: hit });
-    }
-    return rows;
+    return resolveInci(names, {
+      byInci: new Map(direct.map((i) => [i.inciName, i])),
+      byAlias: new Map<string, ScorableIngredient>(aliases.map((a) => [a.alias, a.ingredient])),
+    });
   }
 }

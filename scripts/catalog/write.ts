@@ -115,6 +115,15 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
         const b = await tx.brand.upsert({ where: { name }, create: { name }, update: {} });
         brandIds.set(name, b.id);
       }
+      // Curated wins: an Open Beauty Facts or user row with one of our codes is hidden and loses
+      // the code (not deleted — it may sit on someone's shelf).
+      await tx.product.updateMany({
+        where: {
+          source: { not: 'curated' },
+          barcode: { in: catalog.products.flatMap((p) => (p.barcode ? [p.barcode] : [])) },
+        },
+        data: { barcode: null, isPublished: false },
+      });
       // free the codes first, so moving an EAN between products doesn't hit the unique index
       await tx.product.updateMany({
         where: { sourceUrl: { in: catalog.products.map((p) => p.sourceUrl) } },
@@ -127,7 +136,7 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
           brandId: brandIds.get(p.brand)!,
           category: p.category as never,
           pricePln: p.pricePln,
-          source: 'hebe',
+          source: 'curated' as const,
           inciRaw: p.inciRaw,
           inciComplete: p.inciComplete,
           barcode: p.barcode,

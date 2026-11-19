@@ -84,3 +84,46 @@ export function splitInci(raw: string): string[] {
   }
   return merged.filter((n) => n.length > 0);
 }
+
+export interface InciDictionary<T extends { id: number }> {
+  /** canonical INCI name → ingredient */
+  byInci: ReadonlyMap<string, T>;
+  /** alias key (see aliasKey) → ingredient */
+  byAlias: ReadonlyMap<string, T>;
+}
+
+export interface ResolvedInci<T> {
+  /** 1-based position in the list after duplicates of the same ingredient are dropped */
+  position: number;
+  /** the name as split from the list (normalised by splitInci, otherwise untouched) */
+  input: string;
+  ingredient: T | null;
+}
+
+/**
+ * Names → dictionary ingredients by canonical INCI name, then by alias keys (inciLookupKeys). A name
+ * we don't know stays `ingredient: null` — we never guess the closest match. A second name for an
+ * ingredient already in the list ("Aqua", "Water") is dropped so positions stay meaningful.
+ */
+export function resolveInci<T extends { id: number }>(
+  names: readonly string[],
+  dict: InciDictionary<T>,
+): ResolvedInci<T>[] {
+  const used = new Set<number>();
+  const seen = new Set<string>();
+  const rows: ResolvedInci<T>[] = [];
+  for (const input of names) {
+    if (!input || seen.has(input)) continue;
+    seen.add(input);
+    const hit =
+      dict.byInci.get(input) ??
+      inciLookupKeys(input)
+        .map((k) => dict.byAlias.get(k))
+        .find((x) => x !== undefined) ??
+      null;
+    if (hit && used.has(hit.id)) continue;
+    if (hit) used.add(hit.id);
+    rows.push({ position: rows.length + 1, input, ingredient: hit });
+  }
+  return rows;
+}

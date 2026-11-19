@@ -21,3 +21,6 @@ GoogleService-Info.plist
 
 # generated
 apps/api/src/generated/
+
+# Open Beauty Facts dump and other downloaded raw data (never commit)
+data/raw/
