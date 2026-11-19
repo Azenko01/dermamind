@@ -34,11 +34,15 @@ export function PrimaryButton({ title, onPress, disabled, loading, icon, style }
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={colors.background} />
+        <ActivityIndicator color={colors.onPrimary} />
       ) : (
         <View style={styles.row}>
           {icon}
-          <Text variant="bodyStrong" color="background" style={styles.title}>
+          <Text
+            variant="bodyStrong"
+            color={disabled ? 'onPrimaryDisabled' : 'onPrimary'}
+            style={styles.title}
+          >
             {title}
           </Text>
         </View>

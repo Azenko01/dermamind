@@ -1,7 +1,8 @@
 /**
  * Design tokens — PLAN.md 7.1 (colours) and 7.3 (shapes, spacing).
- * Values read from SkinSort screenshots. Text pairs are checked for WCAG AA in
- * src/theme/contrast.test.ts (run: pnpm --filter @dermamind/mobile test).
+ * Values read from SkinSort screenshots, then adjusted so every text pair passes WCAG AA in both
+ * themes (19.11.2026: light good/caution/bad/textSecondary darker, dark accent lighter — see
+ * docs/DECISIONS.md). Checked by scripts/theme/contrast.test.ts.
  */
 const light = {
   primary: '#2F2A7D',
@@ -13,12 +14,12 @@ const light = {
   surface: '#F3F3F1',
   border: '#E7E6E3',
   textPrimary: '#1C1C1E',
-  textSecondary: '#6E6E73',
-  good: '#1F9D55',
+  textSecondary: '#636368',
+  good: '#157A40',
   goodSoft: '#D5F5E1',
-  caution: '#E07B12',
+  caution: '#9E5600',
   cautionSoft: '#FDE9C8',
-  bad: '#D93636',
+  bad: '#BE2A2A',
   badSoft: '#FDDCDC',
   /** text and icons on `primary` (the main button) */
   onPrimary: '#FFFFFF',
@@ -45,7 +46,7 @@ export type Palette = Record<ColorToken, string>;
 const dark: Palette = {
   primary: '#A7A1F5',
   primaryDisabled: '#3A3760',
-  accent: '#8C82F2',
+  accent: '#968DF4',
   accentSoft: '#2A2650',
   background: '#0E0E12',
   backgroundAlt: '#141418',

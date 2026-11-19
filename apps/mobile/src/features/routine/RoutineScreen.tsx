@@ -74,7 +74,7 @@ export function RoutineScreen() {
             <DotsThreeIcon size={26} weight="bold" color={colors.textPrimary} />
           </RoundButton>
           <RoundButton label="Dodaj produkt" primary onPress={() => router.push('/explore')}>
-            <PlusIcon size={24} weight="bold" color={colors.background} />
+            <PlusIcon size={24} weight="bold" color={colors.onPrimary} />
           </RoundButton>
         </View>
 
@@ -144,7 +144,7 @@ function RoutineBody({
         ]}
       >
         <View style={[styles.assistantIcon, { backgroundColor: colors.primary }]}>
-          <DropIcon size={26} color={colors.background} />
+          <DropIcon size={26} color={colors.onPrimary} />
         </View>
         <View style={{ flex: 1, gap: spacing.xs }}>
           <Text variant="productName" color="primary">

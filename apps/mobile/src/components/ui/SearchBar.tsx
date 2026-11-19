@@ -16,7 +16,7 @@ export function SearchBar({
   onScan,
   placeholder = 'Szukaj kosmetyków',
 }: Props) {
-  const { colors, spacing, sizes } = useTheme();
+  const { colors, spacing, sizes, scheme } = useTheme();
   return (
     <View
       style={[
@@ -30,6 +30,7 @@ export function SearchBar({
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={colors.textSecondary}
+        keyboardAppearance={scheme}
         returnKeyType="search"
         autoCorrect={false}
         accessibilityLabel={placeholder}

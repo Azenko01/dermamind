@@ -1,6 +1,7 @@
 import { isValidEan, normalizeEan } from '@dermamind/scoring';
 import { CameraView, useCameraPermissions, type BarcodeScanningResult } from 'expo-camera';
 import * as Haptics from 'expo-haptics';
+import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { ClipboardTextIcon, FlashlightIcon, KeyboardIcon, XIcon } from 'phosphor-react-native';
 import { useRef, useState } from 'react';
@@ -86,6 +87,8 @@ export function ScannerScreen() {
   const frameH = width * FRAME_H;
   return (
     <View style={[styles.root, { backgroundColor: colors.camera }]}>
+      {/* light status bar over the camera in both themes */}
+      <StatusBar style="light" />
       <CameraView
         style={StyleSheet.absoluteFill}
         facing="back"
