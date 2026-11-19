@@ -95,6 +95,8 @@ export interface InciDictionary<T extends { id: number }> {
 export interface ResolvedInci<T> {
   /** 1-based position in the list after duplicates of the same ingredient are dropped */
   position: number;
+  /** exact = INCI name or alias; fuzzy = typo-tolerant (low confidence); null = unknown */
+  match: 'exact' | 'fuzzy' | null;
   /** the name as split from the list (normalised by splitInci, otherwise untouched) */
   input: string;
   ingredient: T | null;
@@ -123,7 +125,7 @@ export function resolveInci<T extends { id: number }>(
       null;
     if (hit && used.has(hit.id)) continue;
     if (hit) used.add(hit.id);
-    rows.push({ position: rows.length + 1, input, ingredient: hit });
+    rows.push({ position: rows.length + 1, input, ingredient: hit, match: hit ? 'exact' : null });
   }
   return rows;
 }

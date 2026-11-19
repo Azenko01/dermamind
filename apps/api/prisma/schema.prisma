@@ -28,6 +28,12 @@ enum ProductCategory {
   exfoliant
   spot_treatment
   oil
+  /// not face care — kept out of routines and suggestions (OBF categories_tags)
+  makeup
+  hair_care
+  body_care
+  oral_care
+  deodorant
   other
 
   @@map("product_category")
@@ -90,6 +96,24 @@ enum Budget {
   gt150
 
   @@map("budget")
+}
+
+/// Where an ingredient row came from. Curated rows (our dictionary) are never overwritten.
+enum IngredientSource {
+  curated
+  obf_taxonomy
+  cosing
+
+  @@map("ingredient_source")
+}
+
+/// How a name on a list was linked to an ingredient.
+enum InciMatch {
+  exact
+  /// typo-tolerant match with a high threshold — shown and scored as low confidence
+  fuzzy
+
+  @@map("inci_match")
 }
 
 /// Where a catalogue row came from. Curated rows are never overwritten by an import.
@@ -200,6 +224,21 @@ model Ingredient {
   isAnimalDerived     Boolean @default(false) @map("is_animal_derived")
   isReefHarmful       Boolean @default(false) @map("is_reef_harmful")
 
+  // reference data: OBF ingredients taxonomy (built from CosIng) and CosIng annex exports
+  source          IngredientSource @default(curated)
+  /// CosIng substance reference number
+  cosingRef       String?          @map("cosing_ref")
+  casNumbers      String[]         @default([]) @map("cas_numbers")
+  ecNumbers       String[]         @default([]) @map("ec_numbers")
+  /// CosIng function codes as published (skin-conditioning, humectant, …)
+  cosingFunctions String[]         @default([]) @map("cosing_functions")
+  /// Regulation (EC) 1223/2009 annex entries, e.g. "III/202", "V/34"
+  annexRefs       String[]         @default([]) @map("annex_refs")
+  /// Annex II — must not be in cosmetics
+  isProhibited    Boolean          @default(false) @map("is_prohibited")
+  /// Annex III — allowed only with restrictions
+  isRestricted    Boolean          @default(false) @map("is_restricted")
+
   aliases      IngredientAlias[]
   products     ProductIngredient[]
   effects      IngredientEffect[]
@@ -208,12 +247,15 @@ model Ingredient {
   conflictsAsB IngredientConflict[]    @relation("ConflictB")
   avoidedBy    AvoidedIngredient[]
 
+  @@index([cosingRef])
   @@map("ingredients")
 }
 
 model IngredientAlias {
   /// normalised spelling (lower case, no spaces)
   alias        String     @id
+  /// curated (our dictionary), obf_taxonomy, cosing, reviewed (data/alias-review.json)
+  source       String     @default("curated")
   ingredientId Int        @map("ingredient_id")
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
 
@@ -228,6 +270,9 @@ model ProductIngredient {
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
   /// 1 = highest concentration
   position     Int        @db.SmallInt
+  match        InciMatch  @default(exact)
+  /// the name as written on the list when it was matched fuzzily
+  matchedFrom  String?    @map("matched_from")
 
   @@id([productId, ingredientId])
   @@index([ingredientId])

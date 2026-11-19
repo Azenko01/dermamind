@@ -1,0 +1,44 @@
+[
+  {
+    "step": "Start (D-59)",
+    "at": "2026-11-19T13:05:29.029Z",
+    "products": 12838,
+    "tokens": 220110,
+    "known": 123551,
+    "fuzzy": 0,
+    "fullyKnown": 265,
+    "fullyKnownExact": 265,
+    "dictionary": {
+      "ingredients": 387,
+      "aliases": 618
+    }
+  },
+  {
+    "step": "1. Taksonomia OBF",
+    "at": "2026-11-19T13:08:58.286Z",
+    "products": 12838,
+    "tokens": 220051,
+    "known": 183912,
+    "fuzzy": 0,
+    "fullyKnown": 2571,
+    "fullyKnownExact": 2571,
+    "dictionary": {
+      "ingredients": 22378,
+      "aliases": 29302
+    }
+  },
+  {
+    "step": "2. Załączniki CosIng II–VI",
+    "at": "2026-11-19T13:10:39.171Z",
+    "products": 12838,
+    "tokens": 220053,
+    "known": 185097,
+    "fuzzy": 0,
+    "fullyKnown": 2755,
+    "fullyKnownExact": 2755,
+    "dictionary": {
+      "ingredients": 22642,
+      "aliases": 29565
+    }
+  }
+]

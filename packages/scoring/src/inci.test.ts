@@ -148,9 +148,9 @@ describe('resolveInci', () => {
   it('matches by INCI name, alias and parenthesised name, in order', () => {
     const rows = resolveInci(['WATER (AQUA)', 'GLYCERIN', 'MYSTERY EXTRACT'], dict);
     expect(rows).toEqual([
-      { position: 1, input: 'WATER (AQUA)', ingredient: aqua },
-      { position: 2, input: 'GLYCERIN', ingredient: glycerin },
-      { position: 3, input: 'MYSTERY EXTRACT', ingredient: null },
+      { position: 1, input: 'WATER (AQUA)', ingredient: aqua, match: 'exact' },
+      { position: 2, input: 'GLYCERIN', ingredient: glycerin, match: 'exact' },
+      { position: 3, input: 'MYSTERY EXTRACT', ingredient: null, match: null },
     ]);
   });
 

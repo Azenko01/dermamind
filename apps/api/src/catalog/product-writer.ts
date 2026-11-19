@@ -20,7 +20,14 @@ export const MAX_INCI_NAMES = 300;
 
 export interface LinkedInci {
   /** dictionary ingredients with their position in the full list */
-  ingredients: { ingredientId: number; position: number }[];
+  ingredients: {
+    ingredientId: number;
+    position: number;
+    /** fuzzy = typo-tolerant match, low confidence */
+    match: 'exact' | 'fuzzy';
+    /** the name as written, for fuzzy matches */
+    matchedFrom: string | null;
+  }[];
   /** names we don't know, exactly as split from the list — never matched to a "closest" one */
   unknown: string[];
 }
@@ -30,7 +37,16 @@ export function linkInci(inciRaw: string | null, dict: Dict): LinkedInci {
   const rows = resolveInci(splitInci(inciRaw).slice(0, MAX_INCI_NAMES), dict);
   return {
     ingredients: rows.flatMap((r) =>
-      r.ingredient ? [{ ingredientId: r.ingredient.id, position: r.position }] : [],
+      r.ingredient
+        ? [
+            {
+              ingredientId: r.ingredient.id,
+              position: r.position,
+              match: r.match === 'fuzzy' ? ('fuzzy' as const) : ('exact' as const),
+              matchedFrom: r.match === 'fuzzy' ? r.input : null,
+            },
+          ]
+        : [],
     ),
     unknown: rows.filter((r) => !r.ingredient).map((r) => r.input),
   };
