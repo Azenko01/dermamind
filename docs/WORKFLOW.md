@@ -31,6 +31,15 @@ pnpm catalog:import-obf --refresh  # свіжий дамп
 ```
 Звіт: `data/obf-import-report.md`. Повторний запуск нічого не дублює.
 
+Словник складників (після змін у словнику або в `data/alias-review.json`):
+```bash
+pnpm catalog:import-obf-taxonomy   # ~22,5 тис. назв INCI (OBF, на основі CosIng)
+pnpm catalog:import-cosing         # додатки II–VI + data/raw/cosing/*.csv|xlsx, якщо є
+pnpm catalog:apply-alias-review    # рішення з data/alias-review.json
+pnpm catalog:relink --step "опис"  # заново зв'язати продукти + замір у звіті
+pnpm catalog:unknown-tokens        # оновити список на перевірку data/unknown-tokens.md
+```
+
 ## Якщо щось не працює
 
 | Помилка | Що робити |
@@ -56,6 +65,7 @@ pnpm catalog:import-obf --refresh  # свіжий дамп
   - [x] Коди EAN з Open Beauty Facts (12 837 продуктів, 219 з PL), автозаповнення після скану — 19.11.2026
 - [x] Спринт 4 — функції AI — 14.10.2026
 - [x] Спринт 5 — рутина і улюблені — 14.10.2026
+- [x] Словник складників: таксономія OBF + додатки CosIng + нормалізатор + огляд топ-500 → 90,5% назв розпізнано (було 56,1%) — 19.11.2026
 - [x] Світла тема + Профіль → Wygląd (Systemowy / Jasny / Ciemny) — 19.11.2026 (перевірити на телефоні)
 - [ ] Спринт 6 — доопрацювання і дані
 - [ ] Спринт 7 — тести і бета
