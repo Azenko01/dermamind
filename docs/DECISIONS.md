@@ -883,3 +883,47 @@ tabela „przed i po” jest w `data/obf-import-report.md` i `data/ingredient-re
 
 Wynik po D-73 i D-74: 90,5% rozpoznanych nazw (202 215 z 223 407), 6 489 produktów w pełni
 rozpoznanych (krok 5 w `data/obf-import-report.md`).
+
+---
+
+## Profil skóry i Ustawienia (19.11.2026)
+
+### D-75. Dlaczego konto e-mail nie miało profilu skóry
+
+- **Przyczyna 1 (to konto):** O1 → „Zaloguj się” → „Nie mam konta — załóż je” tworzy konto bez quizu
+  (w bazie: brak `quiz_answers`). Potem nie było jak zrobić quizu — Profil pokazywał „Quiz pojawi się
+  tu wkrótce”.
+- **Przyczyna 2:** quiz zrobiony jako gość, potem „Mam już konto” → logowanie: odpowiedzi zostawały
+  na koncie gościa, a konto e-mail dalej było puste.
+- **Decyzja:** (1) bez profilu Profil i Dziś pokazują „Zrób quiz (2 min)” / „Uzupełnij profil skóry,
+  żeby zobaczyć dopasowanie” — quiz bez kroków zakładania konta; (2) `POST /v1/auth/login` z tokenem
+  gościa przenosi jego profil (typ skóry, cele, unikane składniki) i półki na konto, **tylko jeśli
+  konto nie ma jeszcze profilu**; konto gościa jest potem usuwane. Istniejącego profilu nigdy nie
+  nadpisujemy. Rejestracja gościa już wcześniej zachowywała to samo konto. Testy e2e:
+  `apps/api/test/profile.e2e-spec.ts`.
+- **Alternatywy:** pytać użytkownika, który profil zachować — dodatkowy ekran dla rzadkiego
+  przypadku; scalanie odpowiedzi — nie ma sensownej reguły scalania.
+
+### D-76. Ponowny quiz i edycja pojedynczej odpowiedzi
+
+- **Decyzja:** te same ekrany O6–O19 (z wynikiem O14) pod osobnym adresem `/quiz/[step]` — bo
+  `/onboarding` jest dostępny tylko przed zalogowaniem. Stan quizu ma tryb: `onboarding` (jak
+  dotąd), `retake` (cały quiz od nowa, wypełniony zapisanymi odpowiedziami, na końcu „Zapisz
+  profil”), `edit` (jedno pytanie z ekranu „Profil skóry”, przycisk „Zapisz”). Zapis to zawsze pełne
+  `PUT /v1/me/quiz` (serwer przelicza typ skóry, barierę i wrażliwość), potem odświeżamy wszystkie
+  zapytania — Match Score, Dziś i Rutyna liczą się od nowa. Odpowiedzi w trybie edycji nigdy nie są
+  wysyłane jako „zaległy quiz z onboardingu”.
+- **Alternatywy:** osobne endpointy na każde pole (PATCH) — więcej kodu i ryzyko niespójnego
+  profilu, bo typ skóry zależy od kilku odpowiedzi naraz.
+
+### D-77. Ustawienia i usunięte zaślepki
+
+- **Decyzja:** ekran Ustawienia: imię (`PATCH /v1/me`), zmiana hasła (`POST
+  /v1/auth/password/change` — nowe tokeny dla tego telefonu, inne sesje wylogowane; gość zamiast
+  tego widzi „Zapisz profil na koncie”), Wygląd (przeniesiony z Profilu), język (tylko polski),
+  Wyloguj, Usuń konto (z potwierdzeniem, `DELETE /v1/me`), wersja aplikacji.
+- **Usunięte zaślepki:** „Quiz pojawi się tu wkrótce” i „Edytuj odpowiedzi — wkrótce” (Profil),
+  „Ustawienia — wkrótce”, O21 „Już niedługo” (skaner i wyszukiwarka otwierają się teraz zaraz po
+  zapisaniu profilu), O22 „Apple / Google — już niedługo” (przyciski ukryte, dopóki nie ma kluczy
+  — `SOCIAL_SIGN_IN`), „Nie pamiętam hasła” (ekran obiecywał e-mail, którego serwer nie wysyła —
+  wróci, gdy wybierzemy dostawcę poczty), nieużywany `PlaceholderScreen`.

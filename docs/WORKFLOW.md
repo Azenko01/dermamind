@@ -67,6 +67,7 @@ pnpm catalog:unknown-tokens        # оновити список на перев
 - [x] Спринт 5 — рутина і улюблені — 14.10.2026
 - [x] Словник складників: таксономія OBF + додатки CosIng + нормалізатор + огляд топ-500 → 90,5% назв розпізнано (було 56,1%); Aroma ≠ Parfum, SD Alcohol = Alcohol Denat. — 19.11.2026, злито в `main`
 - [x] Світла тема + Профіль → Wygląd (Systemowy / Jasny / Ciemny) — 19.11.2026, злито в `main` (перевірити на телефоні)
+- [x] Профіль шкіри (повторний квіз, редагування відповідей), Ustawienia, перенесення профілю гостя при вході, без заглушок «wkrótce» — 19.11.2026, злито в `main`
 - [ ] Спринт 6 — доопрацювання і дані (наступне: переглянути `data/unknown-tokens.md`, решта назв зі статусом «do decyzji»)
 - [ ] Спринт 7 — тести і бета
 - [ ] Спринт 8 — публікація
@@ -99,5 +100,6 @@ Add web support to apps/mobile: npx expo install react-native-web react-dom @exp
 
 - [ ] Unikane składniki: zapisywać nazwę INCI (Cocos Nucifera Oil, Lanolin), polską tylko jako podpis — teraz mieszane („Olej kokosowy”, „Lanolina”)
 - [ ] Sprawdzić jasny motyw na telefonie (makiety są jasne; testowane tylko w ciemnym) — kod gotowy 19.11.2026, przełącznik w Profil → Wygląd
-- [ ] „Kontynuuj z Apple / Google” — teraz zaślepki; ukryć albo pokazać komunikat, dopóki nie ma kluczy
+- [x] „Kontynuuj z Apple / Google” — ukryte, dopóki nie ma kluczy (`SOCIAL_SIGN_IN` w SaveStep) — 19.11.2026
+- [ ] Reset hasła e-mailem — potrzebny dostawca poczty (konto → decyzja Oleksandra); do tego czasu link ukryty
 - [ ] Ekran wyniku O14: nagłówek „Twój typ skóry” lekko ucięty pod paskiem postępu przy przewijaniu
