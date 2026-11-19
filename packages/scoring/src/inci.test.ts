@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { aliasKey, inciLookupKeys, normalizeInciName, splitInci } from './inci';
+import { aliasKey, inciLookupKeys, normalizeInciName, resolveInci, splitInci } from './inci';
 
 describe('normalizeInciName', () => {
   it('upper-cases, trims and collapses spaces', () => {
@@ -127,5 +127,38 @@ describe('inciLookupKeys', () => {
       'shea',
     ]);
     expect(inciLookupKeys('Glycerin')).toEqual(['glycerin']);
+  });
+});
+
+describe('resolveInci', () => {
+  const aqua = { id: 1 };
+  const glycerin = { id: 2 };
+  const dict = {
+    byInci: new Map([
+      ['AQUA', aqua],
+      ['GLYCERIN', glycerin],
+    ]),
+    byAlias: new Map([
+      ['aqua', aqua],
+      ['water', aqua],
+      ['glycerin', glycerin],
+    ]),
+  };
+
+  it('matches by INCI name, alias and parenthesised name, in order', () => {
+    const rows = resolveInci(['WATER (AQUA)', 'GLYCERIN', 'MYSTERY EXTRACT'], dict);
+    expect(rows).toEqual([
+      { position: 1, input: 'WATER (AQUA)', ingredient: aqua },
+      { position: 2, input: 'GLYCERIN', ingredient: glycerin },
+      { position: 3, input: 'MYSTERY EXTRACT', ingredient: null },
+    ]);
+  });
+
+  it('never guesses a near match and drops a second name for the same ingredient', () => {
+    const rows = resolveInci(['AQUA', 'WATER', 'GLYCERINE', 'AQUA'], dict);
+    expect(rows.map((r) => [r.input, r.ingredient?.id ?? null, r.position])).toEqual([
+      ['AQUA', 1, 1],
+      ['GLYCERINE', null, 2],
+    ]);
   });
 });

@@ -649,3 +649,105 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   sprawdzenia przy pierwszym buildzie EAS w Sprincie 7–8); w iOS prebuild tworzy `SceneDelegate`.
 - **Alternatywy:** zostać na SDK 57 i robić development buildy przez EAS — wolniej dla zespołu
   i wbrew zasadzie „wdrożenia robi Oleksandr ręcznie”.
+
+---
+
+## Kody kreskowe z Open Beauty Facts i jasny motyw (19.11.2026)
+
+### D-57. Baza kodów EAN z oficjalnego zrzutu Open Beauty Facts
+
+- **Decyzja:** `pnpm catalog:import-obf` pobiera oficjalny eksport Open Beauty Facts
+  (`openbeautyfacts-products.jsonl.gz`, ok. 100 MB) do `data/raw/` (poza gitem) i czyta go linia po
+  linii (strumień gzip → readline), bez ładowania całego pliku do pamięci. Zostawiamy rekordy
+  z poprawnym EAN-8/EAN-13 (suma kontrolna), niepustym składem i krajem UE w `countries_tags`;
+  `is_polish_market` = jest `en:poland`. Nazwa i skład: najpierw wersja polska, potem angielska,
+  potem główna. Upsert po EAN; pomijamy rekordy bez zmian (`last_modified_t`), więc ponowny import
+  trwa sekundy. Raport: `data/obf-import-report.md`.
+- **Wynik pierwszego importu:** 80 784 rekordów → 12 837 produktów (219 z rynku polskiego).
+  Najwięcej odpada przez brak składu (54 935) i brak kraju UE (10 026).
+- **Dlaczego:** to jedyne legalne, darmowe źródło kodów EAN ze składami. Scraping sklepów (Rossmann,
+  Hebe, Apify) odrzuciliśmy: regulaminy i `robots.txt` tego zabraniają (patrz D-27 o Hebe).
+- **Alternatywy:** API OBF produkt po produkcie (wolne, limity zapytań), ręczne wpisywanie kodów
+  (nie skaluje się), płatne bazy GS1 (koszt, licencja).
+
+### D-58. Źródło produktu: curated / obf / user — nasz katalog zawsze wygrywa
+
+- **Decyzja:** `products.source` z tekstu staje się typem wyliczeniowym `curated | obf | user`
+  (dotychczasowe wiersze → `curated`). Import OBF nigdy nie nadpisuje wiersza `curated` ani `user`;
+  import katalogu curated ukrywa wiersz OBF z tym samym kodem (nie usuwa — może być na czyjejś półce).
+  Unikalny indeks na `barcode` (EAN) już był; zostawiliśmy nazwę kolumny.
+- **Dlaczego:** 42 produkty sprawdziliśmy ręcznie, dane OBF tworzy społeczność i bywają niepełne.
+- **Alternatywy:** osobna tabela na produkty OBF — podwójne zapytania w każdym miejscu, gdzie
+  liczymy wynik.
+
+### D-59. Nierozpoznane składniki zapisujemy dosłownie, nie zgadujemy
+
+- **Decyzja:** skład z OBF dzielimy tym samym parserem INCI co resztę (`splitInci`) i łączymy ze
+  słownikiem po nazwie INCI i aliasach (`resolveInci` w `@dermamind/scoring`, wspólne dla importu,
+  skanera i „Analizuj skład”). Nazwy, których nie znamy, trafiają do `products.inci_unknown`
+  dokładnie tak, jak zostały wycięte z listy — bez dopasowania „najbliższej” nazwy. W wyniku
+  dopasowania liczą się jak nieznane pozycje (tak jak w D3), więc obniżają pewność wyniku,
+  a flagi „bez X” nie są obiecywane, dopóki choć jedna nazwa jest nieznana.
+- **Dlaczego:** pomyłka w dopasowaniu (np. inny olej) dałaby fałszywie pewny wynik; uczciwie niższa
+  pewność jest lepsza. Obecnie słownik rozpoznaje ok. 56% nazw z OBF — to mierzalny cel na Sprint 6.
+- **Alternatywy:** tworzyć składnik dla każdej nieznanej nazwy (dziesiątki tysięcy śmieciowych
+  wierszy w wielu językach), dopasowanie rozmyte (zgadywanie).
+
+### D-60. Skaner: lokalna baza → API Open Beauty Facts → 404
+
+- **Decyzja:** `GET /v1/products/by-ean/:ean` (zastępuje `/products/barcode/:ean`): najpierw własny
+  produkt użytkownika z tym kodem, potem nasz katalog, potem API OBF (`/api/v2/product/:ean.json`,
+  tylko potrzebne pola, User-Agent „DermaMind/1.0 (diploma project)”, limit 3 s). Wynik zapisujemy
+  jako `source = obf`; kod, którego OBF nie zna, pamiętamy 24 h w `obf_misses`. Błąd sieci lub
+  timeout nie jest zapamiętywany. Limity: ThrottlerGuard `scan` (30/min na klienta, `SCAN_RATE_LIMIT`)
+  i 60 zapytań/min do OBF na cały serwer (OBF prosi o ≤ 100/min).
+- **Dlaczego:** zrzut aktualizujemy rzadko, a ludzie skanują nowości; drugi skan tego samego kodu
+  jest już lokalny i szybki. Zapamiętanie „nie ma” chroni OBF i nasz czas odpowiedzi.
+- **Alternatywy:** tylko zrzut (nowe produkty nieznane do kolejnego importu), wywołanie OBF
+  z aplikacji (sprzeczne z zasadą „aplikacja rozmawia tylko z naszym API”).
+
+### D-61. Produkty dodane przez użytkownika są prywatne do moderacji
+
+- **Decyzja:** gdy kodu nie ma albo OBF nie ma składu, aplikacja pokazuje formularz („Dodaj produkt”):
+  nazwa, marka i zdjęcie z OBF są już wpisane, użytkownik wkleja skład. `POST /v1/products` zapisuje
+  produkt z `source = user`, `needs_review = true`, `is_published = false`; widzi go tylko autor
+  (skan, wyszukiwarka, półki, rutyna). Kod trafia do `user_barcode` z unikalnością (autor, kod),
+  bo `barcode` jest unikalny w całym katalogu, a ten sam nieznany kod może dodać kilka osób.
+  Zdjęcie bierzemy tylko z rekordu OBF tego samego kodu (nie z adresu podanego przez aplikację).
+- **Dlaczego:** użytkownik dostaje wynik od razu, a do wspólnej bazy nic nie trafia bez sprawdzenia.
+- **Alternatywy:** tylko zgłoszenie do kolejki (`product_submissions`) — użytkownik czeka na wynik;
+  publikacja od razu — ryzyko spamu i błędnych składów.
+
+### D-62. Przeglądanie pokazuje katalog curated, wyszukiwanie obejmuje OBF
+
+- **Decyzja:** „Odkrywaj” bez wpisanego tekstu pokazuje nasz katalog (i własne produkty); wyszukiwanie
+  obejmuje też ok. 13 tys. produktów OBF, ale ocenia najwyżej 300 kandydatów: najpierw curated, potem
+  rynek polski, potem pełne składy. Karta składnika pokazuje do 200 produktów w tej samej kolejności.
+  Generator rutyny bierze curated i tylko te produkty OBF, których cały skład znamy.
+- **Dlaczego:** wynik liczymy w pamięci dla każdego kandydata (PLAN 4.4); bez limitu jedno zapytanie
+  „krem” liczyłoby tysiące wyników. Kategorię OBF zgadujemy z `categories_tags` tylko dla jasnej
+  pielęgnacji twarzy, reszta to „Inne” (szampony, pasty do zębów).
+- **Alternatywy:** zapisane wyniki per użytkownik (przeliczanie po każdej zmianie profilu — za dużo
+  pracy na ten etap), indeks wyszukiwania zewnętrzny (koszt, kolejna usługa).
+
+### D-63. Atrybucja ODbL
+
+- **Decyzja:** na karcie produktu z `source = obf` link „Dane: Open Beauty Facts (ODbL)” do strony
+  produktu w OBF; w Profil → O aplikacji opis źródła z linkami do openbeautyfacts.org i licencji
+  ODbL 1.0; raport importu zaczyna się od tej samej informacji. Bazę z danymi OBF traktujemy jako
+  bazę pochodną — jeśli kiedyś ją udostępnimy, to na tej samej licencji.
+- **Dlaczego:** ODbL wymaga widocznego przypisania źródła i zachowania licencji dla bazy pochodnej.
+
+### D-64. Pełny jasny i ciemny motyw, wybór w Profil → Wygląd
+
+- **Decyzja:** Systemowy / Jasny / Ciemny, w Zustand z zapisem w AsyncStorage (domyślnie Systemowy).
+  `useTheme()` czyta wybór, a `Appearance.setColorScheme` przełącza też natywne elementy (alerty,
+  klawiatura). Wszystkie kolory idą z tokenów; doszły tokeny dla nakładki aparatu (`camera`, `scrim`,
+  `onScrim` — takie same w obu motywach, bo zawsze leżą na obrazie z kamery), treści na kolorowym
+  tle (`onPrimary`, `onPrimaryDisabled`) i skali sebum (`scale1–5`).
+- **Kontrast (WCAG AA):** wartości ze zrzutów SkinSort nie przechodziły dla tekstu w jasnym motywie,
+  więc zmieniliśmy: `good` #1F9D55 → #157A40, `caution` #E07B12 → #9E5600, `bad` #D93636 → #BE2A2A,
+  `textSecondary` #6E6E73 → #636368; w ciemnym `accent` #8C82F2 → #968DF4. Każdą parę tekst/tło
+  sprawdza test `scripts/theme/contrast.test.ts` (4,5:1 dla tekstu, 3:1 dla ikon i dużych cyfr).
+- **Alternatywy:** osobne tokeny „tekstowe” obok jaskrawych kolorów grafik — więcej tokenów i łatwo
+  użyć złego; zostawić kolory ze zrzutów — pigułki 30–49% były nieczytelne (2,5:1).

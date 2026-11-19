@@ -2,8 +2,8 @@ import { StyleSheet, View } from 'react-native';
 import { useTheme } from '@/theme';
 import { Text } from './Text';
 
-// Sebum scale from dry to oily (mockup 03). Data-visualisation colours, not UI tokens.
-const SEGMENTS = ['#A9D2F3', '#BFE6D4', '#CFEBA6', '#F2DE8E', '#F5C16C'];
+// Sebum scale from dry to oily (mockup 03), colours from the theme (scale1…scale5).
+const SEGMENTS = ['scale1', 'scale2', 'scale3', 'scale4', 'scale5'] as const;
 
 interface Props {
   /** 0 (dry) … 1 (oily) */
@@ -20,7 +20,7 @@ export function SkinScale({ position, label }: Props) {
       <View style={styles.bubbleRow}>
         <View style={[styles.bubbleAnchor, { left }]}>
           <View style={[styles.bubble, { backgroundColor: colors.primary }]}>
-            <Text variant="bodyStrong" color="background">
+            <Text variant="bodyStrong" color="onPrimary">
               {label}
             </Text>
           </View>
@@ -28,7 +28,7 @@ export function SkinScale({ position, label }: Props) {
       </View>
       <View style={styles.track}>
         {SEGMENTS.map((c) => (
-          <View key={c} style={[styles.segment, { backgroundColor: c }]} />
+          <View key={c} style={[styles.segment, { backgroundColor: colors[c] }]} />
         ))}
         <View
           style={[

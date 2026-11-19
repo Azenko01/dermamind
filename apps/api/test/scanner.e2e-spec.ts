@@ -105,11 +105,11 @@ describe('scanner, analysis, ingredients, submissions (e2e)', () => {
     return user;
   };
 
-  describe('GET /v1/products/barcode/:ean', () => {
+  describe('GET /v1/products/by-ean/:ean', () => {
     it('finds the product, scores it and records the scan', async () => {
       const user = await quizUser();
       const res = await http()
-        .get(`/v1/products/barcode/${EAN}`)
+        .get(`/v1/products/by-ean/${EAN}`)
         .set(auth(user.accessToken))
         .expect(200);
       expect(res.body).toMatchObject({
@@ -125,11 +125,11 @@ describe('scanner, analysis, ingredients, submissions (e2e)', () => {
     it('accepts spaces and records unknown codes too', async () => {
       const user = await registerUser(app);
       await http()
-        .get('/v1/products/barcode/590%201234%20123457')
+        .get('/v1/products/by-ean/590%201234%20123457')
         .set(auth(user.accessToken))
         .expect(200);
       await http()
-        .get(`/v1/products/barcode/${UNKNOWN_EAN}`)
+        .get(`/v1/products/by-ean/${UNKNOWN_EAN}`)
         .set(auth(user.accessToken))
         .expect(404);
       const scans = await prisma.scanHistory.findMany({ orderBy: { id: 'asc' } });
@@ -140,14 +140,14 @@ describe('scanner, analysis, ingredients, submissions (e2e)', () => {
     });
 
     it('works without an account, but keeps no history', async () => {
-      await http().get(`/v1/products/barcode/${EAN}`).expect(200);
+      await http().get(`/v1/products/by-ean/${EAN}`).expect(200);
       expect(await prisma.scanHistory.count()).toBe(0);
     });
 
     it('rejects codes with a wrong check digit or length', async () => {
-      await http().get('/v1/products/barcode/5901234123458').expect(400);
-      await http().get('/v1/products/barcode/12345').expect(400);
-      await http().get('/v1/products/barcode/abcdefghijklm').expect(400);
+      await http().get('/v1/products/by-ean/5901234123458').expect(400);
+      await http().get('/v1/products/by-ean/12345').expect(400);
+      await http().get('/v1/products/by-ean/abcdefghijklm').expect(400);
     });
   });
 
@@ -155,9 +155,9 @@ describe('scanner, analysis, ingredients, submissions (e2e)', () => {
     it('lists my scans newest first, with the product or null, only mine', async () => {
       const me = await quizUser();
       const other = await registerUser(app, 'other@example.com');
-      await http().get(`/v1/products/barcode/${UNKNOWN_EAN}`).set(auth(me.accessToken)).expect(404);
-      await http().get(`/v1/products/barcode/${EAN}`).set(auth(me.accessToken)).expect(200);
-      await http().get(`/v1/products/barcode/${EAN}`).set(auth(other.accessToken)).expect(200);
+      await http().get(`/v1/products/by-ean/${UNKNOWN_EAN}`).set(auth(me.accessToken)).expect(404);
+      await http().get(`/v1/products/by-ean/${EAN}`).set(auth(me.accessToken)).expect(200);
+      await http().get(`/v1/products/by-ean/${EAN}`).set(auth(other.accessToken)).expect(200);
 
       const res = await http().get('/v1/me/scans').set(auth(me.accessToken)).expect(200);
       expect(res.body.total).toBe(2);
@@ -178,7 +178,7 @@ describe('scanner, analysis, ingredients, submissions (e2e)', () => {
     it('needs a token and is removed with the account', async () => {
       await http().get('/v1/me/scans').expect(401);
       const me = await registerUser(app);
-      await http().get(`/v1/products/barcode/${EAN}`).set(auth(me.accessToken)).expect(200);
+      await http().get(`/v1/products/by-ean/${EAN}`).set(auth(me.accessToken)).expect(200);
       await http().delete('/v1/me').set(auth(me.accessToken)).expect(204);
       expect(await prisma.scanHistory.count()).toBe(0);
     });

@@ -47,7 +47,7 @@ export function SaveStep() {
         {Platform.OS === 'ios' ? (
           <PrimaryButton
             title="Kontynuuj z Apple"
-            icon={<AppleLogoIcon size={22} weight="fill" color={colors.background} />}
+            icon={<AppleLogoIcon size={22} weight="fill" color={colors.onPrimary} />}
             onPress={() => notYet('Logowanie przez Apple')}
           />
         ) : null}

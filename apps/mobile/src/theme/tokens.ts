@@ -1,6 +1,8 @@
 /**
  * Design tokens — PLAN.md 7.1 (colours) and 7.3 (shapes, spacing).
- * Values read from SkinSort screenshots; WCAG AA contrast still to be confirmed.
+ * Values read from SkinSort screenshots, then adjusted so every text pair passes WCAG AA in both
+ * themes (19.11.2026: light good/caution/bad/textSecondary darker, dark accent lighter — see
+ * docs/DECISIONS.md). Checked by scripts/theme/contrast.test.ts.
  */
 const light = {
   primary: '#2F2A7D',
@@ -12,13 +14,30 @@ const light = {
   surface: '#F3F3F1',
   border: '#E7E6E3',
   textPrimary: '#1C1C1E',
-  textSecondary: '#6E6E73',
-  good: '#1F9D55',
+  textSecondary: '#636368',
+  good: '#157A40',
   goodSoft: '#D5F5E1',
-  caution: '#E07B12',
+  caution: '#9E5600',
   cautionSoft: '#FDE9C8',
-  bad: '#D93636',
+  bad: '#BE2A2A',
   badSoft: '#FDDCDC',
+  /** text and icons on `primary` (the main button) */
+  onPrimary: '#FFFFFF',
+  /** text on `primaryDisabled` */
+  onPrimaryDisabled: '#FFFFFF',
+  /** camera overlay: the same in both themes, it always sits on a live camera picture */
+  camera: '#000000',
+  scrim: 'rgba(0,0,0,0.55)',
+  scrimStrong: 'rgba(0,0,0,0.65)',
+  onScrim: '#FFFFFF',
+  /** dimmed backdrop behind sheets and dialogs */
+  backdrop: 'rgba(0,0,0,0.4)',
+  /** SkinScale (O14): very dry → very oily */
+  scale1: '#A9D2F3',
+  scale2: '#BFE6D4',
+  scale3: '#CFEBA6',
+  scale4: '#F2DE8E',
+  scale5: '#F5C16C',
 } as const;
 
 export type ColorToken = keyof typeof light;
@@ -27,7 +46,7 @@ export type Palette = Record<ColorToken, string>;
 const dark: Palette = {
   primary: '#A7A1F5',
   primaryDisabled: '#3A3760',
-  accent: '#8C82F2',
+  accent: '#968DF4',
   accentSoft: '#2A2650',
   background: '#0E0E12',
   backgroundAlt: '#141418',
@@ -41,6 +60,18 @@ const dark: Palette = {
   cautionSoft: '#3D2A10',
   bad: '#F06B6B',
   badSoft: '#3D1515',
+  onPrimary: '#0E0E12',
+  onPrimaryDisabled: '#9A97C4',
+  camera: '#000000',
+  scrim: 'rgba(0,0,0,0.55)',
+  scrimStrong: 'rgba(0,0,0,0.65)',
+  onScrim: '#FFFFFF',
+  backdrop: 'rgba(0,0,0,0.6)',
+  scale1: '#3E6E92',
+  scale2: '#3F7A63',
+  scale3: '#6B8A3A',
+  scale4: '#9A8634',
+  scale5: '#A8742A',
 };
 
 export const palettes: Record<'light' | 'dark', Palette> = { light, dark };

@@ -166,9 +166,44 @@ export function ProductScreen() {
               </Text>
             </View>
             <IngredientList ingredients={p.ingredients} complete={p.inciComplete} />
+            {p.unknownIngredients.length ? (
+              <View
+                style={[
+                  styles.note,
+                  { backgroundColor: colors.surface, padding: spacing.xl, gap: spacing.sm },
+                ]}
+              >
+                <Text variant="bodyStrong">
+                  Nie rozpoznaliśmy {p.unknownIngredients.length} z{' '}
+                  {p.ingredients.length + p.unknownIngredients.length}
+                </Text>
+                <Text variant="caption">{p.unknownIngredients.join(', ')}</Text>
+                <Text variant="caption">
+                  Nie zgadujemy, czym są — dlatego wynik ma niższą pewność.
+                </Text>
+              </View>
+            ) : null}
           </View>
 
-          {p.sourceUrl ? (
+          {p.source === 'user' ? (
+            <Text variant="caption">
+              Dodany przez Ciebie. Widzisz go tylko Ty, dopóki nie sprawdzimy danych.
+            </Text>
+          ) : null}
+
+          {p.source === 'obf' && p.sourceUrl ? (
+            <Pressable
+              accessibilityRole="link"
+              accessibilityHint="Otwiera stronę produktu w Open Beauty Facts"
+              onPress={() => void Linking.openURL(p.sourceUrl!)}
+              style={[styles.row, { justifyContent: 'flex-start', gap: spacing.sm }]}
+            >
+              <ArrowSquareOutIcon size={20} color={colors.accent} />
+              <Text color="accent">Dane: Open Beauty Facts (ODbL)</Text>
+            </Pressable>
+          ) : null}
+
+          {p.source === 'curated' && p.sourceUrl ? (
             <Pressable
               accessibilityRole="link"
               onPress={() => void Linking.openURL(p.sourceUrl!)}
@@ -369,5 +404,6 @@ const styles = StyleSheet.create({
   },
   image: { height: 300, alignItems: 'center', justifyContent: 'center' },
   noMatch: { borderRadius: 24, gap: 4 },
+  note: { borderRadius: 20 },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
 });

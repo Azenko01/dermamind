@@ -6,6 +6,7 @@ import {
   ClockCounterClockwiseIcon,
   FlagIcon,
   GearIcon,
+  InfoIcon,
   SignOutIcon,
   TrashIcon,
   type IconProps,
@@ -19,6 +20,7 @@ import { Text } from '@/components/ui/Text';
 import { deleteAccount, signOut } from '@/features/auth/actions';
 import { useMe } from '@/features/auth/useMe';
 import { barrierCopy, sensitivityCopy, skinTypeCopy } from '@/features/onboarding/content';
+import { useAppearance, type AppearanceMode } from '@/stores/appearance';
 import { useTheme, type ColorToken } from '@/theme';
 
 /** T5 skeleton (PLAN.md 6.2): account card, skin profile, menu, sign out / delete account. */
@@ -46,6 +48,8 @@ export function ProfileScreen() {
           </>
         )}
 
+        <AppearanceCard />
+
         <Card padded={false}>
           <MenuRow
             icon={ClockCounterClockwiseIcon}
@@ -53,6 +57,7 @@ export function ProfileScreen() {
             onPress={() => router.push('/scans')}
           />
           <MenuRow icon={FlagIcon} label="Zgłoś produkt" onPress={() => router.push('/submit')} />
+          <MenuRow icon={InfoIcon} label="O aplikacji" onPress={() => router.push('/about')} />
           <MenuRow icon={GearIcon} label="Ustawienia" soon last />
         </Card>
 
@@ -77,6 +82,57 @@ export function ProfileScreen() {
         </Text>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+const APPEARANCE: { mode: AppearanceMode; label: string }[] = [
+  { mode: 'system', label: 'Systemowy' },
+  { mode: 'light', label: 'Jasny' },
+  { mode: 'dark', label: 'Ciemny' },
+];
+
+/** Profil → Wygląd: follow the phone, or always light / dark. Saved on the device. */
+function AppearanceCard() {
+  const { colors, spacing, radius, sizes } = useTheme();
+  const mode = useAppearance((s) => s.mode);
+  const setMode = useAppearance((s) => s.setMode);
+  return (
+    <Card>
+      <Text variant="label" color="textSecondary">
+        Wygląd
+      </Text>
+      <View
+        accessibilityRole="radiogroup"
+        style={[styles.segments, { backgroundColor: colors.surface, borderRadius: radius.chip }]}
+      >
+        {APPEARANCE.map((o) => {
+          const selected = o.mode === mode;
+          return (
+            <Pressable
+              key={o.mode}
+              accessibilityRole="radio"
+              accessibilityState={{ selected }}
+              onPress={() => setMode(o.mode)}
+              style={[
+                styles.segment,
+                {
+                  minHeight: sizes.minTouchTarget,
+                  borderRadius: radius.chip,
+                  margin: spacing.xs,
+                  backgroundColor: selected ? colors.background : 'transparent',
+                  borderWidth: selected ? 1 : 0,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              <Text variant="bodyStrong" color={selected ? 'textPrimary' : 'textSecondary'}>
+                {o.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </Card>
   );
 }
 
@@ -263,6 +319,8 @@ function confirmDelete() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  segments: { flexDirection: 'row' },
+  segment: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   row: { flexDirection: 'row', alignItems: 'center' },
   avatar: {
     width: 56,

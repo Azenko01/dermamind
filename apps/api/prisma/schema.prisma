@@ -92,6 +92,15 @@ enum Budget {
   @@map("budget")
 }
 
+/// Where a catalogue row came from. Curated rows are never overwritten by an import.
+enum ProductSource {
+  curated
+  obf
+  user
+
+  @@map("product_source")
+}
+
 enum SpfUsage {
   daily
   sometimes
@@ -124,8 +133,22 @@ model Product {
   imageUrl     String?                  @map("image_url")
   volumeMl     Decimal?                 @map("volume_ml")
   pricePln     Decimal?                 @map("price_pln") @db.Decimal(8, 2)
-  /// 'hebe', 'user_submission', ...
-  source       String?
+  /// curated = our hand-checked catalogue, obf = Open Beauty Facts (ODbL), user = added from the scanner
+  source       ProductSource            @default(curated)
+  /// countries_tags from Open Beauty Facts contain en:poland
+  isPolishMarket  Boolean               @default(false) @map("is_polish_market")
+  /// last_modified_t of the Open Beauty Facts record we imported (skip unchanged on re-import)
+  obfLastModified DateTime?             @map("obf_last_modified") @db.Timestamptz
+  /// ingredient names we could not match to our dictionary, kept exactly as written (never guessed)
+  inciUnknown  String[]                 @default([]) @map("inci_unknown")
+  /// source = user: who added it (only they see it until moderation)
+  createdById  String?                  @map("created_by_id") @db.Uuid
+  createdBy    User?                    @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  /// waits for the team to check it (user products, later the admin panel)
+  needsReview  Boolean                  @default(false) @map("needs_review")
+  /// source = user: the EAN they scanned. Not in `barcode`, which is unique across the catalogue —
+  /// two people may add the same unknown code; moderation moves it to `barcode`.
+  userBarcode  String?                  @map("user_barcode")
   /// ingredient list exactly as printed on the package
   inciRaw      String?                  @map("inci_raw")
   /// product page the data came from (unique key for the idempotent import)
@@ -144,6 +167,8 @@ model Product {
 
   @@index([search], type: Gin)
   @@index([category])
+  @@index([source])
+  @@unique([createdById, userBarcode])
   @@map("products")
 }
 
@@ -285,6 +310,7 @@ model User {
   profile       Profile?
   refreshTokens RefreshToken[]
   aiUsage       AiUsage[]
+  products      Product[]
 
   @@map("users")
 }
@@ -478,6 +504,14 @@ model RoutineLog {
 
   @@id([userId, routineId, day])
   @@map("routine_logs")
+}
+
+/// Barcodes Open Beauty Facts did not know: not asked again for 24 h (rate limits, latency).
+model ObfMiss {
+  barcode   String   @id
+  checkedAt DateTime @default(now()) @map("checked_at") @db.Timestamptz
+
+  @@map("obf_misses")
 }
 
 // ───────────────────────────── AI (5) ─────────────────────────────

@@ -20,8 +20,11 @@ import { SubmissionsModule } from './submissions/submissions.module';
     ConfigModule.forRoot({ isGlobal: true, load: [() => loadEnv()] }),
     ThrottlerModule.forRootAsync({
       inject: [ConfigService],
+      // 'default' guards /auth, /analyze, submissions; 'scan' guards only the barcode lookup, which
+      // may call Open Beauty Facts. Each route skips the throttler that isn't meant for it.
       useFactory: (config: ConfigService<AppEnv, true>) => [
-        { ttl: 60_000, limit: config.get('authRateLimit', { infer: true }) },
+        { name: 'default', ttl: 60_000, limit: config.get('authRateLimit', { infer: true }) },
+        { name: 'scan', ttl: 60_000, limit: config.get('scanRateLimit', { infer: true }) },
       ],
     }),
     PrismaModule,

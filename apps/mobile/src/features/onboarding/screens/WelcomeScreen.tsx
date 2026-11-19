@@ -24,7 +24,7 @@ export function WelcomeScreen() {
       <ScrollView contentContainerStyle={{ padding: spacing.screen, gap: spacing.xxl }}>
         <View style={[styles.center, { gap: spacing.md, marginTop: spacing.xxl }]}>
           <View style={[styles.logo, { backgroundColor: colors.primary }]}>
-            <DropIcon size={36} color={colors.background} />
+            <DropIcon size={36} color={colors.onPrimary} />
           </View>
           <Text variant="bodyStrong" color="primary" style={{ fontFamily: 'Inter_500Medium' }}>
             DermaMind AI

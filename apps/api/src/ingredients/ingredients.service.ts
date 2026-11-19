@@ -28,6 +28,14 @@ export class IngredientsService {
     const products = await this.prisma.product.findMany({
       where: { isPublished: true, ingredients: { some: { ingredientId: id } } },
       include: scorableProductInclude,
+      // "Aqua" is in thousands of Open Beauty Facts products: score a capped, curated-first set
+      orderBy: [
+        { source: 'asc' },
+        { isPolishMarket: 'desc' },
+        { inciComplete: 'desc' },
+        { id: 'asc' },
+      ],
+      take: 200,
     });
     const items = products
       .map((p) => toListItem(p, profile ? this.scoring.score(profile, p) : null))

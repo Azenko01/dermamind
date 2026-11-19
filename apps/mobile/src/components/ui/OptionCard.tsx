@@ -82,7 +82,7 @@ export function Checkbox({ selected }: { selected: boolean }) {
         },
       ]}
     >
-      {selected ? <CheckIcon size={18} weight="bold" color={colors.background} /> : null}
+      {selected ? <CheckIcon size={18} weight="bold" color={colors.onPrimary} /> : null}
     </View>
   );
 }

@@ -63,7 +63,12 @@ export function ShelfScreen() {
                 onPress={() => setKind(k)}
                 style={[
                   styles.tab,
-                  { backgroundColor: selected ? colors.background : 'transparent' },
+                  {
+                    backgroundColor: selected ? colors.background : 'transparent',
+                    // visible edge in the dark theme too, where background ≈ surface
+                    borderWidth: selected ? 1 : 0,
+                    borderColor: colors.border,
+                  },
                 ]}
               >
                 <Text variant="bodyStrong" color={selected ? 'textPrimary' : 'textSecondary'}>

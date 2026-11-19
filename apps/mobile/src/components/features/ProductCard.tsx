@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { MatchPill } from '@/components/ui/MatchPill';
 import { Text } from '@/components/ui/Text';
 import type { ProductItem } from '@/features/catalog/api';
@@ -8,15 +9,30 @@ import { useTheme } from '@/theme';
 
 const open = (id: number) => router.push({ pathname: '/product/[id]', params: { id: String(id) } });
 
-/** Placeholder until product photos are imported — the category pictogram on the grey surface. */
+/**
+ * Product photo (Open Beauty Facts products have one) on the grey surface; without a photo, or if
+ * it fails to load, the category pictogram.
+ */
 export function ProductImage({
   item,
   size,
 }: {
-  item: Pick<ProductItem, 'category'>;
+  item: Pick<ProductItem, 'category'> & { imageUrl?: string | null };
   size: number;
 }) {
   const { colors } = useTheme();
+  const [failed, setFailed] = useState(false);
+  if (item.imageUrl && !failed) {
+    return (
+      <Image
+        source={{ uri: item.imageUrl }}
+        style={{ width: size * 1.6, height: size * 1.6 }}
+        resizeMode="contain"
+        onError={() => setFailed(true)}
+        accessibilityIgnoresInvertColors
+      />
+    );
+  }
   const Icon = categoryCopy[item.category].icon;
   return <Icon size={size} color={colors.textSecondary} weight="light" />;
 }

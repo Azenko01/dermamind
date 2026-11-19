@@ -120,7 +120,7 @@ export function RoutineSlotRow({
             },
           ]}
         >
-          {done ? <CheckIcon size={20} weight="bold" color={colors.background} /> : null}
+          {done ? <CheckIcon size={20} weight="bold" color={colors.onPrimary} /> : null}
         </Pressable>
       ) : product.match ? (
         <MatchPill score={product.match.score} excluded={product.match.status === 'excluded'} />

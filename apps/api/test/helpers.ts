@@ -25,7 +25,7 @@ export async function createTestApp(aiTransport: AiTransport | null = null): Pro
 /** Wipes user data and test catalogue rows; dictionaries from migrations stay. */
 export async function resetDb(prisma: PrismaService): Promise<void> {
   await prisma.$executeRawUnsafe(
-    'TRUNCATE "users", "ingredient_aliases", "ingredients", "products", "brands", "product_submissions", "ai_cache" RESTART IDENTITY CASCADE',
+    'TRUNCATE "users", "ingredient_aliases", "ingredients", "products", "brands", "product_submissions", "ai_cache", "obf_misses" RESTART IDENTITY CASCADE',
   );
 }
 

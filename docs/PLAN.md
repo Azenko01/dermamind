@@ -573,23 +573,23 @@ Docelowy wygląd to SkinSort: białe i ciepło-szare tła, ciemny indygo na gł�
 
 ### 7.1 Kolory (tokeny)
 
-Wartości odczytane ze zrzutów ekranu — do potwierdzenia kontrastu WCAG AA w obu motywach.
+Wartości odczytane ze zrzutów ekranu; 19.11.2026 poprawione pod WCAG AA w obu motywach (DECISIONS D-64, test `scripts/theme/contrast.test.ts`). Dodatkowe tokeny: `onPrimary`, `onPrimaryDisabled`, `camera`, `scrim`, `onScrim`, `backdrop`, `scale1–5` — w `apps/mobile/src/theme/tokens.ts`.
 
 | Token | Jasny | Ciemny | Użycie |
 | --- | --- | --- | --- |
 | `primary` | #2F2A7D | #A7A1F5 | Główny przycisk „Dalej”, zaznaczona karta (ramka 2 px), radio i checkbox, pasek postępu |
 | `primaryDisabled` | #AEACCB | #3A3760 | Nieaktywny przycisk |
-| `accent` | #4F46E5 | #8C82F2 | Ikony w chipach i listach, linki, „Dodaj produkty”, wynik w okręgu |
+| `accent` | #4F46E5 | #968DF4 | Ikony w chipach i listach, linki, „Dodaj produkty”, wynik w okręgu |
 | `accentSoft` | #E7E5FB | #2A2650 | Podświetlenie słów („Match Score”), tło ekranu wyniku, karty „Dziś” |
 | `background` | #FFFFFF | #0E0E12 | Onboarding, karta produktu, ustawienia |
 | `backgroundAlt` | #F7F6F3 | #141418 | Dziś, Rutyna (ciepła szarość pod białymi kartami) |
 | `surface` | #F3F3F1 | #1C1C22 | Tło zdjęcia produktu, zwinięty akordeon, wyszukiwarka |
 | `border` | #E7E6E3 | #2C2C34 | Ramki kart odpowiedzi i kart produktów |
 | `textPrimary` | #1C1C1E | #F5F5F7 | Treść, pytania |
-| `textSecondary` | #6E6E73 | #A1A1AA | Podpisy, marka, opisy |
-| `good` / `goodSoft` | #1F9D55 / #D5F5E1 | #3DD68C / #123A26 | „92% dopasowania”, ✓ w „Co jest w środku”, dobry składnik |
-| `caution` / `cautionSoft` | #E07B12 / #FDE9C8 | #F5A94A / #3D2A10 | 50–74%, składnik z ostrożnością |
-| `bad` / `badSoft` | #D93636 / #FDDCDC | #F06B6B / #3D1515 | „Nie pasuje”, ×, unikane składniki (chipy), słowo „unikać” w nagłówku |
+| `textSecondary` | #636368 | #A1A1AA | Podpisy, marka, opisy |
+| `good` / `goodSoft` | #157A40 / #D5F5E1 | #3DD68C / #123A26 | „92% dopasowania”, ✓ w „Co jest w środku”, dobry składnik |
+| `caution` / `cautionSoft` | #9E5600 / #FDE9C8 | #F5A94A / #3D2A10 | 50–74%, składnik z ostrożnością |
+| `bad` / `badSoft` | #BE2A2A / #FDDCDC | #F06B6B / #3D1515 | „Nie pasuje”, ×, unikane składniki (chipy), słowo „unikać” w nagłówku |
 
 ### 7.2 Typografia
 
@@ -670,7 +670,8 @@ dermamind/
 | `POST /auth/guest`, `/auth/register`, `/auth/login`, `/auth/apple`, `/auth/google`, `/auth/refresh`, `/auth/logout`, `/auth/password/reset` | auth | Konto gościa na czas quizu, logowanie, łączenie gościa z kontem w O22 |
 | `GET /me`, `PUT /me/quiz`, `PUT /me/avoided` | users | Profil; typ skóry, bariera i wrażliwość liczone na serwerze z odpowiedzi quizu |
 | `GET /products?q=&category=&sort=&page=` | catalog + scoring | Lista z Match Score dla bieżącego profilu, kolekcje dla ekranu Odkrywaj |
-| `GET /products/barcode/:ean` | catalog | Produkt albo 404 (→ D4) + wpis w historii skanów |
+| `GET /products/by-ean/:ean` | catalog | Własny produkt → katalog → Open Beauty Facts (zapis jako `obf`) → 404 (→ D4); wpis w historii skanów |
+| `POST /products` | catalog | Produkt dodany po skanie (`source = user`, widoczny tylko dla autora do moderacji) |
 | `GET /products/:id` | catalog + scoring | Szczegóły, składniki z oceną, wynik, flagi, alternatywy |
 | `POST /analyze` | scoring + ai | Wklejony skład INCI → wynik; parser AI jako zapas |
 | `GET /ingredients?q=`, `GET /ingredients/:id` | catalog | Wyszukiwanie odporne na literówki (pg\_trgm), karta składnika |
@@ -724,7 +725,7 @@ Każdy sprint kończy się działającą wersją na telefonie (EAS Update) i wpi
 - [ ] Skaner EAN (expo-camera), historia skanów
 - [ ] Nie znaleziono D4 + zgłoszenie produktu
 - [ ] Parser INCI i ekran D3, karta składnika D2 (bez AI)
-- [ ] Import kodów EAN z Open Beauty Facts
+- [x] Import kodów EAN z Open Beauty Facts (19.11.2026: zrzut + fallback API w skanerze)
 
 ### Sprint 4 — funkcje AI (7–20 gru)
 

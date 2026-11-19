@@ -25,9 +25,9 @@ export function FlagGrid({ flags }: { flags: ProductDetail['flags'] }) {
           >
             <View style={[styles.icon, { backgroundColor: bg }]}>
               {state === 'yes' ? (
-                <CheckIcon size={18} weight="bold" color={colors.background} />
+                <CheckIcon size={18} weight="bold" color={colors.onPrimary} />
               ) : null}
-              {state === 'no' ? <XIcon size={18} weight="bold" color={colors.background} /> : null}
+              {state === 'no' ? <XIcon size={18} weight="bold" color={colors.onPrimary} /> : null}
               {state === 'unknown' ? (
                 <QuestionIcon size={18} weight="bold" color={colors.textSecondary} />
               ) : null}

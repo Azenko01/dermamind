@@ -17,13 +17,14 @@ interface Props extends Omit<TextInputProps, 'ref'> {
 }
 
 export function TextField({ label, error, style, ref, ...rest }: Props) {
-  const { colors, spacing, radius } = useTheme();
+  const { colors, spacing, radius, scheme } = useTheme();
   return (
     <View style={{ gap: spacing.xs }}>
       <Text variant="caption">{label}</Text>
       <TextInput
         ref={ref}
         placeholderTextColor={colors.textSecondary}
+        keyboardAppearance={scheme}
         style={[
           typography.body,
           styles.input,
