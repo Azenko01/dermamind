@@ -125,7 +125,12 @@ export class ProductListItemDto {
   @ApiProperty({ type: Number, nullable: true })
   pricePln!: number | null;
 
-  @ApiProperty({ type: String, nullable: true })
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    description:
+      'Absolute (imported photo) or relative to the API (/v1/product-images/…, our own photo)',
+  })
   imageUrl!: string | null;
 
   @ApiProperty({ description: 'false = only key ingredients are known' })
@@ -235,6 +240,14 @@ export class ProductIngredientDto {
 
   @ApiProperty({ example: 'Niacinamide' })
   displayName!: string;
+
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    example: 'Alkohol denaturowany',
+    description: 'Common Polish name; null when there is none (show displayName)',
+  })
+  namePl!: string | null;
 
   @ApiProperty({ type: [String], example: ['humectant'] })
   functions!: string[];

@@ -1,3 +1,5 @@
+import { resolve } from 'node:path';
+
 /** Typed access to environment variables. Secrets are read here and nowhere else. */
 export interface AppEnv {
   port: number;
@@ -22,6 +24,8 @@ export interface AppEnv {
   obfTimeoutMs: number;
   /** by-ean lookups per minute per client (ThrottlerGuard) */
   scanRateLimit: number;
+  /** the team's product photos (`pnpm catalog:attach-images`), served under /v1/product-images */
+  productImagesDir: string;
 }
 
 export function loadEnv(env: NodeJS.ProcessEnv = process.env): AppEnv {
@@ -50,5 +54,9 @@ export function loadEnv(env: NodeJS.ProcessEnv = process.env): AppEnv {
     obfApiUrl: (env.OBF_API_URL ?? 'https://world.openbeautyfacts.org').replace(/\/+$/, ''),
     obfTimeoutMs: Number(env.OBF_TIMEOUT_MS ?? 3000),
     scanRateLimit: Number(env.SCAN_RATE_LIMIT ?? 30),
+    // the API runs from apps/api, so the repo's data/images is two levels up
+    productImagesDir: resolve(
+      env.PRODUCT_IMAGES_DIR || resolve(process.cwd(), '../../data/images'),
+    ),
   };
 }

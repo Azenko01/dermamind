@@ -57,6 +57,14 @@ export class IngredientDetailDto {
   @ApiProperty({ example: 'Niacinamide' })
   displayName!: string;
 
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    example: 'Alkohol denaturowany',
+    description: 'Common Polish name; null when there is none (show displayName)',
+  })
+  namePl!: string | null;
+
   @ApiProperty({ type: [String] })
   functions!: string[];
 

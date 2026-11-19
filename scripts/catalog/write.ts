@@ -1,6 +1,7 @@
 import type { PrismaClient } from '../../apps/api/src/generated/prisma/client';
 import type { Catalog } from './build';
 import { conflictPairs } from './conflicts';
+import { POLISH_NAMES } from './names-pl';
 
 export interface ImportCounts {
   removedIngredients: number;
@@ -157,6 +158,15 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
           })),
         });
         productIngredients += p.ingredients.length;
+      }
+
+      // Polish names for the app (catalog/names-pl.ts); rows without one keep null
+      await tx.ingredient.updateMany({
+        where: { namePl: { not: null }, inciName: { notIn: Object.keys(POLISH_NAMES) } },
+        data: { namePl: null },
+      });
+      for (const [inciName, namePl] of Object.entries(POLISH_NAMES)) {
+        await tx.ingredient.updateMany({ where: { inciName }, data: { namePl } });
       }
 
       // Ingredients from earlier imports that are gone from the catalogue (e.g. a name the parser

@@ -11,6 +11,7 @@ import { HealthModule } from './health/health.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { MeModule } from './me/me.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ProductImagesModule } from './product-images/product-images.module';
 import { RoutinesModule } from './routines/routines.module';
 import { ShelvesModule } from './shelves/shelves.module';
 import { SubmissionsModule } from './submissions/submissions.module';
@@ -39,6 +40,7 @@ import { SubmissionsModule } from './submissions/submissions.module';
     SubmissionsModule,
     ShelvesModule,
     RoutinesModule,
+    ProductImagesModule,
   ],
 })
 export class AppModule {}

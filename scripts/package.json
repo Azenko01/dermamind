@@ -13,7 +13,8 @@
     "catalog:import-obf-taxonomy": "tsx --conditions=source import-obf-taxonomy.ts",
     "catalog:import-cosing": "tsx --conditions=source import-cosing.ts",
     "catalog:unknown-tokens": "tsx --conditions=source review-unknown-tokens.ts",
-    "catalog:apply-alias-review": "tsx --conditions=source apply-alias-review.ts"
+    "catalog:apply-alias-review": "tsx --conditions=source apply-alias-review.ts",
+    "catalog:attach-images": "tsx --conditions=source attach-images.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "~0.133.0",

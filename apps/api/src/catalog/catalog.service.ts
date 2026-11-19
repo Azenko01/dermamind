@@ -368,6 +368,7 @@ export function toIngredientRow(
     position,
     inciName: i.inciName,
     displayName: i.displayName,
+    namePl: i.namePl,
     functions: i.functions,
     comedogenic: i.comedogenic,
     isFungalAcneTrigger: i.isFungalAcneTrigger,
@@ -421,6 +422,11 @@ export function summary(m: MatchResult): MatchSummaryDto {
   return { score: m.score, status: m.status, label: m.label, lowConfidence: m.lowConfidence };
 }
 
+/** Our own photo wins over an imported one; relative URL — the app adds the API address. */
+export function productImageUrl(p: { ownImage: string | null; imageUrl: string | null }) {
+  return p.ownImage ? `/v1/product-images/${encodeURIComponent(p.ownImage)}` : p.imageUrl;
+}
+
 export function toListItem(p: ScorableProduct, match: MatchResult | null): ProductListItemDto {
   return {
     id: p.id,
@@ -428,7 +434,7 @@ export function toListItem(p: ScorableProduct, match: MatchResult | null): Produ
     brand: p.brand?.name ?? null,
     category: p.category,
     pricePln: p.pricePln?.toNumber() ?? null,
-    imageUrl: p.imageUrl,
+    imageUrl: productImageUrl(p),
     inciComplete: p.inciComplete,
     match: match ? summary(match) : null,
   };

@@ -1,4 +1,10 @@
-import { aliasKey, computeSkinProfile, type Budget, type QuizAnswers } from '@dermamind/scoring';
+import {
+  aliasKey,
+  computeSkinProfile,
+  inciLookupKeys,
+  type Budget,
+  type QuizAnswers,
+} from '@dermamind/scoring';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Budget as DbBudget, Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -33,7 +39,43 @@ export class MeService {
   async get(userId: string): Promise<MeDto> {
     const user = await this.prisma.user.findUnique({ where: { id: userId }, include: meInclude });
     if (!user?.profile) throw new UnauthorizedException('Account no longer exists');
-    return toMeDto(user, user.profile);
+    const quiz = user.profile.quizAnswers as unknown as QuizAnswers | null;
+    return toMeDto(user, user.profile, await this.avoidNames(quiz?.avoidIngredients ?? []));
+  }
+
+  /**
+   * Chips show a Polish name, never the raw INCI: "ALCOHOL DENAT." → "Alkohol denaturowany".
+   * Names the dictionary doesn't know (yet) are shown as typed, in title case.
+   */
+  private async avoidNames(names: string[]): Promise<MeDto['profile']['avoidIngredientNames']> {
+    if (!names.length) return [];
+    const [direct, aliases] = await Promise.all([
+      this.prisma.ingredient.findMany({
+        where: { inciName: { in: names } },
+        select: { id: true, inciName: true, displayName: true, namePl: true },
+      }),
+      this.prisma.ingredientAlias.findMany({
+        where: { alias: { in: names.flatMap(inciLookupKeys) } },
+        select: {
+          alias: true,
+          ingredient: { select: { id: true, inciName: true, displayName: true, namePl: true } },
+        },
+      }),
+    ]);
+    const byInci = new Map(direct.map((i) => [i.inciName, i]));
+    const byAlias = new Map(aliases.map((a) => [a.alias, a.ingredient]));
+    return names.map((inci) => {
+      const hit =
+        byInci.get(inci) ??
+        inciLookupKeys(inci)
+          .map((k) => byAlias.get(k))
+          .find((x) => x !== undefined);
+      return {
+        inci,
+        name: hit ? (hit.namePl ?? hit.displayName) : titleCase(inci),
+        ingredientId: hit?.id ?? null,
+      };
+    });
   }
 
   /**
@@ -113,7 +155,11 @@ export class MeService {
   }
 }
 
-function toMeDto(user: UserWithProfile, p: NonNullable<UserWithProfile['profile']>): MeDto {
+function toMeDto(
+  user: UserWithProfile,
+  p: NonNullable<UserWithProfile['profile']>,
+  avoidIngredientNames: MeDto['profile']['avoidIngredientNames'],
+): MeDto {
   const quiz = p.quizAnswers as unknown as QuizAnswers | null;
   return {
     id: user.id,
@@ -131,6 +177,7 @@ function toMeDto(user: UserWithProfile, p: NonNullable<UserWithProfile['profile'
       concerns: p.concerns.map((c) => c.concern.code) as MeDto['profile']['concerns'],
       avoidGroups: p.avoidedGroups.map((g) => g.group.code) as MeDto['profile']['avoidGroups'],
       avoidIngredients: quiz?.avoidIngredients ?? [],
+      avoidIngredientNames,
       mustHaves: p.mustHaves as MeDto['profile']['mustHaves'],
       usesSpf: p.usesSpf,
       budget: p.budget ? fromDbBudget[p.budget] : null,
@@ -139,3 +186,8 @@ function toMeDto(user: UserWithProfile, p: NonNullable<UserWithProfile['profile'
     },
   };
 }
+
+const titleCase = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/(^|[\s/(-])(\p{L})/gu, (_, sep: string, ch: string) => sep + ch.toUpperCase());
