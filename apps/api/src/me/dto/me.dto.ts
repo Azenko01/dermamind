@@ -11,7 +11,9 @@ import {
   type SkinType,
   type SpfUsage,
 } from '@dermamind/scoring';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsOptional, IsString, MaxLength, ValidateIf } from 'class-validator';
 import { QuizAnswersDto } from './quiz.dto';
 
 const SKIN_TYPES = ['dry', 'oily', 'combination', 'normal'] as const satisfies readonly SkinType[];
@@ -78,4 +80,21 @@ export class MeDto {
 
   @ApiProperty({ type: ProfileDto })
   profile!: ProfileDto;
+}
+
+export class UpdateMeDto {
+  @ApiPropertyOptional({
+    type: String,
+    nullable: true,
+    example: 'Ola',
+    description: 'Empty string or null removes the name',
+  })
+  @IsOptional()
+  @Transform(({ value }: { value: unknown }) =>
+    typeof value === 'string' ? value.trim() || null : value,
+  )
+  @ValidateIf((_, v) => v !== null)
+  @IsString()
+  @MaxLength(50)
+  displayName?: string | null;
 }

@@ -4,6 +4,7 @@ import {
   ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiForbiddenResponse,
   ApiNoContentResponse,
   ApiNotImplementedResponse,
   ApiOkResponse,
@@ -12,18 +13,19 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { SkipThrottle, ThrottlerGuard } from '@nestjs/throttler';
-import type { AuthedRequest } from '../common/auth-user';
+import { CurrentUser, type AuthUser, type AuthedRequest } from '../common/auth-user';
 import { AuthService } from './auth.service';
 import {
   AppleSignInDto,
   AuthTokensDto,
+  ChangePasswordDto,
   GoogleSignInDto,
   LoginDto,
   PasswordResetDto,
   RefreshDto,
   RegisterDto,
 } from './dto/auth.dto';
-import { OptionalJwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard, OptionalJwtAuthGuard } from './jwt-auth.guard';
 
 @ApiTags('auth')
 @ApiTooManyRequestsResponse({ description: 'Rate limit per IP' })
@@ -49,12 +51,30 @@ export class AuthController {
     return this.auth.register(dto, req.user);
   }
 
+  /** With a guest access token, a guest's quiz moves to an account that has no profile yet. */
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(OptionalJwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: AuthTokensDto })
   @ApiUnauthorizedResponse({ description: 'Wrong e-mail or password' })
-  login(@Body() dto: LoginDto): Promise<AuthTokensDto> {
-    return this.auth.login(dto);
+  login(@Body() dto: LoginDto, @Req() req: AuthedRequest): Promise<AuthTokensDto> {
+    return this.auth.login(dto, req.user);
+  }
+
+  /** New tokens come back; every other session of the account is signed out. */
+  @Post('password/change')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse({ type: AuthTokensDto })
+  @ApiUnauthorizedResponse({ description: 'Wrong current password' })
+  @ApiForbiddenResponse({ description: 'Guest account — no password' })
+  changePassword(
+    @Body() dto: ChangePasswordDto,
+    @CurrentUser() user: AuthUser,
+  ): Promise<AuthTokensDto> {
+    return this.auth.changePassword(user, dto);
   }
 
   @Post('refresh')

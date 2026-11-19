@@ -1,6 +1,6 @@
 # Import Open Beauty Facts
 
-Wygenerowano: 2026-11-19 13:41 UTC · zrzut z 2026-11-19 · skrypt `pnpm catalog:import-obf`
+Wygenerowano: 2026-11-19 13:49 UTC · zrzut z 2026-11-19 · skrypt `pnpm catalog:import-obf`
 
 Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 
@@ -12,8 +12,8 @@ Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 | Zachowane (EAN + skład + UE) | 12837 |
 | — w tym rynek polski (en:poland) | 219 |
 | Nowe w bazie | 0 |
-| Zaktualizowane | 0 |
-| Bez zmian (ten sam last_modified_t) | 12837 |
+| Zaktualizowane | 12837 |
+| Bez zmian (ten sam last_modified_t) | 0 |
 | Pominięte razem | 67947 |
 | Produkty OBF w bazie po imporcie | 12839 (rynek PL: 219) |
 

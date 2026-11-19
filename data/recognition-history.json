@@ -82,5 +82,19 @@
       "ingredients": 22950,
       "aliases": 29467
     }
+  },
+  {
+    "step": "перевірка",
+    "at": "2026-11-19T13:49:37.564Z",
+    "products": 12838,
+    "tokens": 223407,
+    "known": 202215,
+    "fuzzy": 2677,
+    "fullyKnown": 6489,
+    "fullyKnownExact": 5831,
+    "dictionary": {
+      "ingredients": 22950,
+      "aliases": 29467
+    }
   }
 ]

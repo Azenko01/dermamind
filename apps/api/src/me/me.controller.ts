@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Patch,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -18,7 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser, type AuthUser } from '../common/auth-user';
-import { MeDto } from './dto/me.dto';
+import { MeDto, UpdateMeDto } from './dto/me.dto';
 import { QuizAnswersDto } from './dto/quiz.dto';
 import { MeService } from './me.service';
 
@@ -35,6 +36,14 @@ export class MeController {
   @ApiOkResponse({ type: MeDto })
   get(@CurrentUser() user: AuthUser): Promise<MeDto> {
     return this.me.get(user.sub);
+  }
+
+  /** Ustawienia: name shown in Profil. */
+  @Patch()
+  @ApiOkResponse({ type: MeDto })
+  @ApiBadRequestResponse({ description: 'Validation errors' })
+  update(@CurrentUser() user: AuthUser, @Body() dto: UpdateMeDto): Promise<MeDto> {
+    return this.me.update(user.sub, dto);
   }
 
   @Put('quiz')

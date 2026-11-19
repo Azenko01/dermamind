@@ -2,7 +2,7 @@ import { aliasKey, computeSkinProfile, type Budget, type QuizAnswers } from '@de
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Budget as DbBudget, Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import type { MeDto } from './dto/me.dto';
+import type { MeDto, UpdateMeDto } from './dto/me.dto';
 
 // Postgres enum labels '30_70' / '70_150' aren't valid TS identifiers, so Prisma renames them.
 const toDbBudget: Record<Budget, DbBudget> = {
@@ -94,6 +94,16 @@ export class MeService {
       });
     });
 
+    return this.get(userId);
+  }
+
+  async update(userId: string, dto: UpdateMeDto): Promise<MeDto> {
+    if (dto.displayName !== undefined) {
+      await this.prisma.profile.update({
+        where: { userId },
+        data: { displayName: dto.displayName },
+      });
+    }
     return this.get(userId);
   }
 
