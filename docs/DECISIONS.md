@@ -927,3 +927,41 @@ rozpoznanych (krok 5 w `data/obf-import-report.md`).
   zapisaniu profilu), O22 „Apple / Google — już niedługo” (przyciski ukryte, dopóki nie ma kluczy
   — `SOCIAL_SIGN_IN`), „Nie pamiętam hasła” (ekran obiecywał e-mail, którego serwer nie wysyła —
   wróci, gdy wybierzemy dostawcę poczty), nieużywany `PlaceholderScreen`.
+
+---
+
+## Poprawki po testach na telefonie (19.11.2026)
+
+### D-78. Polskie nazwy składników w aplikacji, INCI w danych
+
+- **Decyzja:** zapisujemy zawsze nazwę INCI (quiz, unikane składniki), a pokazujemy polską nazwę:
+  kolumna `ingredients.name_pl` z `scripts/catalog/names-pl.ts` (144 składniki z utartą polską
+  nazwą: „Alkohol denaturowany”, „Olej kokosowy”, „Laurylosiarczan sodu (SLS)”). `GET /v1/me`
+  zwraca `avoidIngredientNames` (INCI → nazwa do chipa), wiersze składników i karta składnika —
+  `namePl` jako podpis pod nazwą INCI. Nazwy bez polskiego odpowiednika (Butylene Glycol, Carbomer)
+  pokazujemy jak w INCI, ale nigdy wielkimi literami z bazy; nieznane nazwy — tak, jak je wpisano.
+- **Dlaczego:** na etykietach w Polsce jest INCI, więc dopasowanie musi iść po INCI; ale chip
+  „ALCOHOL DENAT.” w profilu był nieczytelny. Test pilnuje, by każda polska nazwa należała do
+  składnika ze słownika.
+
+### D-79. Powody dopasowania pogrupowane
+
+- **Decyzja:** jeden wiersz na powód ze wszystkimi składnikami („Pomaga na osłabioną barierę:
+  Ceramide NP, Ceramide EOP, Tocopherol”), dwie sekcje — „Na co uważać” i „Dlaczego pasuje” — po
+  maks. 3 wiersze + „Pokaż wszystkie”. Gdy produkt zawiera coś unikanego, „Na co uważać” jest
+  pierwsze. Grupowanie (`groupReasons`) jest w `@dermamind/scoring` z testami, aplikacja dodaje
+  tylko polskie teksty. Główne problemy w karcie profilu — neutralne chipy, czerwone zostają dla
+  „Unikasz”.
+
+### D-80. Własne zdjęcia produktów
+
+- **Decyzja:** zdjęcia robi zespół i wrzuca do `data/images/` (nazwa pliku = EAN albo `id-<id>`,
+  dowolny dopisek po „-” / „_” to nowa wersja). `pnpm catalog:attach-images` sprawdza nazwę,
+  prawdziwy format (pierwsze bajty pliku, nie rozszerzenie) i rozmiar (≤ 5 MB), zapisuje
+  `products.own_image` i czyści powiązania usuniętych plików. API serwuje je pod
+  `/v1/product-images/<plik>` (ścisły wzorzec nazwy, bez ścieżek, cache tydzień);
+  `own_image` ma pierwszeństwo przed `image_url`, a importy OBF go nie dotykają. Katalog na
+  serwerze: `PRODUCT_IMAGES_DIR` (domyślnie `data/images` w repozytorium).
+- **Nie pobieramy zdjęć ze sklepów** (prawa autorskie i regulaminy — jak w D-57).
+- **Alternatywy:** Supabase Storage / S3 (konto i koszt, a na MVP wystarczy kilkadziesiąt zdjęć
+  w repozytorium), zdjęcia w bazie (duże wiersze, brak cache HTTP).
