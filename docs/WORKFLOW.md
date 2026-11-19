@@ -23,6 +23,14 @@
    claude
    ```
 
+## Імпорт кодів з Open Beauty Facts (за бажанням, ~30 с)
+
+```bash
+pnpm catalog:import-obf            # качає дамп (~100 МБ) у data/raw/ при першому запуску
+pnpm catalog:import-obf --refresh  # свіжий дамп
+```
+Звіт: `data/obf-import-report.md`. Повторний запуск нічого не дублює.
+
 ## Якщо щось не працює
 
 | Помилка | Що робити |
@@ -43,10 +51,12 @@
 - [x] Спринт 0 — фундамент (монорепо, API, база, 5 вкладок) — 14.10.2026
 - [ ] Спринт 0 (залишок) — імпорт даних: покласти SQL Саші і файл Hebe (42 продукти) у `data/`
 - [x] Спринт 1 — акаунт і анкета (онбординг O1–O22) — 14.10.2026
-- [ ] Спринт 2 — алгоритм і каталог
-- [ ] Спринт 3 — сканер і аналіз складу
-- [ ] Спринт 4 — функції AI
-- [ ] Спринт 5 — рутина і улюблені
+- [x] Спринт 2 — алгоритм і каталог — 14.10.2026
+- [x] Спринт 3 — сканер і аналіз складу — 14.10.2026
+  - [x] Коди EAN з Open Beauty Facts (12 837 продуктів, 219 з PL), автозаповнення після скану — 19.11.2026
+- [x] Спринт 4 — функції AI — 14.10.2026
+- [x] Спринт 5 — рутина і улюблені — 14.10.2026
+- [x] Світла тема + Профіль → Wygląd (Systemowy / Jasny / Ciemny) — 19.11.2026 (перевірити на телефоні)
 - [ ] Спринт 6 — доопрацювання і дані
 - [ ] Спринт 7 — тести і бета
 - [ ] Спринт 8 — публікація
@@ -78,6 +88,6 @@ Add web support to apps/mobile: npx expo install react-native-web react-dom @exp
 ## Do poprawki później (z testów na telefonie)
 
 - [ ] Unikane składniki: zapisywać nazwę INCI (Cocos Nucifera Oil, Lanolin), polską tylko jako podpis — teraz mieszane („Olej kokosowy”, „Lanolina”)
-- [ ] Sprawdzić jasny motyw na telefonie (makiety są jasne; testowane tylko w ciemnym)
+- [ ] Sprawdzić jasny motyw na telefonie (makiety są jasne; testowane tylko w ciemnym) — kod gotowy 19.11.2026, przełącznik w Profil → Wygląd
 - [ ] „Kontynuuj z Apple / Google” — teraz zaślepki; ukryć albo pokazać komunikat, dopóki nie ma kluczy
 - [ ] Ekran wyniku O14: nagłówek „Twój typ skóry” lekko ucięty pod paskiem postępu przy przewijaniu
