@@ -99,6 +99,9 @@ function IngredientBody({ i }: { i: Ingredient }) {
         <Text variant="title" accessibilityRole="header">
           {i.displayName}
         </Text>
+        {i.namePl && i.namePl.toLowerCase() !== i.displayName.toLowerCase() ? (
+          <Text color="textSecondary">{i.namePl}</Text>
+        ) : null}
         {i.inciName.toLowerCase() !== i.displayName.toLowerCase() ? (
           <Text variant="caption">INCI: {i.inciName}</Text>
         ) : null}

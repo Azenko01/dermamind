@@ -45,11 +45,24 @@ export function concernLabels(codes: readonly string[]): string[] {
   return codes.map((c) => labelOf(concernOptions as Option<string>[], c));
 }
 
+/** Avoided groups and ingredients as the app names them — Polish, never the raw INCI. */
 export function avoidLabels(profile: Profile): string[] {
   return [
     ...profile.avoidGroups.map((g) => labelOf(avoidGroupOptions as Option<string>[], g)),
-    ...profile.avoidIngredients,
+    ...avoidIngredientLabels(profile),
   ];
+}
+
+export function avoidIngredientLabels(profile: Profile): string[] {
+  const names = new Map(profile.avoidIngredientNames.map((n) => [n.inci, n.name]));
+  return profile.avoidIngredients.map((inci) => names.get(inci) ?? titleCaseName(inci));
+}
+
+/** "ALCOHOL DENAT." → "Alcohol Denat." — only for names the server didn't know. */
+export function titleCaseName(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/(^|[\s/(-])(\p{L})/gu, (_, sep: string, ch: string) => sep + ch.toUpperCase());
 }
 
 export function quizDate(iso: string | null): string | null {
@@ -69,6 +82,7 @@ export function scalePosition(profile: Profile): number {
 /** One row per question that can be changed on its own (PLAN.md 6.1, O6–O19 without O14). */
 export function answerRows(
   a: Answers,
+  avoidNames: string[] = a.avoidIngredients.map(titleCaseName),
 ): { step: QuestionStepId; question: string; answer: string }[] {
   return [
     {
@@ -117,7 +131,7 @@ export function answerRows(
     {
       step: 'avoid-ingredients',
       question: 'Unikane składniki',
-      answer: a.avoidIngredients.length ? a.avoidIngredients.join(', ') : 'Brak',
+      answer: avoidNames.length ? avoidNames.join(', ') : 'Brak',
     },
     {
       step: 'must-haves',
@@ -223,8 +237,8 @@ function MeterRow(props: {
   );
 }
 
-/** Small read-only chips: concerns (accent) and avoided ingredients (red, like O16). */
-export function TagList({ items, tone }: { items: string[]; tone: 'accent' | 'bad' }) {
+/** Small read-only chips: concerns (neutral) and avoided ingredients (red, like O16). */
+export function TagList({ items, tone }: { items: string[]; tone: 'neutral' | 'bad' }) {
   const { colors, spacing } = useTheme();
   if (!items.length) return null;
   return (
@@ -235,12 +249,13 @@ export function TagList({ items, tone }: { items: string[]; tone: 'accent' | 'ba
           style={[
             styles.tag,
             {
-              backgroundColor: tone === 'bad' ? colors.badSoft : colors.accentSoft,
+              backgroundColor: tone === 'bad' ? colors.badSoft : colors.background,
+              borderColor: tone === 'bad' ? colors.badSoft : colors.border,
               paddingHorizontal: spacing.md,
             },
           ]}
         >
-          <Text variant="caption" color={tone === 'bad' ? 'bad' : 'primary'}>
+          <Text variant="caption" color={tone === 'bad' ? 'bad' : 'textPrimary'}>
             {t}
           </Text>
         </View>
@@ -253,5 +268,5 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
   icon: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   tags: { flexDirection: 'row', flexWrap: 'wrap' },
-  tag: { borderRadius: 999, paddingVertical: 6 },
+  tag: { borderRadius: 999, paddingVertical: 6, borderWidth: 1 },
 });

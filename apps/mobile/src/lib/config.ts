@@ -11,3 +11,9 @@ function devApiUrl(): string {
 }
 
 export const apiUrl = process.env.EXPO_PUBLIC_API_URL || devApiUrl();
+
+/** Product photos: imported ones are absolute URLs, our own are served by the API (/v1/…). */
+export function imageUri(url: string | null | undefined): string | null {
+  if (!url) return null;
+  return url.startsWith('/') ? `${apiUrl}${url}` : url;
+}

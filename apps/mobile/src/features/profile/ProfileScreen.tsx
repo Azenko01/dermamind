@@ -131,7 +131,7 @@ function SkinCard({ profile }: { profile: Me['profile'] }) {
             <Text variant="label" color="primary">
               Główne problemy
             </Text>
-            <TagList items={concerns} tone="accent" />
+            <TagList items={concerns} tone="neutral" />
           </View>
         ) : null}
         <View style={{ gap: spacing.sm }}>

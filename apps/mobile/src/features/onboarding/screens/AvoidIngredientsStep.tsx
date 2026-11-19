@@ -5,6 +5,9 @@ import { Chip, ChipGroup } from '@/components/ui/Chip';
 import { QuestionScreen } from '@/components/ui/QuestionScreen';
 import { Text } from '@/components/ui/Text';
 import { TextField } from '@/components/ui/TextField';
+import type { Me } from '@dermamind/api-client';
+import { titleCaseName } from '@/features/profile/skinSummary';
+import { queryClient } from '@/lib/queryClient';
 import { useQuiz } from '@/stores/quiz';
 import { useTheme } from '@/theme';
 import { commonAvoidedIngredients } from '../content';
@@ -39,8 +42,13 @@ export function AvoidIngredientsStep() {
     (i) =>
       !selected.includes(i.inci) && (!q || i.inci.includes(q) || normalise(i.name).includes(q)),
   );
+  // Polish names: the common list, then the names the server resolved for a saved profile
+  // (retake / edit), else the typed INCI in title case — never "ALCOHOL DENAT." in capitals
+  const saved = queryClient.getQueryData<Me>(['me'])?.profile.avoidIngredientNames ?? [];
   const label = (inci: string) =>
-    commonAvoidedIngredients.find((i) => i.inci === inci)?.name ?? inci;
+    commonAvoidedIngredients.find((i) => i.inci === inci)?.name ??
+    saved.find((n) => n.inci === inci)?.name ??
+    titleCaseName(inci);
 
   return (
     <QuestionScreen
@@ -56,7 +64,7 @@ export function AvoidIngredientsStep() {
     >
       <View style={{ gap: spacing.md }}>
         <TextField
-          label="Nazwa składnika (INCI)"
+          label="Nazwa składnika (INCI z opakowania)"
           placeholder="np. Limonene"
           value={query}
           onChangeText={setQuery}
