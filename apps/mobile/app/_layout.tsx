@@ -82,6 +82,9 @@ export default function RootLayout() {
             <Stack.Screen name="submit" options={{ presentation: 'modal' }} />
             <Stack.Screen name="scans" />
             <Stack.Screen name="about" />
+            <Stack.Screen name="skin-profile" />
+            <Stack.Screen name="settings" />
+            <Stack.Screen name="quiz/[step]" options={{ animation: 'slide_from_right' }} />
             <Stack.Screen name="routine/pick" options={{ presentation: 'modal' }} />
           </Stack.Protected>
           <Stack.Protected guard={!signedIn}>

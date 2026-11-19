@@ -10,12 +10,11 @@ import { continueAsGuest } from '@/features/auth/actions';
 import { useTheme } from '@/theme';
 import { stepNav } from '../steps';
 
-// TODO: real Sign in with Apple / Google once the developer accounts exist (API answers 501 now).
-const notYet = (provider: string) =>
-  Alert.alert(
-    `${provider} — już niedługo`,
-    'Na razie zapisz profil przez e-mail albo kontynuuj bez konta.',
-  );
+/**
+ * Sign in with Apple / Google needs the developer accounts (Oleksandr sets them up); until the API
+ * has the keys the buttons stay hidden instead of showing "już niedługo".
+ */
+const SOCIAL_SIGN_IN = false;
 
 /** O22: the account comes last; until now answers lived only on the device. */
 export function SaveStep() {
@@ -44,21 +43,23 @@ export function SaveStep() {
         </Text>
       </View>
       <View style={{ padding: spacing.screen, gap: spacing.md }}>
-        {Platform.OS === 'ios' ? (
+        {SOCIAL_SIGN_IN && Platform.OS === 'ios' ? (
           <PrimaryButton
             title="Kontynuuj z Apple"
             icon={<AppleLogoIcon size={22} weight="fill" color={colors.onPrimary} />}
-            onPress={() => notYet('Logowanie przez Apple')}
+            onPress={() => router.push('/auth/register')}
           />
         ) : null}
-        <SecondaryButton
-          title="Kontynuuj z Google"
-          icon={<GoogleLogoIcon size={22} weight="bold" color={colors.textPrimary} />}
-          onPress={() => notYet('Logowanie przez Google')}
-        />
-        <SecondaryButton
-          title="Więcej opcji: e-mail"
-          icon={<EnvelopeIcon size={22} color={colors.textPrimary} />}
+        {SOCIAL_SIGN_IN ? (
+          <SecondaryButton
+            title="Kontynuuj z Google"
+            icon={<GoogleLogoIcon size={22} weight="bold" color={colors.textPrimary} />}
+            onPress={() => router.push('/auth/register')}
+          />
+        ) : null}
+        <PrimaryButton
+          title="Zapisz przez e-mail"
+          icon={<EnvelopeIcon size={22} color={colors.onPrimary} />}
           onPress={() => router.push('/auth/register')}
         />
         <View style={[styles.center, { paddingVertical: spacing.sm }]}>

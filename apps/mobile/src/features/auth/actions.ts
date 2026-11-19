@@ -11,6 +11,8 @@ export type Result = { ok: true } | { ok: false; message: string };
  * sign-in and again on every app start, so a failed request (e.g. no signal in the shop) isn't lost.
  */
 export async function syncPendingQuiz(): Promise<boolean> {
+  // retake / edit answers are saved by their own screens, never as a "pending onboarding quiz"
+  if (useQuiz.getState().mode !== 'onboarding') return true;
   const answers = completeAnswers(useQuiz.getState().answers);
   if (!answers || !useSession.getState().session) return true;
   const { error } = await api.PUT('/v1/me/quiz', { body: answers }).catch(() => ({ error: true }));
@@ -68,12 +70,6 @@ export async function continueAsGuest(): Promise<Result> {
   return finish(data);
 }
 
-export async function requestPasswordReset(email: string): Promise<Result> {
-  const { error, response } = await api.POST('/v1/auth/password/reset', { body: { email } });
-  if (error) return { ok: false, message: errorText(response?.status) };
-  return { ok: true };
-}
-
 export async function signOut(): Promise<void> {
   const session = useSession.getState().session;
   if (session) {
@@ -83,6 +79,7 @@ export async function signOut(): Promise<void> {
       .catch(() => undefined);
   }
   queryClient.clear();
+  useQuiz.getState().reset();
   await useSession.getState().clear();
 }
 
