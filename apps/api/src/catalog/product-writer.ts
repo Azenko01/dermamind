@@ -1,7 +1,11 @@
 import {
+  aliasKey,
+  buildFuzzyIndex,
   inciLookupKeys,
   resolveInci,
+  inciNameCandidates,
   splitInci,
+  type FuzzyIndex,
   type InciDictionary,
   type ObfProduct,
 } from '@dermamind/scoring';
@@ -20,7 +24,14 @@ export const MAX_INCI_NAMES = 300;
 
 export interface LinkedInci {
   /** dictionary ingredients with their position in the full list */
-  ingredients: { ingredientId: number; position: number }[];
+  ingredients: {
+    ingredientId: number;
+    position: number;
+    /** fuzzy = typo-tolerant match, low confidence */
+    match: 'exact' | 'fuzzy';
+    /** the name as written, for fuzzy matches */
+    matchedFrom: string | null;
+  }[];
   /** names we don't know, exactly as split from the list — never matched to a "closest" one */
   unknown: string[];
 }
@@ -30,41 +41,82 @@ export function linkInci(inciRaw: string | null, dict: Dict): LinkedInci {
   const rows = resolveInci(splitInci(inciRaw).slice(0, MAX_INCI_NAMES), dict);
   return {
     ingredients: rows.flatMap((r) =>
-      r.ingredient ? [{ ingredientId: r.ingredient.id, position: r.position }] : [],
+      r.ingredient
+        ? [
+            {
+              ingredientId: r.ingredient.id,
+              position: r.position,
+              match: r.match === 'fuzzy' ? ('fuzzy' as const) : ('exact' as const),
+              matchedFrom: r.match === 'fuzzy' ? r.input : null,
+            },
+          ]
+        : [],
     ),
     unknown: rows.filter((r) => !r.ingredient).map((r) => r.input),
   };
 }
 
-/** The whole dictionary (a few hundred rows) — for the bulk import. */
-export async function loadInciDictionary(db: Db): Promise<Dict> {
+type DictRows = {
+  ingredients: { id: number; inciName: string }[];
+  aliases: { alias: string; ingredientId: number }[];
+};
+
+async function dictionaryRows(db: Db): Promise<DictRows> {
   const [ingredients, aliases] = await Promise.all([
     db.ingredient.findMany({ select: { id: true, inciName: true } }),
     db.ingredientAlias.findMany({ select: { alias: true, ingredientId: true } }),
   ]);
+  return { ingredients, aliases };
+}
+
+function fuzzyFrom({ ingredients, aliases }: DictRows): FuzzyIndex<{ id: number }> {
+  return buildFuzzyIndex<{ id: number }>([
+    ...aliases.map((a) => [a.alias, { id: a.ingredientId }] as const),
+    ...ingredients.map((i) => [aliasKey(i.inciName), { id: i.id }] as const),
+  ]);
+}
+
+/** Every key the fuzzy matcher may correct a name to: alias keys and canonical names. */
+export async function loadFuzzyIndex(db: Db): Promise<FuzzyIndex<{ id: number }>> {
+  return fuzzyFrom(await dictionaryRows(db));
+}
+
+/** The whole dictionary (~23 000 ingredients) with the fuzzy index — for bulk jobs. */
+export async function loadInciDictionary(db: Db): Promise<Dict> {
+  const rows = await dictionaryRows(db);
   return {
-    byInci: new Map(ingredients.map((i) => [i.inciName, { id: i.id }])),
-    byAlias: new Map(aliases.map((a) => [a.alias, { id: a.ingredientId }])),
+    byInci: new Map(rows.ingredients.map((i) => [i.inciName, { id: i.id }])),
+    byAlias: new Map(rows.aliases.map((a) => [a.alias, { id: a.ingredientId }])),
+    fuzzy: fuzzyFrom(rows),
   };
 }
 
-/** Only the rows a single list needs — for one product in a request. */
-export async function inciDictionaryFor(db: Db, inciRaw: string | null): Promise<Dict> {
+/**
+ * Only the rows a single list needs — for one product in a request. The fuzzy index is passed in
+ * (the API keeps one in memory, see InciIndexService).
+ */
+export async function inciDictionaryFor(
+  db: Db,
+  inciRaw: string | null,
+  fuzzy?: FuzzyIndex<{ id: number }>,
+): Promise<Dict> {
   const names = inciRaw ? splitInci(inciRaw).slice(0, MAX_INCI_NAMES) : [];
-  if (names.length === 0) return { byInci: new Map(), byAlias: new Map() };
+  if (names.length === 0) return { byInci: new Map(), byAlias: new Map(), fuzzy };
+  const all = inciNameCandidates(names);
   const [ingredients, aliases] = await Promise.all([
     db.ingredient.findMany({
-      where: { inciName: { in: names } },
+      where: { inciName: { in: all } },
       select: { id: true, inciName: true },
     }),
     db.ingredientAlias.findMany({
-      where: { alias: { in: [...new Set(names.flatMap(inciLookupKeys))] } },
+      where: { alias: { in: [...new Set(all.flatMap(inciLookupKeys))] } },
       select: { alias: true, ingredientId: true },
     }),
   ]);
   return {
     byInci: new Map(ingredients.map((i) => [i.inciName, { id: i.id }])),
     byAlias: new Map(aliases.map((a) => [a.alias, { id: a.ingredientId }])),
+    fuzzy,
   };
 }
 

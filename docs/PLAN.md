@@ -139,7 +139,9 @@ Schemat Sa.Sha (`products`, `ingredients`, `product_ingredients`) zostaje rdzeni
 ```sql
 create type product_category as enum (
   'cleanser','toner','essence','serum','moisturizer','eye_cream',
-  'sunscreen','mask','exfoliant','spot_treatment','oil','other'
+  'sunscreen','mask','exfoliant','spot_treatment','oil',
+  'makeup','hair_care','body_care','oral_care','deodorant',  -- spoza pielęgnacji twarzy (D-70)
+  'other'
 );
 create type routine_step as enum ('cleanse','tone','treat','moisturize','protect');
 
@@ -318,6 +320,8 @@ create table ai_cache (
 - Migracje w `apps/api/prisma/migrations/`, dane startowe w `prisma/seed.ts` (INSERT Sa.Sha staje się częścią seeda po dopasowaniu do nowych kolumn).
 
 ### 3.5 Import danych
+
+Słownik składników (19.11.2026, DECISIONS D-65…D-69): taksonomia składników Open Beauty Facts (zbudowana z CosIng) — `pnpm catalog:import-obf-taxonomy`, załączniki II–VI CosIng — `pnpm catalog:import-cosing`, przegląd najczęstszych nieznanych nazw — `data/alias-review.json`, ponowne łączenie produktów i pomiar — `pnpm catalog:relink`. Rozpoznawanie nazw z list OBF: 56% → 90,5%.
 
 Skrypt `scripts/import-products.ts`: CSV/JSON z Hebe → normalizacja nazwy INCI (wielkie litery, usunięcie „(and)”, nawiasów, gwiazdek) → dopasowanie przez `ingredient_aliases` → nieznane składniki trafiają do raportu do ręcznego uzupełnienia. Źródła do rozbudowy bazy: [Open Beauty Facts](https://github.com/openfoodfacts/openbeautyfacts) (kody EAN + składy, licencja ODbL — do przypisania w dokumentacji) i baza CosIng Komisji Europejskiej (funkcje składników).
 
@@ -573,7 +577,7 @@ Docelowy wygląd to SkinSort: białe i ciepło-szare tła, ciemny indygo na gł�
 
 ### 7.1 Kolory (tokeny)
 
-Wartości odczytane ze zrzutów ekranu; 19.11.2026 poprawione pod WCAG AA w obu motywach (DECISIONS D-64, test `scripts/theme/contrast.test.ts`). Dodatkowe tokeny: `onPrimary`, `onPrimaryDisabled`, `camera`, `scrim`, `onScrim`, `backdrop`, `scale1–5` — w `apps/mobile/src/theme/tokens.ts`.
+Wartości odczytane ze zrzutów ekranu; 19.11.2026 poprawione pod WCAG AA w obu motywach (DECISIONS D-64, test `scripts/theme/contrast.test.ts`). Dodatkowe tokeny: `onPrimary`, `onPrimaryDisabled`, `camera`, `scrim`, `onScrim`, `backdrop`, `photoCard`, `scale1–5` — w `apps/mobile/src/theme/tokens.ts`.
 
 | Token | Jasny | Ciemny | Użycie |
 | --- | --- | --- | --- |

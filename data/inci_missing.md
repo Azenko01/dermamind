@@ -1,6 +1,6 @@
 # Brakujące pełne składy INCI
 
-Stan: 2026-10-14. Brakuje: **12 z 42**.
+Stan: 2026-11-19. Brakuje: **12 z 42**.
 
 Strony nie zostały pobrane automatycznie: `robots.txt` sklepu hebe.pl blokuje agenta `ClaudeBot`
 (i inne boty AI) na całej domenie, więc Claude ich nie pobiera. To samo dotyczy Open Beauty Facts.

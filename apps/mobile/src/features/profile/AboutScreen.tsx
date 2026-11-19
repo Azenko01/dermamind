@@ -47,8 +47,19 @@ export function AboutScreen() {
             label="Licencja ODbL 1.0"
             url="https://opendatacommons.org/licenses/odbl/1-0/"
           />
+          <Text variant="bodyStrong">Składniki: CosIng — European Commission</Text>
           <Text color="textSecondary">
-            Pozostałe produkty i słownik składników opracował zespół DermaMind.
+            Nazwy INCI, numery CAS / EC, funkcje składników i pozycje w załącznikach rozporządzenia
+            (WE) nr 1223/2009 pochodzą z bazy CosIng Komisji Europejskiej — przez taksonomię
+            składników Open Beauty Facts (ODbL) oraz oficjalne eksporty załączników II–VI. CosIng ma
+            charakter informacyjny i nie jest wiążący prawnie.
+          </Text>
+          <ExternalLink
+            label="CosIng — baza składników kosmetycznych"
+            url="https://ec.europa.eu/growth/tools-databases/cosing/"
+          />
+          <Text color="textSecondary">
+            Ocena składników dla skóry, wyjątki i część produktów: zespół DermaMind.
           </Text>
         </View>
       </ScrollView>

@@ -1,5 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { aliasKey, inciLookupKeys, normalizeInciName, resolveInci, splitInci } from './inci';
+import {
+  aliasKey,
+  buildFuzzyIndex,
+  cleanInciText,
+  editDistance,
+  fixOcr,
+  fuzzyMatch,
+  inciLookupKeys,
+  normalizeInciName,
+  resolveInci,
+  slashAlternatives,
+  splitInci,
+} from './inci';
 
 describe('normalizeInciName', () => {
   it('upper-cases, trims and collapses spaces', () => {
@@ -23,9 +35,11 @@ describe('aliasKey', () => {
     expect(aliasKey('Caprylic/Capric Triglyceride')).toBe('capryliccaprictriglyceride');
   });
 
-  it('keeps Polish letters', () => {
-    expect(aliasKey('Masło shea')).toBe('masłoshea');
+  it('drops diacritics, so labels with and without accents match', () => {
+    expect(aliasKey('Masło shea')).toBe('masloshea');
     expect(aliasKey('Olej kokosowy')).toBe('olejkokosowy');
+    expect(aliasKey('LIMONÈNE')).toBe(aliasKey('Limonene'));
+    expect(aliasKey('Glicérine')).toBe('glicerine');
   });
 });
 
@@ -148,9 +162,9 @@ describe('resolveInci', () => {
   it('matches by INCI name, alias and parenthesised name, in order', () => {
     const rows = resolveInci(['WATER (AQUA)', 'GLYCERIN', 'MYSTERY EXTRACT'], dict);
     expect(rows).toEqual([
-      { position: 1, input: 'WATER (AQUA)', ingredient: aqua },
-      { position: 2, input: 'GLYCERIN', ingredient: glycerin },
-      { position: 3, input: 'MYSTERY EXTRACT', ingredient: null },
+      { position: 1, input: 'WATER (AQUA)', ingredient: aqua, match: 'exact' },
+      { position: 2, input: 'GLYCERIN', ingredient: glycerin, match: 'exact' },
+      { position: 3, input: 'MYSTERY EXTRACT', ingredient: null, match: null },
     ]);
   });
 
@@ -160,5 +174,203 @@ describe('resolveInci', () => {
       ['AQUA', 1, 1],
       ['GLYCERINE', null, 2],
     ]);
+  });
+});
+
+describe('normaliser — what real Open Beauty Facts lists look like', () => {
+  it('decodes HTML entities, also without the semicolon', () => {
+    expect(cleanInciText('Aqua &amp; Glycerin, Parfum &LT;Fragrance&GT;')).toBe(
+      'Aqua & Glycerin, Parfum  Fragrance ',
+    );
+    expect(splitInci('Aqua, &quot;Glycerin&quot;, Parfum')).toEqual([
+      'AQUA',
+      '"GLYCERIN"',
+      'PARFUM',
+    ]);
+  });
+
+  it('removes percentages and "Active / Inactive:" labels', () => {
+    expect(
+      splitInci('Octinoxate 6.743250%, Titanium Dioxide 3.5910%. Inactive: Water, Dimethicone'),
+    ).toEqual(['OCTINOXATE', 'TITANIUM DIOXIDE', 'WATER', 'DIMETHICONE']);
+    expect(splitInci('Active ingredients: Zinc Oxide (20 %), Aqua')).toEqual([
+      'ZINC OXIDE',
+      'AQUA',
+    ]);
+  });
+
+  it('drops list prefixes and "may contain" blocks in several languages', () => {
+    expect(splitInci('Ingrédients : Aqua, Glycerin. Peut contenir : CI 77891')).toEqual([
+      'AQUA',
+      'GLYCERIN',
+    ]);
+    expect(splitInci('Inhaltsstoffe: Aqua, Glycerin [+/- CI 77491]')).toEqual(['AQUA', 'GLYCERIN']);
+    expect(splitInci('INGREDIENTS AQUA, GLYCERIN')).toEqual(['AQUA', 'GLYCERIN']);
+    expect(splitInci('Aqua, Glycerin ± CI 77891')).toEqual(['AQUA', 'GLYCERIN']);
+    expect(splitInci('GEL INGREDIENTS: AQUA, GLYCERIN')).toEqual(['AQUA', 'GLYCERIN']);
+    expect(splitInci('G2078 - INGREDIENTS: DIMETHICONE - AQUA / WATER - GLYCERIN')).toEqual([
+      'G2078',
+      'DIMETHICONE',
+      'AQUA / WATER',
+      'GLYCERIN',
+    ]);
+    expect(splitInci('INGREDIENTS/SASTOJCI/СЪСТАВКИ: AQUA, N, GLYCERIN, INGREDIENTS:')).toEqual([
+      'AQUA',
+      'GLYCERIN',
+    ]);
+  });
+
+  it('normalises dashes, spaces and trailing dots', () => {
+    expect(splitInci('Aqua, Ceteareth–20 , Alcohol Denat., Parfum.')).toEqual([
+      'AQUA',
+      'CETEARETH-20',
+      'ALCOHOL DENAT.',
+      'PARFUM',
+    ]);
+  });
+
+  it('fixes colour-index and hydrochloride slips', () => {
+    expect(fixOcr('CL 77891')).toBe('CI 77891');
+    expect(fixOcr('C.I. 77891')).toBe('CI 77891');
+    expect(fixOcr('CI77891')).toBe('CI 77891');
+    expect(fixOcr('C142090')).toBe('CI 42090');
+    expect(fixOcr('PYRIDOXINE HCI')).toBe('PYRIDOXINE HCL');
+    expect(inciLookupKeys('CL 42090')).toContain('ci42090');
+  });
+
+  it('reads US "SD Alcohol" formulas as Alcohol Denat.', () => {
+    for (const n of [
+      'SD ALCOHOL 39-C',
+      'SD ALCOHOL 40-B',
+      'SD ALCOHOL 40',
+      'ALCOHOL DENAT. SD ALCOHOL 39-C',
+      'ALCOHOL DENAT. (SD ALCOHOL 40)',
+    ])
+      expect(inciLookupKeys(n)).toContain('alcoholdenat');
+    expect(inciLookupKeys('BENZYL ALCOHOL')).not.toContain('alcoholdenat');
+    expect(inciLookupKeys('SD ALCOHOL')).not.toContain('alcoholdenat');
+  });
+
+  it('splits "written two ways" names only into whole parts', () => {
+    expect(slashAlternatives('CI 77891 / TITANIUM DIOXIDE')).toEqual([
+      'CI 77891',
+      'TITANIUM DIOXIDE',
+    ]);
+    expect(slashAlternatives('AQUA/WATER/EAU')).toEqual(['AQUA', 'WATER', 'EAU']);
+    expect(slashAlternatives('GLYCERIN')).toEqual([]);
+  });
+});
+
+describe('resolveInci with the normaliser and the fuzzy index', () => {
+  const titanium = { id: 1 };
+  const aqua = { id: 2 };
+  const niacinamide = { id: 3 };
+  const peg40 = { id: 4 };
+  const peg4 = { id: 5 };
+  const acrylates = { id: 6 };
+  const pyridoxine = { id: 7 };
+  const limonene = { id: 8 };
+  const aliases: [string, { id: number }][] = [
+    ['ci77891', titanium],
+    ['titaniumdioxide', titanium],
+    ['aqua', aqua],
+    ['water', aqua],
+    ['niacinamide', niacinamide],
+    ['peg40hydrogenatedcastoroil', peg40],
+    ['peg4hydrogenatedcastoroil', peg4],
+    ['acrylatesc1030alkylacrylatecrosspolymer', acrylates],
+    ['pyridoxinehcl', pyridoxine],
+    ['limonene', limonene],
+  ];
+  const dict = {
+    byInci: new Map<string, { id: number }>([
+      ['ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER', acrylates],
+    ]),
+    byAlias: new Map(aliases),
+    fuzzy: buildFuzzyIndex(aliases),
+  };
+  const resolve = (names: string[]) =>
+    resolveInci(names, dict).map((r) => [r.input, r.ingredient?.id ?? null, r.match]);
+
+  it('matches "A / B" names, OCR slips and accents exactly', () => {
+    expect(
+      resolve(['CI 77891 / TITANIUM DIOXIDE', 'AQUA/WATER/EAU', 'PYRIDOXINE HCI', 'LIMONÈNE']),
+    ).toEqual([
+      ['CI 77891 / TITANIUM DIOXIDE', 1, 'exact'],
+      ['AQUA/WATER/EAU', 2, 'exact'],
+      ['PYRIDOXINE HCI', 7, 'exact'],
+      ['LIMONÈNE', 8, 'exact'],
+    ]);
+  });
+
+  it('keeps a real INCI name with a slash whole', () => {
+    expect(resolve(['ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER'])).toEqual([
+      ['ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER', 6, 'exact'],
+    ]);
+  });
+
+  it('corrects one typo and marks it fuzzy — but not at the very start of the name', () => {
+    expect(resolve(['NIACINAMDE', 'NAICINAMIDE'])).toEqual([
+      ['NIACINAMDE', 3, 'fuzzy'],
+      ['NAICINAMIDE', null, null],
+    ]);
+  });
+
+  it('never corrects across a number, a short name or two equally close ingredients', () => {
+    expect(resolve(['PEG-45 HYDROGENATED CASTOR OIL'])).toEqual([
+      ['PEG-45 HYDROGENATED CASTOR OIL', null, null],
+    ]);
+    expect(resolve(['AQAU'])).toEqual([['AQAU', null, null]]);
+    const twins: [string, { id: number }][] = [
+      ['abcdefghij', { id: 1 }],
+      ['abcdefghik', { id: 2 }],
+    ];
+    expect(fuzzyMatch('abcdefghix', buildFuzzyIndex(twins))).toBeNull();
+  });
+
+  it('corrects only safe one-letter typos', () => {
+    expect(editDistance('niacinamide', 'naicinamdie', 2)).toBe(2);
+    expect(resolve(['NIACINAMDIE'])).toEqual([['NIACINAMDIE', 3, 'fuzzy']]); // a swap = 1 edit
+    // two edits, a changed prefix or an edit next to a digit are never corrected
+    expect(resolve(['NIACINMDIE'])).toEqual([['NIACINMDIE', null, null]]);
+    expect(resolve(['PG-NIACINAMIDE'])).toEqual([['PG-NIACINAMIDE', null, null]]);
+    expect(resolve(['PEG-40 HYDROGENATED CASTOR OIX'])).toEqual([
+      ['PEG-40 HYDROGENATED CASTOR OIX', 4, 'fuzzy'],
+    ]);
+    const sd = buildFuzzyIndex([
+      ['alcoholdenatsdalcohol39d', { id: 9 }] as [string, { id: number }],
+    ]);
+    expect(fuzzyMatch('alcoholdenatsdalcohol39c', sd)).toBeNull();
+  });
+
+  it('does not change a letter in a short name', () => {
+    const idx = buildFuzzyIndex([
+      ['xanthine', { id: 1 }],
+      ['glycerin', { id: 2 }],
+    ] as [string, { id: number }][]);
+    expect(fuzzyMatch('xanthane', idx)).toBeNull();
+    expect(fuzzyMatch('glycerln', idx)).toEqual({ id: 2 }); // scan l / i
+    expect(fuzzyMatch('glyceriin', idx)).toEqual({ id: 2 }); // extra letter
+  });
+
+  it('lets a scan mix up l / I at the start', () => {
+    const idx = buildFuzzyIndex([
+      ['iodopropynylbutylcarbamate', { id: 1 }] as [string, { id: number }],
+    ]);
+    expect(fuzzyMatch('lodopropynylbutylcarbamate', idx)).toEqual({ id: 1 });
+    expect(fuzzyMatch('xodopropynylbutylcarbamate', idx)).toBeNull();
+  });
+
+  it('treats a canonical name found in the index as exact', () => {
+    const idx = buildFuzzyIndex([
+      ['tristetramethylhydroxypiperidinolcitrate', { id: 1 }] as [string, { id: number }],
+    ]);
+    expect(
+      resolveInci(['TRIS (TETRAMETHYLHYDROXYPIPERIDINOL) CITRATE'], {
+        byInci: new Map(),
+        byAlias: new Map(),
+        fuzzy: idx,
+      })[0],
+    ).toMatchObject({ match: 'exact', ingredient: { id: 1 } });
   });
 });

@@ -1,0 +1,86 @@
+[
+  {
+    "step": "Start (D-59)",
+    "at": "2026-11-19T13:05:29.029Z",
+    "products": 12838,
+    "tokens": 220110,
+    "known": 123551,
+    "fuzzy": 0,
+    "fullyKnown": 265,
+    "fullyKnownExact": 265,
+    "dictionary": {
+      "ingredients": 387,
+      "aliases": 618
+    }
+  },
+  {
+    "step": "1. Taksonomia OBF",
+    "at": "2026-11-19T13:08:58.286Z",
+    "products": 12838,
+    "tokens": 220051,
+    "known": 183912,
+    "fuzzy": 0,
+    "fullyKnown": 2571,
+    "fullyKnownExact": 2571,
+    "dictionary": {
+      "ingredients": 22378,
+      "aliases": 29302
+    }
+  },
+  {
+    "step": "2. Załączniki CosIng II–VI",
+    "at": "2026-11-19T13:10:39.171Z",
+    "products": 12838,
+    "tokens": 220053,
+    "known": 185097,
+    "fuzzy": 0,
+    "fullyKnown": 2755,
+    "fullyKnownExact": 2755,
+    "dictionary": {
+      "ingredients": 22642,
+      "aliases": 29565
+    }
+  },
+  {
+    "step": "3. Normalizator + literówki",
+    "at": "2026-11-19T13:23:45.243Z",
+    "products": 12838,
+    "tokens": 219048,
+    "known": 190327,
+    "fuzzy": 2489,
+    "fullyKnown": 3474,
+    "fullyKnownExact": 3152,
+    "dictionary": {
+      "ingredients": 22642,
+      "aliases": 29092
+    }
+  },
+  {
+    "step": "4. Aliasy z przeglądu top-500",
+    "at": "2026-11-19T13:33:25.063Z",
+    "products": 12838,
+    "tokens": 223400,
+    "known": 202171,
+    "fuzzy": 2677,
+    "fullyKnown": 6478,
+    "fullyKnownExact": 5820,
+    "dictionary": {
+      "ingredients": 22949,
+      "aliases": 29460
+    }
+  },
+  {
+    "step": "5. Aroma ≠ Parfum, SD Alcohol = Alcohol Denat.",
+    "at": "2026-11-19T13:40:23.645Z",
+    "products": 12838,
+    "tokens": 223407,
+    "known": 202215,
+    "fuzzy": 2677,
+    "fullyKnown": 6489,
+    "fullyKnownExact": 5831,
+    "dictionary": {
+      "ingredients": 22950,
+      "aliases": 29467
+    }
+  }
+]

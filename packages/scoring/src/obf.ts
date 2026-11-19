@@ -47,6 +47,11 @@ export type ObfCategory =
   | 'mask'
   | 'exfoliant'
   | 'oil'
+  | 'makeup'
+  | 'hair_care'
+  | 'body_care'
+  | 'oral_care'
+  | 'deodorant'
   | 'other';
 
 export interface ObfProduct {
@@ -121,32 +126,62 @@ function imageUrl(v: unknown): string | null {
   return url && /^https:\/\/images\.openbeautyfacts\.org\//.test(url) ? url : null;
 }
 
+/** Categories that are not face care: never in routines or skin-care suggestions. */
+export const NON_SKINCARE_CATEGORIES: ReadonlySet<string> = new Set([
+  'makeup',
+  'hair_care',
+  'body_care',
+  'oral_care',
+  'deodorant',
+]);
+
+export function isSkincareCategory(category: string): boolean {
+  return !NON_SKINCARE_CATEGORIES.has(category);
+}
+
 /**
- * Category from OBF categories_tags — only when the tags clearly say it is face care; everything
- * else (shampoo, toothpaste, shower gel, unclear) is 'other'. The rules are an import heuristic,
- * the Match Score comes from the ingredients only.
+ * Category from OBF categories_tags. Products that clearly are not face care get their own
+ * category (toothpaste, deodorant, make-up, hair, body), face care only when the tags say so
+ * clearly; anything unclear is 'other'. The rules are an import heuristic, the Match Score comes
+ * from the ingredients only.
  */
 export function obfCategory(categoriesTags: readonly string[]): ObfCategory {
   const t = categoriesTags
     .filter((c) => c.startsWith('en:'))
     .map((c) => c.slice(3).toLowerCase().replace(/\s+/g, '-'));
-  const face = t.some((c) => /face|facial/.test(c));
-  const notFace = t.some((c) =>
-    /(^|-)(hair|body|shower|shampoos?|toothpastes?|deodorants?|household|bath|hands?|foot|feet|lips?|baby|intimate)(-|$)/.test(
-      c,
-    ),
+  const any = (re: RegExp) => t.some((c) => re.test(c));
+  const face = any(/face|facial/);
+
+  // 1. clearly not face care — checked first, a "face make-up" is make-up
+  if (any(/toothpastes?|mouthwash|oral-care|dental|tooth|dentifrice/)) return 'oral_care';
+  if (any(/deodorant|anti-?perspirant/)) return 'deodorant';
+  if (
+    any(
+      /make-?up|lipsticks?|mascara|foundations?$|eyeliner|eye-?shadow|nail-polish|nail-makeup|lip-gloss|blush|concealer|bronzer|lip-cosmetics|nail-varnish/,
+    )
+  )
+    return 'makeup';
+  if (!face && any(/(^|-)(shampoos?|hair|conditioners?|hair-dyes?)(-|$)/)) return 'hair_care';
+
+  // 2. face care, only from clear tags
+  const notFace = any(
+    /(^|-)(hair|body|shower|bath|hands?|foot|feet|lips?|baby|intimate|household|soaps?|shaving|aftershave)(-|$)/,
   );
-  if (notFace && !face) return 'other';
-  const has = (re: RegExp) => t.some((c) => re.test(c) && !/hair|body|lip|household/.test(c));
-  if (has(/sunscreen|sun-protection/)) return 'sunscreen';
-  if (has(/eye-(cream|contour)/)) return 'eye_cream';
-  if (has(/serum/)) return 'serum';
-  if (has(/toner/)) return 'toner';
-  if (has(/^(face|facial)-masks?$/)) return 'mask';
-  if (has(/^(face|facial)-(scrubs?|exfoli)/)) return 'exfoliant';
-  if (has(/cleans|micellar/)) return 'cleanser';
-  if (has(/^(face|facial)-oils?$/)) return 'oil';
-  if (has(/(face|facial|day|night|day-and-night)-creams?$|moisturi[sz]/)) return 'moisturizer';
+  if (!notFace || face) {
+    const has = (re: RegExp) => t.some((c) => re.test(c) && !/hair|body|lip|household/.test(c));
+    if (has(/sunscreen|sun-protection/)) return 'sunscreen';
+    if (has(/eye-(cream|contour)/)) return 'eye_cream';
+    if (has(/serum/)) return 'serum';
+    if (has(/toner/)) return 'toner';
+    if (has(/^(face|facial)-masks?$/)) return 'mask';
+    if (has(/^(face|facial)-(scrubs?|exfoli)/)) return 'exfoliant';
+    if (has(/cleans|micellar/)) return 'cleanser';
+    if (has(/^(face|facial)-oils?$/)) return 'oil';
+    if (has(/(face|facial|day|night|day-and-night)-creams?$|moisturi[sz]/)) return 'moisturizer';
+  }
+
+  // 3. body care: shower, bath, soap, hands, feet, shaving, intimate hygiene, wipes
+  if (notFace || any(/shower|soaps?$|wipes|hygiene/)) return 'body_care';
   return 'other';
 }
 

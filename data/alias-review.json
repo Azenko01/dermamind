@@ -1,0 +1,5758 @@
+[
+ {
+  "token": "PEG-40 HYDROGENATED CASTOR OIL",
+  "count": 598,
+  "action": "new",
+  "target": "PEG-40 HYDROGENATED CASTOR OIL"
+ },
+ {
+  "token": "HYDROGENATED CASTOR OIL",
+  "count": 232,
+  "action": "new",
+  "target": "HYDROGENATED CASTOR OIL"
+ },
+ {
+  "token": "SYNTHETIC FLUORPHLOGOPITE",
+  "count": 222,
+  "action": "new",
+  "target": "SYNTHETIC FLUORPHLOGOPITE"
+ },
+ {
+  "token": "CITRUS AURANTIUM PEEL OIL",
+  "count": 221,
+  "action": "new",
+  "target": "CITRUS AURANTIUM PEEL OIL",
+  "note": "na etykiecie bez „dulcis/amara” — nie wiemy, czy słodka, czy gorzka pomarańcza"
+ },
+ {
+  "token": "HYDROLYZED KERATIN",
+  "count": 150,
+  "action": "new",
+  "target": "HYDROLYZED KERATIN"
+ },
+ {
+  "token": "SYNTHETIC WAX",
+  "count": 141,
+  "action": "new",
+  "target": "SYNTHETIC WAX"
+ },
+ {
+  "token": "PPG-14 BUTYL ETHER",
+  "count": 134,
+  "action": "new",
+  "target": "PPG-14 BUTYL ETHER"
+ },
+ {
+  "token": "PEG-32",
+  "count": 129,
+  "action": "new",
+  "target": "PEG-32"
+ },
+ {
+  "token": "COPERNICIA CERIFERA CERA",
+  "count": 128,
+  "action": "new",
+  "target": "COPERNICIA CERIFERA CERA"
+ },
+ {
+  "token": "ISOHEXADECANE",
+  "count": 127,
+  "action": "new",
+  "target": "ISOHEXADECANE"
+ },
+ {
+  "token": "MARIS SAL",
+  "count": 118,
+  "action": "new",
+  "target": "MARIS SAL"
+ },
+ {
+  "token": "HYDROGENATED POLYISOBUTENE",
+  "count": 108,
+  "action": "new",
+  "target": "HYDROGENATED POLYISOBUTENE"
+ },
+ {
+  "token": "CETYL ESTERS",
+  "count": 83,
+  "action": "new",
+  "target": "CETYL ESTERS"
+ },
+ {
+  "token": "PALM KERNEL ACID",
+  "count": 82,
+  "action": "new",
+  "target": "PALM KERNEL ACID"
+ },
+ {
+  "token": "PPG-6",
+  "count": 77,
+  "action": "new",
+  "target": "PPG-6"
+ },
+ {
+  "token": "COCONUT ACID",
+  "count": 75,
+  "action": "new",
+  "target": "COCONUT ACID"
+ },
+ {
+  "token": "PPG-15 STEARYL ETHER",
+  "count": 75,
+  "action": "new",
+  "target": "PPG-15 STEARYL ETHER"
+ },
+ {
+  "token": "ACACIA SENEGAL GUM",
+  "count": 72,
+  "action": "new",
+  "target": "ACACIA SENEGAL GUM"
+ },
+ {
+  "token": "ZEA MAYS STARCH",
+  "count": 72,
+  "action": "new",
+  "target": "ZEA MAYS STARCH"
+ },
+ {
+  "token": "HYDROLYZED SOY PROTEIN",
+  "count": 69,
+  "action": "new",
+  "target": "HYDROLYZED SOY PROTEIN"
+ },
+ {
+  "token": "ROSMARINUS OFFICINALIS LEAF EXTRACT",
+  "count": 68,
+  "action": "new",
+  "target": "ROSMARINUS OFFICINALIS LEAF EXTRACT"
+ },
+ {
+  "token": "CETYL PEG/PPG-10/1 DIMETHICONE",
+  "count": 67,
+  "action": "new",
+  "target": "CETYL PEG/PPG-10/1 DIMETHICONE"
+ },
+ {
+  "token": "SODIUM POLYNAPHTHALENESULFONATE",
+  "count": 65,
+  "action": "new",
+  "target": "SODIUM POLYNAPHTHALENESULFONATE"
+ },
+ {
+  "token": "SORBITAN CAPRYLATE",
+  "count": 63,
+  "action": "new",
+  "target": "SORBITAN CAPRYLATE"
+ },
+ {
+  "token": "MAGNESIUM ALUMINUM SILICATE",
+  "count": 60,
+  "action": "new",
+  "target": "MAGNESIUM ALUMINUM SILICATE"
+ },
+ {
+  "token": "EUCALYPTUS GLOBULUS OIL",
+  "count": 59,
+  "action": "new",
+  "target": "EUCALYPTUS GLOBULUS OIL"
+ },
+ {
+  "token": "CETEARYL ISONONANOATE",
+  "count": 57,
+  "action": "new",
+  "target": "CETEARYL ISONONANOATE"
+ },
+ {
+  "token": "LAVANDULA OIL/EXTRACT",
+  "count": 54,
+  "action": "alias",
+  "target": "LAVANDULA ANGUSTIFOLIA OIL",
+  "note": "nazwa z etykiety bez gatunku — przypisana do Lavandula Angustifolia Oil, sprawdzić"
+ },
+ {
+  "token": "VITIS VINIFERA (GRAPE) SEED OIL",
+  "count": 53,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: VITIS VINIFERA SEED OIL"
+ },
+ {
+  "token": "PANAX GINSENG ROOT EXTRACT",
+  "count": 52,
+  "action": "new",
+  "target": "PANAX GINSENG ROOT EXTRACT"
+ },
+ {
+  "token": "PEG-10 DIMETHICONE",
+  "count": 52,
+  "action": "new",
+  "target": "PEG-10 DIMETHICONE"
+ },
+ {
+  "token": "ORYZA SATIVA STARCH",
+  "count": 49,
+  "action": "new",
+  "target": "ORYZA SATIVA STARCH"
+ },
+ {
+  "token": "PVM/MA COPOLYMER",
+  "count": 49,
+  "action": "new",
+  "target": "PVM/MA COPOLYMER"
+ },
+ {
+  "token": "SODIUM CARBOMER",
+  "count": 49,
+  "action": "new",
+  "target": "SODIUM CARBOMER"
+ },
+ {
+  "token": "STEVIA REBAUDIANA EXTRACT",
+  "count": 49,
+  "action": "new",
+  "target": "STEVIA REBAUDIANA EXTRACT"
+ },
+ {
+  "token": "VITIS VINIFERA SEED OIL",
+  "count": 49,
+  "action": "new",
+  "target": "VITIS VINIFERA SEED OIL"
+ },
+ {
+  "token": "PEG-55 PROPYLENE GLYCOL OLEATE",
+  "count": 46,
+  "action": "new",
+  "target": "PEG-55 PROPYLENE GLYCOL OLEATE"
+ },
+ {
+  "token": "ROSE KETONES",
+  "count": 46,
+  "action": "skip",
+  "note": "nazwa grupy (ketony różane) — nie jeden składnik"
+ },
+ {
+  "token": "PEG-6",
+  "count": 45,
+  "action": "new",
+  "target": "PEG-6"
+ },
+ {
+  "token": "POLOXAMER 184",
+  "count": 45,
+  "action": "new",
+  "target": "POLOXAMER 184"
+ },
+ {
+  "token": "PPG-12",
+  "count": 44,
+  "action": "new",
+  "target": "PPG-12"
+ },
+ {
+  "token": "HYDROLYZED MILK PROTEIN",
+  "count": 43,
+  "action": "new",
+  "target": "HYDROLYZED MILK PROTEIN"
+ },
+ {
+  "token": "PEG-7M",
+  "count": 43,
+  "action": "new",
+  "target": "PEG-7M"
+ },
+ {
+  "token": "SESAMUM INDICUM SEED OIL",
+  "count": 42,
+  "action": "new",
+  "target": "SESAMUM INDICUM SEED OIL"
+ },
+ {
+  "token": "ROSMARINUS OFFICINALIS (ROSEMARY) LEAF EXTRACT",
+  "count": 41,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ROSMARINUS OFFICINALIS LEAF EXTRACT"
+ },
+ {
+  "token": "SILICA SILYLATE",
+  "count": 41,
+  "action": "new",
+  "target": "SILICA SILYLATE"
+ },
+ {
+  "token": "PUNICA GRANATUM FRUIT EXTRACT",
+  "count": 40,
+  "action": "new",
+  "target": "PUNICA GRANATUM FRUIT EXTRACT"
+ },
+ {
+  "token": "SODIUM STARCH OCTENYLSUCCINATE",
+  "count": 39,
+  "action": "new",
+  "target": "SODIUM STARCH OCTENYLSUCCINATE"
+ },
+ {
+  "token": "HYDROLYZED CORN PROTEIN",
+  "count": 38,
+  "action": "new",
+  "target": "HYDROLYZED CORN PROTEIN"
+ },
+ {
+  "token": "METHYL METHACRYLATE CROSSPOLYMER",
+  "count": 38,
+  "action": "new",
+  "target": "METHYL METHACRYLATE CROSSPOLYMER"
+ },
+ {
+  "token": "PALM ACID",
+  "count": 37,
+  "action": "new",
+  "target": "PALM ACID"
+ },
+ {
+  "token": "SESAMUM INDICUM (SESAME) SEED OIL",
+  "count": 37,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: SESAMUM INDICUM SEED OIL"
+ },
+ {
+  "token": "SUCROSE STEARATE",
+  "count": 37,
+  "action": "new",
+  "target": "SUCROSE STEARATE"
+ },
+ {
+  "token": "GLYCERYL GLUCOSIDE",
+  "count": 36,
+  "action": "new",
+  "target": "GLYCERYL GLUCOSIDE"
+ },
+ {
+  "token": "FRUCTOOLIGOSACCHARIDES",
+  "count": 35,
+  "action": "new",
+  "target": "FRUCTOOLIGOSACCHARIDES"
+ },
+ {
+  "token": "MAGNOLIA OFFICINALIS BARK EXTRACT",
+  "count": 35,
+  "action": "new",
+  "target": "MAGNOLIA OFFICINALIS BARK EXTRACT"
+ },
+ {
+  "token": "CAMELLIA OLEIFERA SEED OIL",
+  "count": 34,
+  "action": "new",
+  "target": "CAMELLIA OLEIFERA SEED OIL"
+ },
+ {
+  "token": "HYDROGENATED COCONUT OIL",
+  "count": 34,
+  "action": "new",
+  "target": "HYDROGENATED COCONUT OIL"
+ },
+ {
+  "token": "HYDROGENATED SOYBEAN OIL",
+  "count": 34,
+  "action": "new",
+  "target": "HYDROGENATED SOYBEAN OIL"
+ },
+ {
+  "token": "MEL EXTRACT",
+  "count": 34,
+  "action": "new",
+  "target": "MEL EXTRACT",
+  "note": "Mel = miód (nazwa z Farmakopei)"
+ },
+ {
+  "token": "HYDROGENATED PALM OIL",
+  "count": 31,
+  "action": "new",
+  "target": "HYDROGENATED PALM OIL"
+ },
+ {
+  "token": "PYRIDOXINE HCI",
+  "count": 31,
+  "action": "alias",
+  "target": "PYRIDOXINE HCL"
+ },
+ {
+  "token": "SAVON",
+  "count": 31,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CANNABIS SATIVA SEED OIL",
+  "count": 30,
+  "action": "new",
+  "target": "CANNABIS SATIVA SEED OIL"
+ },
+ {
+  "token": "POLYCARBOXYLATES",
+  "count": 29,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "SODIUM ACRYLATES COPOLYMER",
+  "count": 29,
+  "action": "new",
+  "target": "SODIUM ACRYLATES COPOLYMER"
+ },
+ {
+  "token": "ARNICA MONTANA FLOWER EXTRACT",
+  "count": 28,
+  "action": "new",
+  "target": "ARNICA MONTANA FLOWER EXTRACT"
+ },
+ {
+  "token": "AZURANTS OPTIQUES",
+  "count": 28,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "SCUTELLARIA BAICALENSIS ROOT EXTRACT",
+  "count": 28,
+  "action": "new",
+  "target": "SCUTELLARIA BAICALENSIS ROOT EXTRACT"
+ },
+ {
+  "token": "C18-36 ACID TRIGLYCERIDE",
+  "count": 27,
+  "action": "new",
+  "target": "C18-36 ACID TRIGLYCERIDE"
+ },
+ {
+  "token": "SOY ACID",
+  "count": 26,
+  "action": "new",
+  "target": "SOY ACID"
+ },
+ {
+  "token": "ZEA MAYS (CORN) STARCH",
+  "count": 26,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ZEA MAYS STARCH"
+ },
+ {
+  "token": "CALENDULA OFFICINALIS EXTRACT",
+  "count": 25,
+  "action": "new",
+  "target": "CALENDULA OFFICINALIS EXTRACT"
+ },
+ {
+  "token": "CARTHAMUS TINCTORIUS SEED OIL",
+  "count": 25,
+  "action": "new",
+  "target": "CARTHAMUS TINCTORIUS SEED OIL"
+ },
+ {
+  "token": "HYDROXYPROPYL GUAR",
+  "count": 25,
+  "action": "new",
+  "target": "HYDROXYPROPYL GUAR"
+ },
+ {
+  "token": "PARFUMS",
+  "count": 25,
+  "action": "alias",
+  "target": "PARFUM"
+ },
+ {
+  "token": "PYRIDOXINE HCL",
+  "count": 25,
+  "action": "new",
+  "target": "PYRIDOXINE HCL"
+ },
+ {
+  "token": "ALOE BARBADENSIS EXTRACT",
+  "count": 24,
+  "action": "new",
+  "target": "ALOE BARBADENSIS EXTRACT"
+ },
+ {
+  "token": "CHONDRUS CRISPUS EXTRACT",
+  "count": 24,
+  "action": "new",
+  "target": "CHONDRUS CRISPUS EXTRACT"
+ },
+ {
+  "token": "GLICERINA",
+  "count": 24,
+  "action": "alias",
+  "target": "GLYCERIN"
+ },
+ {
+  "token": "GOSSYPIUM HERBACEUM SEED EXTRACT",
+  "count": 24,
+  "action": "new",
+  "target": "GOSSYPIUM HERBACEUM SEED EXTRACT"
+ },
+ {
+  "token": "MENTHA PIPERITA LEAF WATER",
+  "count": 23,
+  "action": "new",
+  "target": "MENTHA PIPERITA LEAF WATER"
+ },
+ {
+  "token": "PEG-100",
+  "count": 23,
+  "action": "new",
+  "target": "PEG-100"
+ },
+ {
+  "token": "PEG-40 STEARATE",
+  "count": 23,
+  "action": "new",
+  "target": "PEG-40 STEARATE"
+ },
+ {
+  "token": "FUCUS VESICULOSUS EXTRACT",
+  "count": 22,
+  "action": "new",
+  "target": "FUCUS VESICULOSUS EXTRACT"
+ },
+ {
+  "token": "HAMAMELIS VIRGINIANA LEAF EXTRACT",
+  "count": 22,
+  "action": "new",
+  "target": "HAMAMELIS VIRGINIANA LEAF EXTRACT"
+ },
+ {
+  "token": "METHICONE",
+  "count": 22,
+  "action": "new",
+  "target": "METHICONE"
+ },
+ {
+  "token": "CUCUMIS SATIVUS FRUIT EXTRACT",
+  "count": 21,
+  "action": "new",
+  "target": "CUCUMIS SATIVUS FRUIT EXTRACT"
+ },
+ {
+  "token": "EQUISETUM ARVENSE EXTRACT",
+  "count": 21,
+  "action": "new",
+  "target": "EQUISETUM ARVENSE EXTRACT"
+ },
+ {
+  "token": "ORYZA SATIVA BRAN OIL",
+  "count": 21,
+  "action": "new",
+  "target": "ORYZA SATIVA BRAN OIL"
+ },
+ {
+  "token": "PROFUMO",
+  "count": 21,
+  "action": "alias",
+  "target": "PARFUM"
+ },
+ {
+  "token": "ZEA MAYS OIL",
+  "count": 21,
+  "action": "new",
+  "target": "ZEA MAYS OIL"
+ },
+ {
+  "token": "AGENTS DE SURFACE NON-IONIQUES",
+  "count": 20,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "BUTYROSPERMUM PARKII",
+  "count": 20,
+  "action": "alias",
+  "target": "BUTYROSPERMUM PARKII BUTTER"
+ },
+ {
+  "token": "CARICA PAPAYA FRUIT EXTRACT",
+  "count": 20,
+  "action": "new",
+  "target": "CARICA PAPAYA FRUIT EXTRACT"
+ },
+ {
+  "token": "CENTELLA ASIATICA LEAF EXTRACT",
+  "count": 20,
+  "action": "new",
+  "target": "CENTELLA ASIATICA LEAF EXTRACT"
+ },
+ {
+  "token": "GLYCYRRHIZA GLABRA ROOT EXTRACT",
+  "count": 20,
+  "action": "new",
+  "target": "GLYCYRRHIZA GLABRA ROOT EXTRACT"
+ },
+ {
+  "token": "LANOLIN ALCOHOL",
+  "count": 20,
+  "action": "new",
+  "target": "LANOLIN ALCOHOL"
+ },
+ {
+  "token": "MANGIFERA INDICA FRUIT EXTRACT",
+  "count": 20,
+  "action": "new",
+  "target": "MANGIFERA INDICA FRUIT EXTRACT"
+ },
+ {
+  "token": "AVENE THERMAL SPRING WATER (AVENE AQUA)",
+  "count": 19,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: AVENE THERMAL SPRING WATER"
+ },
+ {
+  "token": "ORYZA SATIVA (RICE) EXTRACT",
+  "count": 19,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ORYZA SATIVA EXTRACT"
+ },
+ {
+  "token": "PEG-30 DIPOLYHYDROXYSTEARATE",
+  "count": 19,
+  "action": "new",
+  "target": "PEG-30 DIPOLYHYDROXYSTEARATE"
+ },
+ {
+  "token": "PROPOLIS EXTRACT",
+  "count": 19,
+  "action": "new",
+  "target": "PROPOLIS EXTRACT"
+ },
+ {
+  "token": "SACCHARUM OFFICINARUM EXTRACT / SUGAR CANE EXTRACT",
+  "count": 19,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "SALVIA OFFICINALIS OIL",
+  "count": 19,
+  "action": "new",
+  "target": "SALVIA OFFICINALIS OIL"
+ },
+ {
+  "token": "SODIUM",
+  "count": 19,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "(F01)",
+  "count": 18,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CHLORELLA VULGARIS EXTRACT",
+  "count": 18,
+  "action": "new",
+  "target": "CHLORELLA VULGARIS EXTRACT"
+ },
+ {
+  "token": "CUCUMIS SATIVUS (CUCUMBER) FRUIT EXTRACT",
+  "count": 18,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: CUCUMIS SATIVUS FRUIT EXTRACT"
+ },
+ {
+  "token": "PORTULACA OLERACEA EXTRACT",
+  "count": 18,
+  "action": "new",
+  "target": "PORTULACA OLERACEA EXTRACT"
+ },
+ {
+  "token": "SUCROSE LAURATE",
+  "count": 18,
+  "action": "new",
+  "target": "SUCROSE LAURATE"
+ },
+ {
+  "token": "ACIDO CITRICO",
+  "count": 17,
+  "action": "alias",
+  "target": "CITRIC ACID"
+ },
+ {
+  "token": "COPERNICIA CERIFERA CERA / CARNAUBA WAX",
+  "count": 17,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "MELISSA OFFICINALIS LEAF EXTRACT",
+  "count": 17,
+  "action": "new",
+  "target": "MELISSA OFFICINALIS LEAF EXTRACT"
+ },
+ {
+  "token": "POLYURETHANE-35",
+  "count": 17,
+  "action": "new",
+  "target": "POLYURETHANE-35"
+ },
+ {
+  "token": "BORAGO OFFICINALIS SEED OIL",
+  "count": 16,
+  "action": "new",
+  "target": "BORAGO OFFICINALIS SEED OIL"
+ },
+ {
+  "token": "ECHINACEA PURPUREA EXTRACT",
+  "count": 16,
+  "action": "new",
+  "target": "ECHINACEA PURPUREA EXTRACT"
+ },
+ {
+  "token": "LAMINARIA DIGITATA EXTRACT",
+  "count": 16,
+  "action": "new",
+  "target": "LAMINARIA DIGITATA EXTRACT"
+ },
+ {
+  "token": "OPUNTIA FICUS-INDICA STEM EXTRACT",
+  "count": 16,
+  "action": "new",
+  "target": "OPUNTIA FICUS-INDICA STEM EXTRACT"
+ },
+ {
+  "token": "PLUKENETIA VOLUBILIS SEED OIL",
+  "count": 16,
+  "action": "new",
+  "target": "PLUKENETIA VOLUBILIS SEED OIL"
+ },
+ {
+  "token": "POLYESTER-23",
+  "count": 16,
+  "action": "new",
+  "target": "POLYESTER-23"
+ },
+ {
+  "token": "5-AGENTS DE SURFACE ANIONIQUES.ENZYMES",
+  "count": 15,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CHAMOMILLA RECUTITA EXTRACT",
+  "count": 15,
+  "action": "new",
+  "target": "CHAMOMILLA RECUTITA EXTRACT"
+ },
+ {
+  "token": "CITRUS MEDICA LIMONUM PEEL EXTRACT / LEMON PEEL EXTRACT",
+  "count": 15,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "DUFTSTOFFE",
+  "count": 15,
+  "action": "alias",
+  "target": "PARFUM"
+ },
+ {
+  "token": "EUPHORBIA CERIFERA (CANDELILLA) WAX",
+  "count": 15,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: EUPHORBIA CERIFERA WAX"
+ },
+ {
+  "token": "GLYCYRRHIZA GLABRA (LICORICE) ROOT EXTRACT",
+  "count": 15,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: GLYCYRRHIZA GLABRA ROOT EXTRACT"
+ },
+ {
+  "token": "KOMMER SENERE",
+  "count": 15,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PEG-40 CASTOR OIL",
+  "count": 15,
+  "action": "new",
+  "target": "PEG-40 CASTOR OIL"
+ },
+ {
+  "token": "SPIRULINA PLATENSIS EXTRACT",
+  "count": 15,
+  "action": "new",
+  "target": "SPIRULINA PLATENSIS EXTRACT"
+ },
+ {
+  "token": "SUCCINOGLYCAN",
+  "count": 15,
+  "action": "new",
+  "target": "SUCCINOGLYCAN"
+ },
+ {
+  "token": "TOCOFEROLO",
+  "count": 15,
+  "action": "alias",
+  "target": "TOCOPHEROL"
+ },
+ {
+  "token": "TOLUENE-2,5-DIAMINE SULFATE",
+  "count": 15,
+  "action": "new",
+  "target": "TOLUENE-2,5-DIAMINE SULFATE"
+ },
+ {
+  "token": "65823 SCHWALBACH/TS",
+  "count": 14,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "AESCULUS HIPPOCASTANUM SEED EXTRACT",
+  "count": 14,
+  "action": "new",
+  "target": "AESCULUS HIPPOCASTANUM SEED EXTRACT"
+ },
+ {
+  "token": "ARGININE HCL",
+  "count": 14,
+  "action": "new",
+  "target": "ARGININE HCL"
+ },
+ {
+  "token": "COCONUT ALCOHOL",
+  "count": 14,
+  "action": "new",
+  "target": "COCONUT ALCOHOL"
+ },
+ {
+  "token": "ELAEIS GUINEENSIS OIL",
+  "count": 14,
+  "action": "new",
+  "target": "ELAEIS GUINEENSIS OIL"
+ },
+ {
+  "token": "EUGENIA CARYOPHYLLUS OIL",
+  "count": 14,
+  "action": "alias",
+  "target": "EUGENIA CARYOPHYLLUS LEAF OIL",
+  "note": "goździkowiec: olej z liści lub pąków — przypisany do Leaf Oil, sprawdzić"
+ },
+ {
+  "token": "FICUS CARICA FRUIT EXTRACT",
+  "count": 14,
+  "action": "new",
+  "target": "FICUS CARICA FRUIT EXTRACT"
+ },
+ {
+  "token": "HYDROLYZED CORN STARCH",
+  "count": 14,
+  "action": "new",
+  "target": "HYDROLYZED CORN STARCH"
+ },
+ {
+  "token": "LYCIUM BARBARUM FRUIT EXTRACT",
+  "count": 14,
+  "action": "new",
+  "target": "LYCIUM BARBARUM FRUIT EXTRACT"
+ },
+ {
+  "token": "ORYZA SATIVA EXTRACT",
+  "count": 14,
+  "action": "new",
+  "target": "ORYZA SATIVA EXTRACT"
+ },
+ {
+  "token": "PEG-8 DISTEARATE",
+  "count": 14,
+  "action": "new",
+  "target": "PEG-8 DISTEARATE"
+ },
+ {
+  "token": "PHOSPHONATES",
+  "count": 14,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "URTICA DIOICA LEAF EXTRACT",
+  "count": 14,
+  "action": "new",
+  "target": "URTICA DIOICA LEAF EXTRACT"
+ },
+ {
+  "token": "ACETYL DIPEPTIDE-1 CETYL ESTER",
+  "count": 13,
+  "action": "new",
+  "target": "ACETYL DIPEPTIDE-1 CETYL ESTER"
+ },
+ {
+  "token": "CAESALPINIA SPINOSA GUM",
+  "count": 13,
+  "action": "new",
+  "target": "CAESALPINIA SPINOSA GUM"
+ },
+ {
+  "token": "CAPRYLYL",
+  "count": 13,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CHLORIDE",
+  "count": 13,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CITRUS AURANTIUM AMARA FLOWER EXTRACT",
+  "count": 13,
+  "action": "new",
+  "target": "CITRUS AURANTIUM AMARA FLOWER EXTRACT"
+ },
+ {
+  "token": "CITRUS GRANDIS FRUIT EXTRACT",
+  "count": 13,
+  "action": "new",
+  "target": "CITRUS GRANDIS FRUIT EXTRACT"
+ },
+ {
+  "token": "ETHYLENE/PROPYLENE COPOLYMER",
+  "count": 13,
+  "action": "new",
+  "target": "ETHYLENE/PROPYLENE COPOLYMER"
+ },
+ {
+  "token": "HYDROGENATED OLIVE OIL",
+  "count": 13,
+  "action": "new",
+  "target": "HYDROGENATED OLIVE OIL"
+ },
+ {
+  "token": "ISOMERIZED LINOLEIC ACID",
+  "count": 13,
+  "action": "new",
+  "target": "ISOMERIZED LINOLEIC ACID"
+ },
+ {
+  "token": "URTICA DIOICA (NETTLE) EXTRACT",
+  "count": 13,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: URTICA DIOICA EXTRACT"
+ },
+ {
+  "token": "URTICA DIOICA EXTRACT",
+  "count": 13,
+  "action": "new",
+  "target": "URTICA DIOICA EXTRACT"
+ },
+ {
+  "token": "XANTHAN",
+  "count": 13,
+  "action": "alias",
+  "target": "XANTHAN GUM"
+ },
+ {
+  "token": "ZEA MAYS STARCH / CORN STARCH",
+  "count": 13,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "BENZOATE",
+  "count": 12,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "BEURRE DE KARITÉ",
+  "count": 12,
+  "action": "alias",
+  "target": "BUTYROSPERMUM PARKII BUTTER"
+ },
+ {
+  "token": "CAMELINA SATIVA SEED OIL",
+  "count": 12,
+  "action": "new",
+  "target": "CAMELINA SATIVA SEED OIL"
+ },
+ {
+  "token": "HELIANTHUS ANNUUS (SUNFLOWER) SEED WAX",
+  "count": 12,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: HELIANTHUS ANNUUS SEED WAX"
+ },
+ {
+  "token": "HYDROXYPROPYL CYCLODEXTRIN",
+  "count": 12,
+  "action": "new",
+  "target": "HYDROXYPROPYL CYCLODEXTRIN"
+ },
+ {
+  "token": "LANOLIN ALCOHOL (EUCERIT®)",
+  "count": 12,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: LANOLIN ALCOHOL"
+ },
+ {
+  "token": "LIMONENE LINALOOL",
+  "count": 12,
+  "action": "skip",
+  "note": "dwie nazwy bez przecinka — parser ich nie rozdziela (nie zgadujemy podziału)"
+ },
+ {
+  "token": "LINUM USITATISSIMUM SEED OIL",
+  "count": 12,
+  "action": "new",
+  "target": "LINUM USITATISSIMUM SEED OIL"
+ },
+ {
+  "token": "OLEA EUROPAEA FRUIT EXTRACT",
+  "count": 12,
+  "action": "new",
+  "target": "OLEA EUROPAEA FRUIT EXTRACT"
+ },
+ {
+  "token": "OU PLUS",
+  "count": 12,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PPG-9",
+  "count": 12,
+  "action": "new",
+  "target": "PPG-9"
+ },
+ {
+  "token": "PUNICA GRANATUM FRUIT JUICE",
+  "count": 12,
+  "action": "new",
+  "target": "PUNICA GRANATUM FRUIT JUICE"
+ },
+ {
+  "token": "ALOE BARBADENSIS GEL",
+  "count": 11,
+  "action": "alias",
+  "target": "ALOE BARBADENSIS LEAF JUICE",
+  "note": "żel aloesowy = sok z liści w CosIng, sprawdzić"
+ },
+ {
+  "token": "DICALCIUM PHOSPHATE DIHYDRATE",
+  "count": 11,
+  "action": "new",
+  "target": "DICALCIUM PHOSPHATE DIHYDRATE"
+ },
+ {
+  "token": "ENZYMES",
+  "count": 11,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "HAEMATOCOCCUS PLUVIALIS EXTRACT",
+  "count": 11,
+  "action": "new",
+  "target": "HAEMATOCOCCUS PLUVIALIS EXTRACT"
+ },
+ {
+  "token": "LITHOTHAMNION CALCAREUM EXTRACT",
+  "count": 11,
+  "action": "new",
+  "target": "LITHOTHAMNION CALCAREUM EXTRACT"
+ },
+ {
+  "token": "PROPYLENE",
+  "count": 11,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PUNICA GRANATUM EXTRACT",
+  "count": 11,
+  "action": "new",
+  "target": "PUNICA GRANATUM EXTRACT"
+ },
+ {
+  "token": "PUNICA GRANATUM SEED OIL",
+  "count": 11,
+  "action": "new",
+  "target": "PUNICA GRANATUM SEED OIL"
+ },
+ {
+  "token": "ROSA CANINA FRUIT EXTRACT",
+  "count": 11,
+  "action": "new",
+  "target": "ROSA CANINA FRUIT EXTRACT"
+ },
+ {
+  "token": "SCLEROCARYA BIRREA SEED OIL",
+  "count": 11,
+  "action": "new",
+  "target": "SCLEROCARYA BIRREA SEED OIL"
+ },
+ {
+  "token": "VITREOSCILLA FERMENT",
+  "count": 11,
+  "action": "new",
+  "target": "VITREOSCILLA FERMENT"
+ },
+ {
+  "token": "WHEAT AMINO ACIDS",
+  "count": 11,
+  "action": "new",
+  "target": "WHEAT AMINO ACIDS"
+ },
+ {
+  "token": "AMFOTERE OPPERVLAKTEACTIEVE STOFFEN",
+  "count": 10,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CITRUS MEDICA LIMONUM (LEMON) PEEL OIL",
+  "count": 10,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: CITRUS MEDICA LIMONUM PEEL OIL"
+ },
+ {
+  "token": "COPPER PCA",
+  "count": 10,
+  "action": "new",
+  "target": "COPPER PCA"
+ },
+ {
+  "token": "CORN STARCH MODIFIED",
+  "count": 10,
+  "action": "alias",
+  "target": "ZEA MAYS STARCH",
+  "note": "skrobia modyfikowana — przypisana do Zea Mays Starch, sprawdzić"
+ },
+ {
+  "token": "GLUCOSIDE",
+  "count": 10,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "GLYZERIN",
+  "count": 10,
+  "action": "alias",
+  "target": "GLYCERIN"
+ },
+ {
+  "token": "HAMAMELIS VIRGINIANA (WITCH HAZEL) LEAF EXTRACT",
+  "count": 10,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: HAMAMELIS VIRGINIANA LEAF EXTRACT"
+ },
+ {
+  "token": "HELIANTHUS ANNUUS SEED WAX",
+  "count": 10,
+  "action": "new",
+  "target": "HELIANTHUS ANNUUS SEED WAX"
+ },
+ {
+  "token": "HIPPOPHAE RHAMNOIDES FRUIT EXTRACT",
+  "count": 10,
+  "action": "new",
+  "target": "HIPPOPHAE RHAMNOIDES FRUIT EXTRACT"
+ },
+ {
+  "token": "HIPPOPHAE RHAMNOIDES OIL",
+  "count": 10,
+  "action": "new",
+  "target": "HIPPOPHAE RHAMNOIDES OIL"
+ },
+ {
+  "token": "HYDROLYZED WHEAT STARCH",
+  "count": 10,
+  "action": "new",
+  "target": "HYDROLYZED WHEAT STARCH"
+ },
+ {
+  "token": "MANGIFERA INDICA (MANGO) FRUIT EXTRACT",
+  "count": 10,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: MANGIFERA INDICA FRUIT EXTRACT"
+ },
+ {
+  "token": "MENTHOXYPROPANEDIOL",
+  "count": 10,
+  "action": "new",
+  "target": "MENTHOXYPROPANEDIOL"
+ },
+ {
+  "token": "NICHTIONISCHE TENSIDE",
+  "count": 10,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ORYZA SATIVA (RICE) STARCH",
+  "count": 10,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ORYZA SATIVA STARCH"
+ },
+ {
+  "token": "PARTUM",
+  "count": 10,
+  "action": "alias",
+  "target": "PARFUM"
+ },
+ {
+  "token": "POLYESTER",
+  "count": 10,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "POLYGLYCERYL-3",
+  "count": 10,
+  "action": "new",
+  "target": "POLYGLYCERYL-3",
+  "note": "samo „Polyglyceryl-3” bywa ucięciem dłuższej nazwy — sprawdzić"
+ },
+ {
+  "token": "SESAMUM INDICUM OIL / SESAME SEED OIL",
+  "count": 10,
+  "action": "alias",
+  "target": "SESAMUM INDICUM SEED OIL"
+ },
+ {
+  "token": "SILYBUM MARIANUM SEED OIL",
+  "count": 10,
+  "action": "new",
+  "target": "SILYBUM MARIANUM SEED OIL"
+ },
+ {
+  "token": "SIMMONDSIA CHINENSIS OIL",
+  "count": 10,
+  "action": "alias",
+  "target": "SIMMONDSIA CHINENSIS SEED OIL"
+ },
+ {
+  "token": "SORBITAN PALMITATE",
+  "count": 10,
+  "action": "new",
+  "target": "SORBITAN PALMITATE"
+ },
+ {
+  "token": "SOY AMINO ACIDS",
+  "count": 10,
+  "action": "new",
+  "target": "SOY AMINO ACIDS"
+ },
+ {
+  "token": "TRIDECETH-2 CARBOXAMIDE MEA",
+  "count": 10,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ACID",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ALGAE EXTRACT",
+  "count": 9,
+  "action": "new",
+  "target": "ALGAE EXTRACT"
+ },
+ {
+  "token": "BUTYLPHENYL",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CAPRYLIC/CAPRIC GLYCERIDES",
+  "count": 9,
+  "action": "new",
+  "target": "CAPRYLIC/CAPRIC GLYCERIDES"
+ },
+ {
+  "token": "CITRATE",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "COCOS NUCIFERA",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "EAU PURIFIÉE",
+  "count": 9,
+  "action": "alias",
+  "target": "AQUA"
+ },
+ {
+  "token": "EQUISETUM ARVENSE LEAF EXTRACT",
+  "count": 9,
+  "action": "new",
+  "target": "EQUISETUM ARVENSE LEAF EXTRACT"
+ },
+ {
+  "token": "FENOSSIETANOLO",
+  "count": 9,
+  "action": "alias",
+  "target": "PHENOXYETHANOL"
+ },
+ {
+  "token": "FLAVOUR",
+  "count": 9,
+  "action": "alias",
+  "note": "aromat smakowy (pasty, balsamy do ust) — nie zapach (D-73)",
+  "target": "AROMA"
+ },
+ {
+  "token": "MENTHA PIPERITA EXTRACT",
+  "count": 9,
+  "action": "new",
+  "target": "MENTHA PIPERITA EXTRACT"
+ },
+ {
+  "token": "OLEA EUROPAEA (OLIVE FRUIT) OIL",
+  "count": 9,
+  "action": "alias",
+  "target": "OLEA EUROPAEA FRUIT OIL"
+ },
+ {
+  "token": "OUATE DE PURE CELLULOSE",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PAULLINIA CUPANA SEED EXTRACT",
+  "count": 9,
+  "action": "new",
+  "target": "PAULLINIA CUPANA SEED EXTRACT"
+ },
+ {
+  "token": "PEG-14M",
+  "count": 9,
+  "action": "new",
+  "target": "PEG-14M"
+ },
+ {
+  "token": "PFLANZLICHES GLYCERIN",
+  "count": 9,
+  "action": "alias",
+  "target": "GLYCERIN"
+ },
+ {
+  "token": "PONGAMIA GLABRA SEED OIL",
+  "count": 9,
+  "action": "new",
+  "target": "PONGAMIA GLABRA SEED OIL"
+ },
+ {
+  "token": "PURE OUATE DE CELLULOSE",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ROSMARINUS OFFICINALIS EXTRACT",
+  "count": 9,
+  "action": "new",
+  "target": "ROSMARINUS OFFICINALIS EXTRACT"
+ },
+ {
+  "token": "SODIUM DODECYLBENZENESULFONATE. CONTIENT DE LA BENZISOTHIAZOLINONE. PEUT PRODUIRE UNE RÉACTION ALLERGIQUE",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "TETRAMETHYL",
+  "count": 9,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "UNDARIA PINNATIFIDA EXTRACT",
+  "count": 9,
+  "action": "new",
+  "target": "UNDARIA PINNATIFIDA EXTRACT"
+ },
+ {
+  "token": "ALTHAEA OFFICINALIS ROOT EXTRACT",
+  "count": 8,
+  "action": "new",
+  "target": "ALTHAEA OFFICINALIS ROOT EXTRACT"
+ },
+ {
+  "token": "ANIONOGENE OPPERVLAKTEACTIEVE STOFFEN",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "AUS KONTROLLIERT BIOLOGISCHEM ANBAU",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "BACILLUS FERMENT",
+  "count": 8,
+  "action": "new",
+  "target": "BACILLUS FERMENT"
+ },
+ {
+  "token": "CAPRIC TRIGLYCERIDE",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CAPRYL GLUCOSIDE",
+  "count": 8,
+  "action": "alias",
+  "target": "CAPRYLYL GLUCOSIDE"
+ },
+ {
+  "token": "CEDRUS ATLANTICA OIL/EXTRACT",
+  "count": 8,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "CETEARYL",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CITRUS LIMON PEEL EXTRACT",
+  "count": 8,
+  "action": "new",
+  "target": "CITRUS LIMON PEEL EXTRACT"
+ },
+ {
+  "token": "CITRUS PARADISI JUICE",
+  "count": 8,
+  "action": "new",
+  "target": "CITRUS PARADISI JUICE"
+ },
+ {
+  "token": "COCAMIDOPROPYLAMINE OXIDE",
+  "count": 8,
+  "action": "new",
+  "target": "COCAMIDOPROPYLAMINE OXIDE"
+ },
+ {
+  "token": "COLLAGEN AMINO ACIDS",
+  "count": 8,
+  "action": "new",
+  "target": "COLLAGEN AMINO ACIDS"
+ },
+ {
+  "token": "COLLE (POLYMÈRES THERMOPLASTIQUES)",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "COTON",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CRAMBE ABYSSINICA SEED OIL",
+  "count": 8,
+  "action": "new",
+  "target": "CRAMBE ABYSSINICA SEED OIL"
+ },
+ {
+  "token": "ENANTIA CHLORANTHA BARK EXTRACT",
+  "count": 8,
+  "action": "new",
+  "target": "ENANTIA CHLORANTHA BARK EXTRACT"
+ },
+ {
+  "token": "HUILE D'AMANDE DOUCE",
+  "count": 8,
+  "action": "alias",
+  "target": "PRUNUS AMYGDALUS DULCIS OIL"
+ },
+ {
+  "token": "LUPINUS ALBUS SEED EXTRACT",
+  "count": 8,
+  "action": "new",
+  "target": "LUPINUS ALBUS SEED EXTRACT"
+ },
+ {
+  "token": "MAGNESIUM ALUMINIUM SILICATE",
+  "count": 8,
+  "action": "alias",
+  "target": "MAGNESIUM ALUMINUM SILICATE"
+ },
+ {
+  "token": "MANGANESE GLUCONATE",
+  "count": 8,
+  "action": "new",
+  "target": "MANGANESE GLUCONATE"
+ },
+ {
+  "token": "MENTHA ARVENSIS OIL",
+  "count": 8,
+  "action": "new",
+  "target": "MENTHA ARVENSIS OIL"
+ },
+ {
+  "token": "METHYLPROPIONAL",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "MORINGA PTERYGOSPERMA SEED EXTRACT",
+  "count": 8,
+  "action": "new",
+  "target": "MORINGA PTERYGOSPERMA SEED EXTRACT"
+ },
+ {
+  "token": "NA",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "NIGELLA SATIVA SEED OIL",
+  "count": 8,
+  "action": "new",
+  "target": "NIGELLA SATIVA SEED OIL"
+ },
+ {
+  "token": "PALMITATE",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PARFUM3",
+  "count": 8,
+  "action": "alias",
+  "target": "PARFUM"
+ },
+ {
+  "token": "PEG-150",
+  "count": 8,
+  "action": "new",
+  "target": "PEG-150"
+ },
+ {
+  "token": "PISTACIA LENTISCUS (MASTIC) GUM OIL",
+  "count": 8,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: PISTACIA LENTISCUS GUM OIL"
+ },
+ {
+  "token": "PLUMERIA ACUTIFOLIA FLOWER EXTRACT",
+  "count": 8,
+  "action": "new",
+  "target": "PLUMERIA ACUTIFOLIA FLOWER EXTRACT"
+ },
+ {
+  "token": "SACCHAROMYCES CEREVISIAE EXTRACT",
+  "count": 8,
+  "action": "new",
+  "target": "SACCHAROMYCES CEREVISIAE EXTRACT"
+ },
+ {
+  "token": "SODIUM POLYMETHACRYLATE",
+  "count": 8,
+  "action": "new",
+  "target": "SODIUM POLYMETHACRYLATE"
+ },
+ {
+  "token": "SOLUBLE COLLAGEN",
+  "count": 8,
+  "action": "new",
+  "target": "SOLUBLE COLLAGEN"
+ },
+ {
+  "token": "STEARATE",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "STEVIOL GLYCOSIDES",
+  "count": 8,
+  "action": "new",
+  "target": "STEVIOL GLYCOSIDES"
+ },
+ {
+  "token": "SURREY",
+  "count": 8,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ACETYLATED LANOLIN",
+  "count": 7,
+  "action": "new",
+  "target": "ACETYLATED LANOLIN"
+ },
+ {
+  "token": "ACHILLEA MILLEFOLIUM EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "ACHILLEA MILLEFOLIUM EXTRACT"
+ },
+ {
+  "token": "ALARIA ESCULENTA EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "ALARIA ESCULENTA EXTRACT"
+ },
+ {
+  "token": "ARCTIUM LAPPA ROOT EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "ARCTIUM LAPPA ROOT EXTRACT"
+ },
+ {
+  "token": "ASCOPHYLLUM NODOSUM EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "ASCOPHYLLUM NODOSUM EXTRACT"
+ },
+ {
+  "token": "BAMBUSA VULGARIS EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "BAMBUSA VULGARIS EXTRACT"
+ },
+ {
+  "token": "BUTANE-ISOBUTANE-PROPANE",
+  "count": 7,
+  "action": "skip",
+  "note": "trzy nazwy złączone myślnikami"
+ },
+ {
+  "token": "C12-16 ALCOHOLS",
+  "count": 7,
+  "action": "new",
+  "target": "C12-16 ALCOHOLS"
+ },
+ {
+  "token": "CALENDULA OFFICINALIS FLOWER",
+  "count": 7,
+  "action": "new",
+  "target": "CALENDULA OFFICINALIS FLOWER"
+ },
+ {
+  "token": "CARTHAMUS TINCTORIUS (SAFFLOWER) SEED OIL",
+  "count": 7,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: CARTHAMUS TINCTORIUS SEED OIL"
+ },
+ {
+  "token": "CERATONIA SILIQUA GUM",
+  "count": 7,
+  "action": "new",
+  "target": "CERATONIA SILIQUA GUM"
+ },
+ {
+  "token": "CHRYSANTHELLUM INDICUM EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "CHRYSANTHELLUM INDICUM EXTRACT"
+ },
+ {
+  "token": "COCOS NUCIFERA WATER",
+  "count": 7,
+  "action": "new",
+  "target": "COCOS NUCIFERA WATER"
+ },
+ {
+  "token": "COLLE",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CORYLUS AVELLANA SEED OIL",
+  "count": 7,
+  "action": "new",
+  "target": "CORYLUS AVELLANA SEED OIL"
+ },
+ {
+  "token": "CRITHMUM MARITIMUM EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "CRITHMUM MARITIMUM EXTRACT"
+ },
+ {
+  "token": "CROSSPOLYMER",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CTRIC ACID",
+  "count": 7,
+  "action": "alias",
+  "target": "CITRIC ACID"
+ },
+ {
+  "token": "DEVELOPER CREAM: AQUA / WATER PARAFFINUM LIQUIDUM / MINERAL OIL HYDROGEN PEROXIDE CETEARYL ALCOHOL SODIUM CETEARYL SULFATE SODIUM SALICYLATE SODIUM SULFATE PEG-40 HYDROGENATED CASTOR OIL PHOSPHORIC ACID TETRASODIUM ETIDRONATE TETRASODIUM PYROPHOSPHATE (F.I.L. C199905/1) 1119728 B",
+  "count": 7,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ENCRE",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ENZYME",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "EUPHORBIA CERIFERA WAX",
+  "count": 7,
+  "action": "new",
+  "target": "EUPHORBIA CERIFERA WAX"
+ },
+ {
+  "token": "FRAGARIA VESCA FRUIT EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "FRAGARIA VESCA FRUIT EXTRACT"
+ },
+ {
+  "token": "FROM NATURAL ESSENTIAL OILS",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "HIEROCHLOE ODORATA EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "HIEROCHLOE ODORATA EXTRACT"
+ },
+ {
+  "token": "HIPPOPHAE RHAMNOIDES FRUIT OIL",
+  "count": 7,
+  "action": "new",
+  "target": "HIPPOPHAE RHAMNOIDES FRUIT OIL"
+ },
+ {
+  "token": "HYDROLYSED KERATIN",
+  "count": 7,
+  "action": "alias",
+  "target": "HYDROLYZED KERATIN"
+ },
+ {
+  "token": "HYDROXIDE",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "HYDROXYPROPYLTRIMONIUM CHLORIDE",
+  "count": 7,
+  "action": "new",
+  "target": "HYDROXYPROPYLTRIMONIUM CHLORIDE"
+ },
+ {
+  "token": "LANOLIN LIQUIDA / LANOLIN OIL",
+  "count": 7,
+  "action": "alias",
+  "target": "LANOLIN OIL"
+ },
+ {
+  "token": "LINALOO",
+  "count": 7,
+  "action": "alias",
+  "target": "LINALOOL"
+ },
+ {
+  "token": "MAGNESIUM PCA",
+  "count": 7,
+  "action": "new",
+  "target": "MAGNESIUM PCA"
+ },
+ {
+  "token": "MALVA SYLVESTRIS (MALLOW) EXTRACT",
+  "count": 7,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: MALVA SYLVESTRIS EXTRACT"
+ },
+ {
+  "token": "MALVA SYLVESTRIS FLOWER EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "MALVA SYLVESTRIS FLOWER EXTRACT"
+ },
+ {
+  "token": "OCIMUM BASILICUM LEAF EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "OCIMUM BASILICUM LEAF EXTRACT"
+ },
+ {
+  "token": "OCTYLISOTHIAZOLINONE. CONTIENT : C12-15 PARETH-7",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PALMITOYL OLIGOPEPTIDE",
+  "count": 7,
+  "action": "new",
+  "target": "PALMITOYL OLIGOPEPTIDE"
+ },
+ {
+  "token": "POLYGONUM CUSPIDATUM ROOT EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "POLYGONUM CUSPIDATUM ROOT EXTRACT"
+ },
+ {
+  "token": "POLYSORBATE 21",
+  "count": 7,
+  "action": "new",
+  "target": "POLYSORBATE 21"
+ },
+ {
+  "token": "SALICORNIA HERBACEA EXTRACT",
+  "count": 7,
+  "action": "new",
+  "target": "SALICORNIA HERBACEA EXTRACT"
+ },
+ {
+  "token": "SILICE",
+  "count": 7,
+  "action": "alias",
+  "target": "SILICA"
+ },
+ {
+  "token": "SODIUM LAURYL SULPHATE",
+  "count": 7,
+  "action": "alias",
+  "target": "SODIUM LAURYL SULFATE"
+ },
+ {
+  "token": "SUCRE",
+  "count": 7,
+  "action": "alias",
+  "target": "SUCROSE"
+ },
+ {
+  "token": "TRIGLYCERIDE",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "UNALOOL",
+  "count": 7,
+  "action": "alias",
+  "target": "LINALOOL"
+ },
+ {
+  "token": "WEYBRIDGE",
+  "count": 7,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ZEA MAYS STARCH/CORN STARCH",
+  "count": 7,
+  "action": "alias",
+  "target": "ZEA MAYS STARCH"
+ },
+ {
+  "token": "5-ANIONISCHE TENSIDE",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ACETATE",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ACETYLOCTAHYDRONAPHTHALENES",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ACMELLA OLERACEA EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "ACMELLA OLERACEA EXTRACT"
+ },
+ {
+  "token": "ALEURITES MOLUCCANA SEED OIL",
+  "count": 6,
+  "action": "new",
+  "target": "ALEURITES MOLUCCANA SEED OIL"
+ },
+ {
+  "token": "BOSWELLIA SERRATA GUM",
+  "count": 6,
+  "action": "new",
+  "target": "BOSWELLIA SERRATA GUM"
+ },
+ {
+  "token": "CALCIUM PCA",
+  "count": 6,
+  "action": "new",
+  "target": "CALCIUM PCA"
+ },
+ {
+  "token": "CAMELLIA JAPONICA FLOWER EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "CAMELLIA JAPONICA FLOWER EXTRACT"
+ },
+ {
+  "token": "CANANGA ODORATA OIL/EXTRACT",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "CITRIC ACID.VISCOSE",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CITRUS LIMON JUICE",
+  "count": 6,
+  "action": "new",
+  "target": "CITRUS LIMON JUICE"
+ },
+ {
+  "token": "CITRUS NOBILIS (MANDARIN ORANGE) PEEL OIL",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: CITRUS NOBILIS PEEL OIL"
+ },
+ {
+  "token": "CITRUS PARADISI (GRAPEFRUIT) PEEL OIL",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: CITRUS PARADISI PEEL OIL"
+ },
+ {
+  "token": "CITRUS PARADISI PEEL OIL",
+  "count": 6,
+  "action": "new",
+  "target": "CITRUS PARADISI PEEL OIL"
+ },
+ {
+  "token": "CITRUS RETICULATA PEEL OIL",
+  "count": 6,
+  "action": "new",
+  "target": "CITRUS RETICULATA PEEL OIL"
+ },
+ {
+  "token": "COCO-GLUCOSIDE GLYCERYL OLEATE",
+  "count": 6,
+  "action": "skip",
+  "note": "dwie nazwy bez przecinka"
+ },
+ {
+  "token": "COCOS NUCIFERA (COCONUT) WATER",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: COCOS NUCIFERA WATER"
+ },
+ {
+  "token": "COMMIPHORA MYRRHA OIL",
+  "count": 6,
+  "action": "new",
+  "target": "COMMIPHORA MYRRHA OIL"
+ },
+ {
+  "token": "CRÈME COLORANTE : AQUA",
+  "count": 6,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CUCURBITA PEPO SEED EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "CUCURBITA PEPO SEED EXTRACT"
+ },
+ {
+  "token": "CYMBOPOGON CITRATUS EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "CYMBOPOGON CITRATUS EXTRACT"
+ },
+ {
+  "token": "ELAEIS GUINEENSIS OIL / PALM OIL",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "FD",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "FLAVOR",
+  "count": 6,
+  "action": "alias",
+  "note": "aromat smakowy (pasty, balsamy do ust) — nie zapach (D-73)",
+  "target": "AROMA"
+ },
+ {
+  "token": "FLOWER EXTRACT",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "FRAGANCIA",
+  "count": 6,
+  "action": "alias",
+  "target": "PARFUM"
+ },
+ {
+  "token": "GYCERIN",
+  "count": 6,
+  "action": "alias",
+  "target": "GLYCERIN"
+ },
+ {
+  "token": "HARPAGOPHYTUM PROCUMBENS ROOT EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "HARPAGOPHYTUM PROCUMBENS ROOT EXTRACT"
+ },
+ {
+  "token": "HELIANTHUS ANNUUS (SUNFLOWER) SEED EXTRACT",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: HELIANTHUS ANNUUS SEED EXTRACT"
+ },
+ {
+  "token": "HOUTTUYNIA CORDATA EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "HOUTTUYNIA CORDATA EXTRACT"
+ },
+ {
+  "token": "HUILE DE COCO",
+  "count": 6,
+  "action": "alias",
+  "target": "COCOS NUCIFERA OIL"
+ },
+ {
+  "token": "HUILE DE JOJOBA",
+  "count": 6,
+  "action": "alias",
+  "target": "SIMMONDSIA CHINENSIS SEED OIL"
+ },
+ {
+  "token": "LANOLIN OIL",
+  "count": 6,
+  "action": "new",
+  "target": "LANOLIN OIL"
+ },
+ {
+  "token": "LAURETH-12",
+  "count": 6,
+  "action": "new",
+  "target": "LAURETH-12"
+ },
+ {
+  "token": "MALUS DOMESTICA FRUIT WATER",
+  "count": 6,
+  "action": "new",
+  "target": "MALUS DOMESTICA FRUIT WATER"
+ },
+ {
+  "token": "MENTHA PIPERITA EXTRACT / PEPPERMINT EXTRACT",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "MIMOSA TENUIFLORA BARK EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "MIMOSA TENUIFLORA BARK EXTRACT"
+ },
+ {
+  "token": "MORINGA OLEIFERA SEED EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "MORINGA OLEIFERA SEED EXTRACT"
+ },
+ {
+  "token": "MYRTUS COMMUNIS LEAF EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "MYRTUS COMMUNIS LEAF EXTRACT"
+ },
+ {
+  "token": "OLEA EUROPAEA OIL / OLIVE FRUIT OIL",
+  "count": 6,
+  "action": "alias",
+  "target": "OLEA EUROPAEA FRUIT OIL"
+ },
+ {
+  "token": "ORYZA SATIVA (RICE) BRAN EXTRACT",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ORYZA SATIVA BRAN EXTRACT"
+ },
+ {
+  "token": "PASSIFLORA EDULIS FRUIT EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "PASSIFLORA EDULIS FRUIT EXTRACT"
+ },
+ {
+  "token": "PEARL EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "PEARL EXTRACT"
+ },
+ {
+  "token": "PEG-20",
+  "count": 6,
+  "action": "new",
+  "target": "PEG-20"
+ },
+ {
+  "token": "PEG-2M",
+  "count": 6,
+  "action": "new",
+  "target": "PEG-2M"
+ },
+ {
+  "token": "PEG-6 STEARATE",
+  "count": 6,
+  "action": "new",
+  "target": "PEG-6 STEARATE"
+ },
+ {
+  "token": "PEG-8 BEESWAX",
+  "count": 6,
+  "action": "new",
+  "target": "PEG-8 BEESWAX"
+ },
+ {
+  "token": "PET",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PISUM SATIVUM PEPTIDE",
+  "count": 6,
+  "action": "new",
+  "target": "PISUM SATIVUM PEPTIDE"
+ },
+ {
+  "token": "PLANKTON EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "PLANKTON EXTRACT"
+ },
+ {
+  "token": "POLYCARBOXYLATE",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "POTASSIUM",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PRUNUS PERSICA FLOWER EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "PRUNUS PERSICA FLOWER EXTRACT"
+ },
+ {
+  "token": "PRUNUS PERSICA JUICE",
+  "count": 6,
+  "action": "new",
+  "target": "PRUNUS PERSICA JUICE"
+ },
+ {
+  "token": "RHODIOLA ROSEA ROOT EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "RHODIOLA ROSEA ROOT EXTRACT"
+ },
+ {
+  "token": "RIBES NIGRUM SEED OIL",
+  "count": 6,
+  "action": "new",
+  "target": "RIBES NIGRUM SEED OIL"
+ },
+ {
+  "token": "ROSMARINUS OFFICINALIS LEAF EXTRACT / ROSEMARY LEAF EXTRACT",
+  "count": 6,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "ROYAL JELLY EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "ROYAL JELLY EXTRACT"
+ },
+ {
+  "token": "SACCHARIDE HYDROLYSATE",
+  "count": 6,
+  "action": "new",
+  "target": "SACCHARIDE HYDROLYSATE"
+ },
+ {
+  "token": "SACCHARUM OFFICINARUM EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "SACCHARUM OFFICINARUM EXTRACT"
+ },
+ {
+  "token": "SALVIA SCLAREA OIL",
+  "count": 6,
+  "action": "new",
+  "target": "SALVIA SCLAREA OIL"
+ },
+ {
+  "token": "SEED OIL",
+  "count": 6,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "SELAGINELLA LEPIDOPHYLLA EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "SELAGINELLA LEPIDOPHYLLA EXTRACT"
+ },
+ {
+  "token": "SODIUM CASEINATE",
+  "count": 6,
+  "action": "new",
+  "target": "SODIUM CASEINATE"
+ },
+ {
+  "token": "SUCROSE PALMITATE",
+  "count": 6,
+  "action": "new",
+  "target": "SUCROSE PALMITATE"
+ },
+ {
+  "token": "THEOBROMA CACAO BUTTER",
+  "count": 6,
+  "action": "alias",
+  "target": "THEOBROMA CACAO SEED BUTTER"
+ },
+ {
+  "token": "TRIPEPTIDE-29",
+  "count": 6,
+  "action": "new",
+  "target": "TRIPEPTIDE-29"
+ },
+ {
+  "token": "TRIS(DI-T-BUTYL)PHOSPHITE",
+  "count": 6,
+  "action": "new",
+  "target": "TRIS(DI-T-BUTYL)PHOSPHITE"
+ },
+ {
+  "token": "VIOLA TRICOLOR EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "VIOLA TRICOLOR EXTRACT"
+ },
+ {
+  "token": "ZEA MAYS GERM OIL",
+  "count": 6,
+  "action": "new",
+  "target": "ZEA MAYS GERM OIL"
+ },
+ {
+  "token": "ZEA MAYS SILK EXTRACT",
+  "count": 6,
+  "action": "new",
+  "target": "ZEA MAYS SILK EXTRACT"
+ },
+ {
+  "token": "19140",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "5-: AGENTS DE SURFACE ANIONIQUES.: AGENTS DE SURFACE NON-IONIQUES",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ACER SACCHARUM (SUGAR MAPLE) EXTRACT",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ACER SACCHARUM EXTRACT"
+ },
+ {
+  "token": "ACER SACCHARUM EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "ACER SACCHARUM EXTRACT"
+ },
+ {
+  "token": "ACIER INOXYDABLE",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ACTINIDIA CHINENSIS FRUIT JUICE",
+  "count": 5,
+  "action": "new",
+  "target": "ACTINIDIA CHINENSIS FRUIT JUICE"
+ },
+ {
+  "token": "AGENTS DE SURFACE AMPHOTÈRES",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ALCOHOL DENAT. SD ALCOHOL 39-C",
+  "count": 5,
+  "action": "alias",
+  "note": "amerykańska formuła alkoholu denaturowanego = Alcohol Denat. w UE (D-74)",
+  "target": "ALCOHOL DENAT."
+ },
+ {
+  "token": "ALCOL CETEARILICO",
+  "count": 5,
+  "action": "alias",
+  "target": "CETEARYL ALCOHOL",
+  "note": "włoska nazwa alkoholu cetearylowego"
+ },
+ {
+  "token": "ALOE BARBADENSIS LEAF",
+  "count": 5,
+  "action": "alias",
+  "target": "ALOE BARBADENSIS LEAF JUICE"
+ },
+ {
+  "token": "ALTHAEA ROSEA FLOWER EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "ALTHAEA ROSEA FLOWER EXTRACT"
+ },
+ {
+  "token": "AMARANTHUS CAUDATUS SEED EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "AMARANTHUS CAUDATUS SEED EXTRACT"
+ },
+ {
+  "token": "AMINOMETHYL",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "AOUA",
+  "count": 5,
+  "action": "skip",
+  "suggestions": [
+   "AQUA"
+  ]
+ },
+ {
+  "token": "ARACHIS HYPOGAEA OIL",
+  "count": 5,
+  "action": "new",
+  "target": "ARACHIS HYPOGAEA OIL"
+ },
+ {
+  "token": "BETA VULGARIS ROOT EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "BETA VULGARIS ROOT EXTRACT"
+ },
+ {
+  "token": "BEURRE DE CACAO",
+  "count": 5,
+  "action": "alias",
+  "target": "THEOBROMA CACAO SEED BUTTER"
+ },
+ {
+  "token": "C13-14 ISOALKANE",
+  "count": 5,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "C14-15 ALCOHOLS",
+  "count": 5,
+  "action": "new",
+  "target": "C14-15 ALCOHOLS"
+ },
+ {
+  "token": "CAMOSINE",
+  "count": 5,
+  "action": "alias",
+  "target": "CARNOSINE",
+  "note": "litera „rn” odczytana jako „m” (skan)"
+ },
+ {
+  "token": "CANNABIS SATIVA SEED EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "CANNABIS SATIVA SEED EXTRACT"
+ },
+ {
+  "token": "CAPRYLIC TRIGLYCERIDE",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CETRARIA ISLANDICA EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "CETRARIA ISLANDICA EXTRACT"
+ },
+ {
+  "token": "CI 77019",
+  "count": 5,
+  "action": "new",
+  "target": "CI 77019"
+ },
+ {
+  "token": "CIRE DE SOJA",
+  "count": 5,
+  "action": "skip",
+  "note": "wosk sojowy — w INCI zwykle Hydrogenated Soybean Oil, ale nie zawsze; sprawdzić"
+ },
+ {
+  "token": "CITRIC ACID POTASSIUM SORBATE",
+  "count": 5,
+  "action": "skip",
+  "note": "dwie nazwy bez przecinka"
+ },
+ {
+  "token": "CITRIC ACID. LINGETTE :VISCOSE -PET",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CITRUS AURANTIUM FLOWER OIL",
+  "count": 5,
+  "action": "new",
+  "target": "CITRUS AURANTIUM FLOWER OIL"
+ },
+ {
+  "token": "CITRUS LIMON PEEL EXTRACT / LEMON PEEL EXTRACT",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "CITRUS MEDICA LIMONUM (LEMON) FRUIT EXTRACT",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: CITRUS MEDICA LIMONUM FRUIT EXTRACT"
+ },
+ {
+  "token": "COCAMIDOPROPIL BETAINA",
+  "count": 5,
+  "action": "alias",
+  "target": "COCAMIDOPROPYL BETAINE"
+ },
+ {
+  "token": "COCO",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "COPOLYMER",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CORPS ABSORBANT (CELLULOSE, POLYMÈRE SUPERABSORBANT)",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CROTON LECHLERI RESIN POWDER",
+  "count": 5,
+  "action": "new",
+  "target": "CROTON LECHLERI RESIN POWDER"
+ },
+ {
+  "token": "DIISOSTEARATE",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "DIMETHICONE - AQUA / WATER - ISODODECANE - GLYCERIN - PEG-10 DIMETHICONE - METHYL METHACRYLATE CROSSPOLYMER - BUTYLENE GLYCOL - PENTYLENE GLYCOL - SYNTHETIC FLUORPHLOGOPITE - DISTEARDIMONIUM HECTORITE - HYDROXYETHYLPIPERAZINE ETHANE SULFONIC ACID - CETYL PEG/PPG-10/1 DIMETHICONE - SODIUM CHLORIDE - POLYGLYCERYL-4 ISOSTEARATE - HEXYL LAURATE - CAPRYLYL GLYCOL - PHENOXYETHANOL - DISODIUM STEAROYL GLUTAMATE - TOCOPHEROL - PANTHENOL - ALUMINUM HYDROXIDE - SILICA - HYDROXYETHYL UREA - KAOLIN - ALOE BARBADENSIS LEAF JUICE POWDER - SODIUM HYALURONATE - TIN OXIDE - PENTAERYTHRITYL TETRA-DI-T-BUTYL HYDROXYHYDROCINNAMATE",
+  "count": 5,
+  "action": "skip",
+  "note": "do sprawdzenia"
+ },
+ {
+  "token": "DISODIUM",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ECHINACEA ANGUSTIFOLIA EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "ECHINACEA ANGUSTIFOLIA EXTRACT"
+ },
+ {
+  "token": "ELAEIS GUINEENSIS KERNEL OIL",
+  "count": 5,
+  "action": "new",
+  "target": "ELAEIS GUINEENSIS KERNEL OIL"
+ },
+ {
+  "token": "ENVELOPPE EXTÉRIEURE (POLYÉTHYLÈNE, POLYPROPYLÈNE, CARBONATE DE CALCIUM)",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ETHYLHEXYL",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "FRANCE",
+  "count": 5,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "G2078522",
+  "count": 5,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GEREINIGTES WASSER",
+  "count": 5,
+  "action": "alias",
+  "target": "AQUA"
+ },
+ {
+  "token": "GLYCÉRINE VÉGÉTALE",
+  "count": 5,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GLYCERYL",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "GLYCERYN",
+  "count": 5,
+  "action": "alias",
+  "target": "GLYCERIN"
+ },
+ {
+  "token": "GLYCINE SOJA (SOYBEAN) STEROLS",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: GLYCINE SOJA STEROLS"
+ },
+ {
+  "token": "GLYCINE SOJA STEROLS",
+  "count": 5,
+  "action": "new",
+  "target": "GLYCINE SOJA STEROLS"
+ },
+ {
+  "token": "GLYCYRRHIZA GLABRA EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "GLYCYRRHIZA GLABRA EXTRACT"
+ },
+ {
+  "token": "GUM",
+  "count": 5,
+  "action": "skip",
+  "suggestions": [
+   "OVUM"
+  ]
+ },
+ {
+  "token": "HEXYL CINNAMAL LINALOOL",
+  "count": 5,
+  "action": "skip",
+  "note": "dwie nazwy bez przecinka"
+ },
+ {
+  "token": "HEXYL CINNAMAL. PLEASE BE AWARE THAT INGREDIENT LISTS FOR THE PRODUCTS OF OUR BRAND ARE UPDATED REGULARLY. PLEASE REFER TO THE INGREDIENT LIST ON YOUR PRODUCT PACKAGE FOR THE MOST UP TO DATE LIST OF INGREDIENTS TO ENSURE IT IS SUITABLE TO YOUR PERSONAL USE",
+  "count": 5,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HUILE DE TOURNESOL",
+  "count": 5,
+  "action": "alias",
+  "target": "HELIANTHUS ANNUUS SEED OIL"
+ },
+ {
+  "token": "HYDROGENATED",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "INGRÉDIENTS ISSUS DE L'AGRICULTURE BIOLOGIQUE",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ISOPROPYL",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "LAMIUM ALBUM EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "LAMIUM ALBUM EXTRACT"
+ },
+ {
+  "token": "LAURETH-21",
+  "count": 5,
+  "action": "new",
+  "target": "LAURETH-21"
+ },
+ {
+  "token": "LEVICE 934 01",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "LIMOENE",
+  "count": 5,
+  "action": "alias",
+  "target": "LIMONENE"
+ },
+ {
+  "token": "LINALOOL LIMONENE",
+  "count": 5,
+  "action": "skip",
+  "note": "dwie nazwy bez przecinka"
+ },
+ {
+  "token": "LINSEED ACID",
+  "count": 5,
+  "action": "new",
+  "target": "LINSEED ACID"
+ },
+ {
+  "token": "LINUM USITATISSIMUM SEED EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "LINUM USITATISSIMUM SEED EXTRACT"
+ },
+ {
+  "token": "LIPPIA CITRIODORA LEAF EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "LIPPIA CITRIODORA LEAF EXTRACT"
+ },
+ {
+  "token": "LIQUIDUM",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "METHYL GLUCETH-10",
+  "count": 5,
+  "action": "new",
+  "target": "METHYL GLUCETH-10"
+ },
+ {
+  "token": "MOINS DE: AGENTS DE SURFACE NON IONIQUES",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "OLEA EUROPAEA (OLIVE) FRUIT EXTRACT",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: OLEA EUROPAEA FRUIT EXTRACT"
+ },
+ {
+  "token": "OPUNTIA FICUS-INDICA SEED OIL",
+  "count": 5,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ORYZA SATIVA (RICE) BRAN OIL",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ORYZA SATIVA BRAN OIL"
+ },
+ {
+  "token": "PAEONIA SUFFRUTICOSA ROOT EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "PAEONIA SUFFRUTICOSA ROOT EXTRACT"
+ },
+ {
+  "token": "PARIS",
+  "count": 5,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PASSIFLORA INCARNATA FLOWER EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "PASSIFLORA INCARNATA FLOWER EXTRACT"
+ },
+ {
+  "token": "PEG-200",
+  "count": 5,
+  "action": "new",
+  "target": "PEG-200"
+ },
+ {
+  "token": "PEG-40 HYDROGENATED CASTOROIL",
+  "count": 5,
+  "action": "alias",
+  "target": "PEG-40 HYDROGENATED CASTOR OIL"
+ },
+ {
+  "token": "PEG-8 DIMETHICONE",
+  "count": 5,
+  "action": "new",
+  "target": "PEG-8 DIMETHICONE"
+ },
+ {
+  "token": "PEG-8 STEARATE",
+  "count": 5,
+  "action": "new",
+  "target": "PEG-8 STEARATE"
+ },
+ {
+  "token": "PEG-9M",
+  "count": 5,
+  "action": "new",
+  "target": "PEG-9M"
+ },
+ {
+  "token": "PHYLLANTHUS EMBLICA FRUIT EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "PHYLLANTHUS EMBLICA FRUIT EXTRACT"
+ },
+ {
+  "token": "POLYESTER-5",
+  "count": 5,
+  "action": "new",
+  "target": "POLYESTER-5"
+ },
+ {
+  "token": "POLYESTER-7",
+  "count": 5,
+  "action": "new",
+  "target": "POLYESTER-7"
+ },
+ {
+  "token": "POLYURETHANE-11",
+  "count": 5,
+  "action": "new",
+  "target": "POLYURETHANE-11"
+ },
+ {
+  "token": "POTATO STARCH MODIFIED",
+  "count": 5,
+  "action": "new",
+  "target": "POTATO STARCH MODIFIED",
+  "note": "nazwa z etykiet — w CosIng może być inna, sprawdzić"
+ },
+ {
+  "token": "PRUNUS AMYGDALUS DULCIS OIL (PRUNUS AMYGDALUS DULCIS (SWEET ALMOND) OIL)",
+  "count": 5,
+  "action": "alias",
+  "target": "PRUNUS AMYGDALUS DULCIS OIL"
+ },
+ {
+  "token": "ROSMARINUS OFFICINALIS (ROSEMARY) EXTRACT",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: ROSMARINUS OFFICINALIS EXTRACT"
+ },
+ {
+  "token": "SACCHAROMYCES FERMENT",
+  "count": 5,
+  "action": "new",
+  "target": "SACCHAROMYCES FERMENT"
+ },
+ {
+  "token": "SACCHARUM OFFICINARUM (SUGAR CANE) EXTRACT",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez nazwę bez nawiasu: SACCHARUM OFFICINARUM EXTRACT"
+ },
+ {
+  "token": "SACCHARUM OFFICINARUM EXTRACT/SUGAR CANE EXTRACT",
+  "count": 5,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "SALICYLATE",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "SALVIA HISPANICA SEED EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "SALVIA HISPANICA SEED EXTRACT"
+ },
+ {
+  "token": "SEIFE",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "SELAGINELLA LEPIDOPHYLLA AERIAL EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "SELAGINELLA LEPIDOPHYLLA AERIAL EXTRACT"
+ },
+ {
+  "token": "SHOREA ROBUSTA RESIN",
+  "count": 5,
+  "action": "new",
+  "target": "SHOREA ROBUSTA RESIN"
+ },
+ {
+  "token": "STEARYL CITRATE",
+  "count": 5,
+  "action": "new",
+  "target": "STEARYL CITRATE"
+ },
+ {
+  "token": "STEVIA REBAUDIANA LEAF EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "STEVIA REBAUDIANA LEAF EXTRACT"
+ },
+ {
+  "token": "THYMUS VULGARIS LEAF EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "THYMUS VULGARIS LEAF EXTRACT"
+ },
+ {
+  "token": "TRIPROPYLENE GLYCOL",
+  "count": 5,
+  "action": "new",
+  "target": "TRIPROPYLENE GLYCOL"
+ },
+ {
+  "token": "URIAGE THERMAL SPRING WATER",
+  "count": 5,
+  "action": "new",
+  "target": "URIAGE THERMAL SPRING WATER",
+  "note": "woda termalna — nazwa marki w INCI"
+ },
+ {
+  "token": "VACCINIUM MACROCARPON FRUIT EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "VACCINIUM MACROCARPON FRUIT EXTRACT"
+ },
+ {
+  "token": "VITIS VINIFERA LEAF EXTRACT",
+  "count": 5,
+  "action": "new",
+  "target": "VITIS VINIFERA LEAF EXTRACT"
+ },
+ {
+  "token": "YOGURT POWDER",
+  "count": 5,
+  "action": "new",
+  "target": "YOGURT POWDER"
+ },
+ {
+  "token": "ZEEP",
+  "count": 5,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "ZINC HYDROXYAPATITE",
+  "count": 5,
+  "action": "new",
+  "target": "ZINC HYDROXYAPATITE"
+ },
+ {
+  "token": "-NO",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "DNA",
+   "PNA",
+   "RNA"
+  ]
+ },
+ {
+  "token": "(F02)",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "2-MERCAPTONICOTINOYL GLYCINE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "3-OCTADECANEDIOL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "5-AGENTS DE SURFACE ANIONIQUES",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ACIER CARBONE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AGENTS DE SURFACE NON IONIQUES",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ALOE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "ALGAE"
+  ]
+ },
+ {
+  "token": "ALOE BARBADENSIS LEAF WATER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ALPHA-ISOMETHYL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AMBER EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AMMONIUM ACRYLATES COPOLYMER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "AMMONIUM VA/ACRYLATES COPOLYMER"
+  ]
+ },
+ {
+  "token": "AQUA | CETEARYL ETHYLHEXANOATE | ZINC OXIDE | C13-15 ALKANE | SQUALANE | POLYGLYCERYL-2 DIPOLYHYDROXYSTEARATE | ISOSTEARYL ISOSTEARATE | PROPANEDIOL | TITANIUM DIOXIDE | POLYGLYCERYL-4 ISOSTEARATE | MAGNESIUM SULFATE | GLYCERIN | MICA | POLYHYDROXYSTEARIC ACID | ALOE BARBADENSIS LEAF JUICE | DISTEARDIMONIUM HECTORITE | MAGNESIUM STEARATE | SILICA | PROPYLENE CARBONATE | 3-O-ETHYL ASCORBIC ACID | POLYGLYCERYL-2 TETRAISOSTEARATE | ALUMINUM HYDROXIDE | SODIUM GLUCONATE | TOCOPHEROL | PHENOXYETHANOL | ETHYLHEXYLGLYCERIN | TIN OXIDE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AQUA GLYCERIN",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AQUA SODIUM LAURETH SULFATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ARGANIA SPINOSA EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ARGANIA SPINOSA OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BENZYL SALICYLATE CITRONELLOL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BISMUTH OXYCHLORIDE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "C12-13 ALCOHOLS",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "C12-16 ALCOHOLS",
+   "C14-15 ALCOHOLS"
+  ]
+ },
+ {
+  "token": "CALENDULA",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CAMELLIA SINENSIS LEAF POWDER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CAPRYLIC",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CAULERPA LENTILLIFERA EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CHAMOMILLA RECUTITA",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CI 77891 POWDER: INGREDIENTS: ISONONYL ISONONANOATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CIMICIFUGA RACEMOSA ROOT EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CINNAMOMUM ZEYLANICUM BARK EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRONELLOL GERANIOL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRULLUS LANATUS FRUIT EXTRACT",
+  "count": 4,
+  "action": "new",
+  "target": "CITRULLUS LANATUS FRUIT EXTRACT"
+ },
+ {
+  "token": "CITRUS ANRANTIUM PEEL OIL",
+  "count": 4,
+  "action": "alias",
+  "target": "CITRUS AURANTIUM PEEL OIL",
+  "note": "literówka w pierwszych literach — automat jej nie poprawia"
+ },
+ {
+  "token": "CITRUS AURANTIFOLIA (LIME) OIL",
+  "count": 4,
+  "action": "alias",
+  "target": "CITRUS AURANTIFOLIA OIL"
+ },
+ {
+  "token": "CITRUS AURANTIFOLIA JUICE",
+  "count": 4,
+  "action": "new",
+  "target": "CITRUS AURANTIFOLIA JUICE"
+ },
+ {
+  "token": "CITRUS MEDICA LIMONUM PEEL EXTRACT/LEMON PEEL EXTRACT",
+  "count": 4,
+  "action": "auto",
+  "note": "rozpozna się przez jedną z nazw „A / B”"
+ },
+ {
+  "token": "CL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "PCA",
+   "MEL",
+   "CLAY"
+  ]
+ },
+ {
+  "token": "CLYCERIN",
+  "count": 4,
+  "action": "alias",
+  "target": "GLYCERIN"
+ },
+ {
+  "token": "COCAMIDOPROPYL",
+  "count": 4,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "CONSERVERING (BENZISOTHIAZOLINONE, SODIUM PYRITHIONE, PHENOXYETHANOL)",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "D'HUILES ESSENTIELLES NATURELLES",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "DEMINERALISIERTES WASSER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "DISTEARATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "EDTA DISODICO",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ENZYMEN",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ERUCA SATIVA LEAF EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ETHANOL (CAS 64-17-5) 65 G POUR 100 G",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "EUCALYPTUS CITRIODORA OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FETTSÄURE-GLYZERIN-ESTER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GAMBLE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GERANIOL LIMONENE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GLYCERYL DIOLEATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "GLYCERYL OLEATE",
+   "GLYCERYL LINOLEATE"
+  ]
+ },
+ {
+  "token": "GLYCYRRHIZA GLABRA",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GOSSYPIUM HERBACEUM EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HEXAPEPTIDE-9",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "HEXAPEPTIDE-1",
+   "HEXAPEPTIDE-49",
+   "HEXAPEPTIDE-34"
+  ]
+ },
+ {
+  "token": "HUILE D'OLIVE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HUMULUS LUPULUS CONE EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROGENATED COCONUT ACID",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROGENATED COTTONSEED OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROGENATED PALM KERNEL OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROLYZED OAT PROTEIN",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROXYPROPYL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ILLICIUM VERUM FRUIT EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "IRON OXIDES",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "KOKOSTENSIDE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "KRAMERIA TRIANDRA EXTRACT",
+  "count": 4,
+  "action": "new",
+  "target": "KRAMERIA TRIANDRA EXTRACT"
+ },
+ {
+  "token": "KT13 0XP",
+  "count": 4,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "LAC POWDER",
+  "count": 4,
+  "action": "new",
+  "target": "LAC POWDER"
+ },
+ {
+  "token": "LECITINA",
+  "count": 4,
+  "action": "alias",
+  "target": "LECITHIN"
+ },
+ {
+  "token": "LEMONGRASS OIL",
+  "count": 4,
+  "action": "alias",
+  "target": "CYMBOPOGON SCHOENANTHUS OIL",
+  "note": "trawa cytrynowa: Cymbopogon Schoenanthus lub Citratus — sprawdzić"
+ },
+ {
+  "token": "LEVULINSÄURE",
+  "count": 4,
+  "action": "alias",
+  "target": "LEVULINIC ACID"
+ },
+ {
+  "token": "LIMONE",
+  "count": 4,
+  "action": "skip",
+  "note": "„limone” to po włosku cytryna albo literówka „Limonene” — nie zgadujemy"
+ },
+ {
+  "token": "LINAOOL",
+  "count": 4,
+  "action": "alias",
+  "target": "LINALOOL",
+  "note": "literówka (krótka nazwa — automat jej nie poprawia)"
+ },
+ {
+  "token": "LITHOSPERMUM ERYTHRORHIZON ROOT EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MACADAMIA TERNIFOLIA OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MAIS MOINS DE: AGENTS DE SURFACE ANIONIQUES",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MALACHITE EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MELISSA OFFICINALIS FLOWER WATER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MYRISTATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OCIMUM BASILICUM OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "TIN",
+   "MEL",
+   "MILK"
+  ]
+ },
+ {
+  "token": "OLEA EUROPAEA OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OLIO DI COCCO (COCOS NUCIFERA)",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ORCHID EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ORIGANUM VULGARE LEAF EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OXIDIZED POLYETHYLENE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PAEONIA SUFFRUTICOSA BARK EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PANCRATIUM MARITIMUM EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PAPAVER RHOEAS PETAL EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PAPIER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PARAFFINUM",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "PARAFFIN"
+  ]
+ },
+ {
+  "token": "PEG-180",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "PEG-10",
+   "PEG-100",
+   "PEG-150"
+  ]
+ },
+ {
+  "token": "PEN: INGREDIENTS: RICINUS COMMUNIS SEED OIL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PETROLEUM",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "PETROLATUM"
+  ]
+ },
+ {
+  "token": "PHENOXYETHANOL POTASSIUM SORBATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PHOSPHONATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POLYGLYCERYL-2",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "POLYGLYCERYL-3"
+  ]
+ },
+ {
+  "token": "POLYURETHANE-34",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "POLYURETHANE-54",
+   "POLYURETHANE-33",
+   "POLYURETHANE-36"
+  ]
+ },
+ {
+  "token": "PORTULACA PILOSA EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POTASSIUM HYALURONATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PROPOLIS",
+  "count": 4,
+  "action": "new",
+  "target": "PROPOLIS",
+  "note": "w CosIng „Propolis Extract” / „Propolis Cera” — sprawdzić, którą nazwę przyjąć"
+ },
+ {
+  "token": "PRUNUS AMYGDALUS DULCIS EXTRACT",
+  "count": 4,
+  "action": "new",
+  "target": "PRUNUS AMYGDALUS DULCIS EXTRACT"
+ },
+ {
+  "token": "PS",
+  "count": 4,
+  "action": "not_ingredient",
+  "note": "nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania)"
+ },
+ {
+  "token": "PURIFIED WATER",
+  "count": 4,
+  "action": "alias",
+  "target": "AQUA"
+ },
+ {
+  "token": "QUA",
+  "count": 4,
+  "action": "skip",
+  "note": "ucięte „Aqua”? — nie zgadujemy"
+ },
+ {
+  "token": "RICINUS COMMUNIS (CASTOR SEED) OIL",
+  "count": 4,
+  "action": "alias",
+  "target": "RICINUS COMMUNIS SEED OIL"
+ },
+ {
+  "token": "RICINUS COMMUNIS OIL / CASTOR SEED OIL",
+  "count": 4,
+  "action": "alias",
+  "target": "RICINUS COMMUNIS SEED OIL"
+ },
+ {
+  "token": "ROSA DAMASCENA EXTRACT",
+  "count": 4,
+  "action": "new",
+  "target": "ROSA DAMASCENA EXTRACT"
+ },
+ {
+  "token": "ROSE KETONE",
+  "count": 4,
+  "action": "skip",
+  "note": "jak ROSE KETONES"
+ },
+ {
+  "token": "SALVIA OFFICINALIS",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SALVIA OFFICINALIS FLOWER WATER",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SAMBUCUS NIGRA FLOWER EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SAMBUCUS NIGRA FRUIT EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SCHIZANDRA",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SEIFENMANTEL: STEARIC ACID",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM BENZOATE POTASSIUM SORBATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM CARRAGEENAN",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM LAURETH SULFATE COCAMIDOPROPYL BETAINE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM LAURETH SULFATE GLYCERIN",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM LAURETH SULPHATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "SODIUM LAURETH SULFATE"
+  ]
+ },
+ {
+  "token": "SODIUM PYRITHIONE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SONNENBLUMENÖL",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SORBATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SPIRULINA MAXIMA EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SUBSTANCE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SUSPENDA SU USO",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TETRA-DI-T-BUTYL HYDROXYHYDROCINNAMATE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TETRAHYDROXYPROPYL ETHYLENEDIAMINE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "THYMUS VULGARIS EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "VANILLA PLANIFOLIA EXTRACT",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "VASELINE",
+  "count": 4,
+  "action": "skip",
+  "suggestions": [
+   "VALINE"
+  ]
+ },
+ {
+  "token": "ZUCKERTENSID",
+  "count": 4,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "(F06)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "0-CYMEN-5-OL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "O-CYMEN-5-OL"
+  ]
+ },
+ {
+  "token": "1,2",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "10",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "2-OLEAMIDO-1",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "20",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "5-: AGENTS DE SURFACE ANIONIQUES",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "5-: ANIONISCHE TENSIDE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "5-NIET IONOGENE OPPERVLAKTEACTIEVE STOFFEN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "76227 KARLSRUHE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "81500 LAVAUR",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ACEITE MINERAL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ACETYL TRIETHYL CITRATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ACIDIFIANT: ACIDE CITRIQUE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AGENT MOUSSANT DÉRIVÉ DU SUCRE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ALCOHOL DENATURED",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ALKYL BENZOATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "AMYL BENZOATE"
+  ]
+ },
+ {
+  "token": "ALLIUM CEPA BULB EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ALOE FEROX LEAF EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ALOE VERA GEL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AM DM-PLATZ 1",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AMMONIUM POLYACRYLDIMETHYLTAURAMIDE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AMPHOTERE TENSIDE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ANNUUS SEED OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AQUA CETEARYL ALCOHOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ARCTIUM LAPPA FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ARFUM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PARFUM"
+  ]
+ },
+ {
+  "token": "ARGANIA SPINOSA (ARGAN) OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "ARGON",
+   "AGAR",
+   "ALGAE"
+  ]
+ },
+ {
+  "token": "ARGANIA SPINOSA KEMEL OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "ARGANIA SPINOSA KERNEL OIL"
+  ]
+ },
+ {
+  "token": "ARNICA MONTANA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ARÔME",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ARÔME NATUREL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ASTER MARITIMA/TRIPOLIUM EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ATLANTISCHES MEERSALZ",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AVENA SATIVA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "AVENA SATIVA PEPTIDE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BENZOTRIAZOLYL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "BENZOTRIAZOLE"
+  ]
+ },
+ {
+  "token": "BENZYL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "DIBENZYL"
+  ]
+ },
+ {
+  "token": "BENZYL ALCOHOL CITRONELLOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BENZYL ALCOHOL. (F.I.L. Z70015000/1). PLEASE BE AWARE THAT INGREDIENT LISTS FOR THE PRODUCTS OF OUR BRAND ARE UPDATED REGULARLY. PLEASE REFER TO THE INGREDIENT LIST ON YOUR PRODUCT PACKAGE FOR THE MOST UP TO DATE LIST OF INGREDIENTS TO ENSURE IT IS SUITABLE TO YOUR PERSONAL USE. PLEASE BE AWARE THAT INGREDIENT LISTS FOR THE PRODUCTS OF OUR BRAND ARE UPDATED REGULARLY. PLEASE REFER TO THE INGREDIENT LIST ON YOUR PRODUCT PACKAGE FOR THE MOST UP TO DATE LIST OF INGREDIENTS TO ENSURE IT IS SUITABLE TO YOUR PERSONAL USE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BIENENWACHS",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BIOFLAVONOIDS",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BITREX",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BIXA ORELLANA SEED EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BURRO DI KARITÉ",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "BUTYL ALCOHOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "BATYL ALCOHOL",
+   "N-BUTYL ALCOHOL",
+   "T-BUTYL ALCOHOL"
+  ]
+ },
+ {
+  "token": "BUTYLENGLYKOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "BUTYLENE GLYCOL"
+  ]
+ },
+ {
+  "token": "BUTYROSPERMUM PARKII BUTTER (BUTYROSPERMUM PARKII (SHEA) BUTTER)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "C 42090",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "CI 42090",
+   "CI 42080",
+   "CI 44090"
+  ]
+ },
+ {
+  "token": "C11-15 ALKETH-7",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "C12-15 ALCOHOLS",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "C12-16 ALCOHOLS",
+   "C14-15 ALCOHOLS"
+  ]
+ },
+ {
+  "token": "C19140",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "CI 19140"
+  ]
+ },
+ {
+  "token": "CALCIUM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "CALCITE"
+  ]
+ },
+ {
+  "token": "CALCIUM HYDROXYAPATITE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CALCIUM SODIUM PHOSPHOSILICATE (NOVAMIN)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CAPRYL-/CAPRINSÄURETRIGLYCERID",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CELLULOSE ACETATE BUTYRATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CERA CARNAUBA / CARNAUBA WAX / CIRE DE CARNAUBA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CERA DE CARNAÚBA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CERA SINTETICA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CERIUM OXIDE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CHAMOMILLA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CHLORHYDRATE DE PYRIDOXINE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CHOLECALCIFEROL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CI 15985 HEXYL CINNAMAL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CI 74160. CONTAINS: SODIUM FLUORIDE TOTAL FLUORIDE CONTENT: 1450 PPM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CI 74260. GLEITSTREIFEN: STYRENE/BUTADIENE COPOLYMER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CI 77266 (NANO) ACC. TO REGULATION EC 1223/2009",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "SAND"
+  ]
+ },
+ {
+  "token": "CI 77742. PFLEGETÜCHER: PRUNUS AMYGDALUS DULCIS OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CINNAMOMUM CASSIA BARK EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CIRE D'EUPHORBIA CERIFERA (CANDELILLA)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRAL GERANIOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRIC ACID SODIUM BENZOATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRIC ACIDLINGETTE :VISCOSE -PET",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRONELLOL ALPHA-ISOMETHYL IONONE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRONELLOL COUMARIN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRONELLOL3",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "CITRONELLOL",
+   "CITRONELLAL"
+  ]
+ },
+ {
+  "token": "CITRUS GRANDIS OIL / GRAPEFRUIT PEEL OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CITRUS GRANDIS PEEL OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "CITRUS GRANDIS SEED OIL"
+  ]
+ },
+ {
+  "token": "CITRUS RETICULATA PEEL EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CLORURO DI CETRIMONIO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COCAMIDOPROPYL BETAINE GLYCERIN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COCO-GLUCOSIDE COCAMIDOPROPYL BETAINE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COCOA BUTTER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COCONUT FATTY ACID",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COCOS NUCIFERA LIQUID ENDOSPERM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COFFEA ARABICA (COFFEE) SEED EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COLORANT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COMMIPHORA MUKUL RESIN EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COMMIPHORA MYRRHA EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COMPLEXE BREVETÉ D.A.F",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CONTAINS SODIUM FLUORIDE (1450 PPM F)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CONTIENT : C12-15 PARETH-7",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "CORN STARCH",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "COUCHE D'ACQUISITION (POLYESTER, CO-POLYESTER)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "D-GLUCANOLACTONE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "GLUCAROLACTONE",
+   "GLUCONOLACTONE"
+  ]
+ },
+ {
+  "token": "DIACETATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "DICAPRYLATE/DICAPRATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "DIOXYDE DE SILICIUM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "DIPOLYHYDROXYSTEARATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "DISOPROPYL ADIPATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "DIISOPROPYL ADIPATE",
+   "DIPROPYL ADIPATE"
+  ]
+ },
+ {
+  "token": "DODECYL P-CRESOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "DU TOTAL DES INGRÉDIENTS SONT ISSUS DE L'AGRICULTURE BIOLOGIQUE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ECHIUM PLANTAGINEUM SEED OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ECLIPTA PROSTRATA LEAF EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "EMBLICA OFFICINALIS FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ENTEROMORPHA COMPRESSA EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ESIL CINNAMALE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ESSENTIAL OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ETYL ALCOHOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "CETYL ALCOHOL",
+   "AMYL ALCOHOL",
+   "BATYL ALCOHOL"
+  ]
+ },
+ {
+  "token": "EUPHRASIA OFFICINALIS EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "EUTERPE OLERACEA FRUIT OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FAMESOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "FARNESOL"
+  ]
+ },
+ {
+  "token": "FARBSTOFFE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FETTALKOHOLE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FETTALKOHOLESTER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FETTSÄURE-ZITRONENSÄURE-GLYZERINESTER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FEUCHTIGKEITSFAKTOR AUF MAISBASIS",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FOENICULUM VULGARE OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FRANCE MADE IN FRANCE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "FUNKEN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GERANIOL CITRONELLOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GERMANY",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GERMANY PROCTER & GAMBLE UK",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GLEITKISSEN: PEG-160M",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GLYCERIDES CITRATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GLYCERIN SODIUM CHLORIDE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GLYCERIN. (F.I.L. C202318/1). 1265616 A",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GLYCERYL STEREATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "GLYCERYL STEARATE"
+  ]
+ },
+ {
+  "token": "GOMME DE XANTHANE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GOSSYPIUM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GOSSYPIUM HERBACEUM (COTTON) EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "GUAR",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "AGAR"
+  ]
+ },
+ {
+  "token": "GYLCERIN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "GLYCERIN"
+  ]
+ },
+ {
+  "token": "GYMNEMA SYLVESTRE LEAF EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HEDERA HELIX LEAF EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HELIANTHUS ANNUUS (SUNFLOWER) EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HELIANTHUS ANNUUS OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HELIANTHUS ANNUUS SUNFLOWER) SEED OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HESPERIDIN METHYL CHALCONE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HIMANTHALIA ELONGATA EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HIPPOPHAE RHAMNOIDES EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HORDEUM VULGARE EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HUILE DE COCOS NUCIFERA (NOIX DE COCO)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HUILE DE GERME DE BLÉ",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HUILE DE NOYAU D'ABRICOT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HUILES ESSENTIELLES",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROGENATED GLYCERYL PALMATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROGENATED STARCH",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYDROLYZED DNA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "HYDROLYZED PEA"
+  ]
+ },
+ {
+  "token": "HYDROLYZED YEAST PROTEIN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "HYPERICUM PERFORATUM FLOWER EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "IALURONATO DI SODIO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "IDROSSICITRONELLALE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "INULINE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "INULIN",
+   "INOSINE"
+  ]
+ },
+ {
+  "token": "IRON OXIDES (CI 77491, CI 77492, CI 77499)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ISPROPYL MYRISTATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "ISOPROPYL MYRISTATE"
+  ]
+ },
+ {
+  "token": "KALTWACHSSTREIFEN: GLYCERYL ROSINATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "KEEP OUT OF REACH OF CHILDREN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "KERATIN AMINO ACIDS",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "KIGELIA AFRICANA FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "KT13 OXP",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LAIT D'ÂNESSE BIO ( ÉQUIVALENTFRAIS)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LAURETH SULFATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LEAF EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LEAF JUICE POWDER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LEONTOPODIUM ALPINUM EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LEPIDIUM MEYENII ROOT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LÉVOMENTHOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "NEOMENTHOL"
+  ]
+ },
+ {
+  "token": "LEVULINATO DI SODIO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LIMONENE. CONTIENT DU FLUORURE D'ÉTAIN ÀP/P ET DU FLUORURE DE SODIUM ÀP/P (1450 PPM DE FLUOR)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LIMONENE3",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "LIMONENE"
+  ]
+ },
+ {
+  "token": "LINALOOL3",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "LINALOOL"
+  ]
+ },
+ {
+  "token": "LINALOOLBIOLOGIQUE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LITHIUM MAGNESIUM SODIUM SILICATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "LUFFA CYLINDRICA FRUIT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MAIS MOINS DE: AGENTS DE SURFACE ANIONIQUES. MOINS DE: AGENTS DE SURFACE NON IONIQUES",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MANGANESE PCA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MANTECA DE KARITE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MATRICARIA FLOWER EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MEDICAGO SATIVA (ALFALFA) EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MEERSALZ",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MENTHA PIPERITA (PEPPERMINT) FLOWER/LEAF/STEM OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MENTHA SPICATA FLOWER/LEAF/STEM OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "METHYLSILANOL MANNURONATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MILK AMINO ACIDS",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "SILK AMINO ACIDS"
+  ]
+ },
+ {
+  "token": "MONOESTEARATO DE GLICERILO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MORINDA CITRIFOLIA FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "MORUS ALBA BARK EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "N/A",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "DNA",
+   "PNA",
+   "RNA"
+  ]
+ },
+ {
+  "token": "NACRE POWDER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "NEW YORK",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "NIKOTINSÄUREAMID",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "NJEMAČKA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "NYLON",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "NYLON-6",
+   "NYLON-11",
+   "NYLON-12"
+  ]
+ },
+ {
+  "token": "OCTOXYNOL-12",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "OCTOXYNOL-1",
+   "OCTOXYNOL-9",
+   "OCTOXYNOL-33"
+  ]
+ },
+ {
+  "token": "OCTYLDODECYL XYLOSIDE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OLEA EUROPAEA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OLEA EUROPEA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OLEAMINOPROPYLAMINETH-3 HCI",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OLIGOPEPTIDE-1",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "OLIGOPEPTIDE-51",
+   "OLIGOPEPTIDE-61",
+   "OLIGOPEPTIDE-71"
+  ]
+ },
+ {
+  "token": "ORNITHINE HCL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ORYZA SATIVA SEED PROTEIN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "OUATE DE CELLULOSE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PAEONIA LACTIFLORA ROOT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PARFUM D'ORIGINE NATURELLE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PARFUM2",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PARFUM"
+  ]
+ },
+ {
+  "token": "PEAT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "YEAST EXTRACT",
+   "PEARL EXTRACT"
+  ]
+ },
+ {
+  "token": "PEG-12 DIMETHICONE + LAURETH-4",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PEG-23M",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PEG-2M",
+   "PEG-32",
+   "PEG-7M"
+  ]
+ },
+ {
+  "token": "PEG-60",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PEG-6",
+   "PEG-10",
+   "PEG-40"
+  ]
+ },
+ {
+  "token": "PEG-8 CAPRYLIC/CAPRIC GLYCERIDES",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PEG-6 CAPRYLIC/CAPRIC GLYCERIDES",
+   "PEG-7 CAPRYLIC/CAPRIC GLYCERIDES"
+  ]
+ },
+ {
+  "token": "PEG-9",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PEG-4",
+   "PEG-7",
+   "PEG-8"
+  ]
+ },
+ {
+  "token": "PEG-90",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PEG-10",
+   "PEG-40",
+   "PEG-20"
+  ]
+ },
+ {
+  "token": "PEG-IOO STEARATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PEG-2 ISOSTEARATE",
+   "PEG-3 ISOSTEARATE",
+   "PEG-4 ISOSTEARATE"
+  ]
+ },
+ {
+  "token": "PENTHENOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PANTHENOL"
+  ]
+ },
+ {
+  "token": "PENTYLENGLYKOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PENTYLENE GLYCOL"
+  ]
+ },
+ {
+  "token": "PERFUM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PARFUM"
+  ]
+ },
+ {
+  "token": "PINUS PINASTER BARK EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PISO 15",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PISO 4",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PISTACIA VERA SEED EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PLANTAGO MAJOR LEAF EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POLIPROPILENO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POLIPROPILENO (PP)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PVP",
+   "PCA",
+   "PNA"
+  ]
+ },
+ {
+  "token": "POLOXAMIN",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POLYAMIDE-8",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "POLYAMIDE-1",
+   "POLYAMIDE-6",
+   "POLYAMIDE-12"
+  ]
+ },
+ {
+  "token": "POLYETHYLENE GLYCOL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POLYQUATEMIUM-10",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "POLYQUATERNIUM-10"
+  ]
+ },
+ {
+  "token": "PORIA COCOS EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PORPHYRA UMBILICALIS EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POTASSIUM ACRYLATES COPOLYMER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POTASSIUM SORBATE CITRIC ACID",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POTASSIUM SORBATEINGRÉDIENT ISSU DE L'AGRICULTURE BIOLOGIQUE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "POUDRE DE MARANTA ARUNDINACEA (MARANTE)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PPG-2 METHYL ETHER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "PPG-4 METHYL ETHER",
+   "PEG-3 METHYL ETHER",
+   "PEG-4 METHYL ETHER"
+  ]
+ },
+ {
+  "token": "PROCTER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PROCTER & GAMBLE STRASSE 1",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PRUNUS AMYGDALUS FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PRUNUS DULCIS OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PRUNUS MUME FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PTEROCARPUS MARSUPIUM BARK EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "PUNICA GRANATUM PERICARP EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "QUASSIA AMARA EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "QUATERNIUM-18",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "QUATERNIUM-8",
+   "QUATERNIUM-14",
+   "QUATERNIUM-16"
+  ]
+ },
+ {
+  "token": "QUILLAJA SAPONARIA WOOD EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "QUILLAJA SAPONARIA ROOT EXTRACT"
+  ]
+ },
+ {
+  "token": "RECUTITA FLOWER EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "RICINUS COMMUNIS OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "ROSMARINUS OFFICINALIS FLOWER WATER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "S.L",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "MEL",
+   "SILK",
+   "SILT"
+  ]
+ },
+ {
+  "token": "SACCHARINE SODIQUE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SACCHAROMYCES/IRON FERMENT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SALVIA SCLAREA (CLARY) EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "CLAY"
+  ]
+ },
+ {
+  "token": "SANS INGRÉDIENTS D'ORIGINE ANIMALE OU DÉRIVÉS",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SANTIAGO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SAPONE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "SPONGE"
+  ]
+ },
+ {
+  "token": "SEL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "MEL",
+   "MEK",
+   "SILK"
+  ]
+ },
+ {
+  "token": "SESAMUM INDICUM OIL",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SIROP DE GLUCOSE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIO LAURETH SOLFATO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM ACID",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM ARGANIA SPINOSA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM DIGLYCOLATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "SODIUM GLYCOLATE"
+  ]
+ },
+ {
+  "token": "SODIUM DNA",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "SODIUM PCA"
+  ]
+ },
+ {
+  "token": "SODIUM LAURELATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "SODIUM LAURATE"
+  ]
+ },
+ {
+  "token": "SODIUM LAURETH SULFATE.. CONTIENT DE LA BENZISOTHIAZOLINONE. PEUT PRODUIRE UNE RÉACTION ALLERGIQUE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM LAURUS NOBILATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SODIUM POTASSIUM ALUMINUM SILICATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SORBITAN ISOSTEARATE POLYSORBATE 60",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SORBITAN MONOPALMITATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SPILANTHES ACMELLA FLOWER EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SPIRULINA PLATENSIS POWDER",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "STEARETH-10",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "STEARETH-15",
+   "STEARETH-11",
+   "STEARETH-12"
+  ]
+ },
+ {
+  "token": "STEARETH-4",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "STEARETH-2",
+   "STEARETH-3",
+   "STEARETH-5"
+  ]
+ },
+ {
+  "token": "STYRAX BENZOIN GUM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SUGAR",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "AGAR"
+  ]
+ },
+ {
+  "token": "SULFATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "SUPERABSORBANT (POLYACRYLATE DE SODIUM)",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TEPHROSIA PURPUREA SEED EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TERMINALIA BELLERICA FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TERMINALIA CHEBULA FRUIT EXTRACT",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TETRASODIUM",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TETRASODIUM GLUTAMATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "THEOBROMA CACAO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TRIDECETH-15",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "TRIDECETH-5",
+   "TRIDECETH-11",
+   "TRIDECETH-12"
+  ]
+ },
+ {
+  "token": "AVENE THERMAL SPRING WATER",
+  "count": 0,
+  "action": "new",
+  "target": "AVENE THERMAL SPRING WATER",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "CANANGA ODORATA OIL",
+  "count": 0,
+  "action": "new",
+  "target": "CANANGA ODORATA OIL",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "CEDRUS ATLANTICA OIL",
+  "count": 0,
+  "action": "new",
+  "target": "CEDRUS ATLANTICA OIL",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "CITRUS AURANTIFOLIA OIL",
+  "count": 0,
+  "action": "new",
+  "target": "CITRUS AURANTIFOLIA OIL",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "CITRUS MEDICA LIMONUM FRUIT EXTRACT",
+  "count": 0,
+  "action": "new",
+  "target": "CITRUS MEDICA LIMONUM FRUIT EXTRACT",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "CITRUS MEDICA LIMONUM PEEL EXTRACT",
+  "count": 0,
+  "action": "new",
+  "target": "CITRUS MEDICA LIMONUM PEEL EXTRACT",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "CITRUS MEDICA LIMONUM PEEL OIL",
+  "count": 0,
+  "action": "new",
+  "target": "CITRUS MEDICA LIMONUM PEEL OIL",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "CITRUS NOBILIS PEEL OIL",
+  "count": 0,
+  "action": "new",
+  "target": "CITRUS NOBILIS PEEL OIL",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "HELIANTHUS ANNUUS SEED EXTRACT",
+  "count": 0,
+  "action": "new",
+  "target": "HELIANTHUS ANNUUS SEED EXTRACT",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "MALVA SYLVESTRIS EXTRACT",
+  "count": 0,
+  "action": "new",
+  "target": "MALVA SYLVESTRIS EXTRACT",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "ORYZA SATIVA BRAN EXTRACT",
+  "count": 0,
+  "action": "new",
+  "target": "ORYZA SATIVA BRAN EXTRACT",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "PISTACIA LENTISCUS GUM OIL",
+  "count": 0,
+  "action": "new",
+  "target": "PISTACIA LENTISCUS GUM OIL",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ },
+ {
+  "token": "TETRAMETHYL ACETYLOCTAHYDRONAPHTHALENES",
+  "count": 0,
+  "action": "new",
+  "target": "TETRAMETHYL ACETYLOCTAHYDRONAPHTHALENES",
+  "note": "nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”)"
+ }
+]

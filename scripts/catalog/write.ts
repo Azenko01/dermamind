@@ -49,17 +49,19 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
           isAnimalDerived: e?.isAnimalDerived ?? false,
           isReefHarmful: e?.isReefHarmful ?? false,
         };
+        // A dictionary entry makes the row curated (our data wins over the OBF taxonomy / CosIng).
+        // A name only seen in a full INCI list keeps whatever reference data the row already has.
         const row = await tx.ingredient.upsert({
           where: { inciName: ing.inci },
-          create: { inciName: ing.inci, ...data },
-          update: data,
+          create: { inciName: ing.inci, ...data, source: 'curated' },
+          update: e ? { ...data, source: 'curated' } : {},
         });
         ingredientId.set(ing.inci, row.id);
         for (const alias of ing.aliases) {
           await tx.ingredientAlias.upsert({
             where: { alias },
-            create: { alias, ingredientId: row.id },
-            update: { ingredientId: row.id },
+            create: { alias, ingredientId: row.id, source: 'curated' },
+            update: { ingredientId: row.id, source: 'curated' },
           });
           aliases++;
         }
@@ -161,6 +163,7 @@ export async function writeCatalog(prisma: PrismaClient, catalog: Catalog): Prom
       // used to split wrongly) — only if nothing points at them, so users' avoid lists stay intact.
       const stale = await tx.ingredient.deleteMany({
         where: {
+          source: 'curated',
           inciName: { notIn: [...catalog.ingredients.keys()] },
           products: { none: {} },
           avoidedBy: { none: {} },

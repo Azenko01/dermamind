@@ -123,9 +123,10 @@ export class ScoringService {
    * confidence instead of silently disappearing.
    */
   score(profile: ScoringProfile, product: ScorableProduct): MatchResult {
-    const known = product.ingredients.map(({ position, ingredient }) =>
-      toMatchIngredient(position, ingredient),
-    );
+    const known = product.ingredients.map(({ position, ingredient, match }) => ({
+      ...toMatchIngredient(position, ingredient),
+      fuzzy: match === 'fuzzy',
+    }));
     return computeMatchScore(profile, {
       inciComplete: product.inciComplete || product.inciUnknown.length > 0,
       avoidedByUser: profile.avoidedProductIds.has(product.id),

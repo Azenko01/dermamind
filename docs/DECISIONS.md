@@ -751,3 +751,135 @@ Materiał do rozdziału o projekcie systemu w pracy dyplomowej.
   sprawdza test `scripts/theme/contrast.test.ts` (4,5:1 dla tekstu, 3:1 dla ikon i dużych cyfr).
 - **Alternatywy:** osobne tokeny „tekstowe” obok jaskrawych kolorów grafik — więcej tokenów i łatwo
   użyć złego; zostawić kolory ze zrzutów — pigułki 30–49% były nieczytelne (2,5:1).
+
+---
+
+## Słownik składników: z 56% do 90% rozpoznanych nazw (19.11.2026)
+
+Postęp mierzymy jedną liczbą: jaki odsetek nazw z list INCI produktów Open Beauty Facts łączymy ze
+słownikiem. Każdy krok zapisuje `pnpm catalog:relink --step …` w `data/recognition-history.json`;
+tabela „przed i po” jest w `data/obf-import-report.md` i `data/ingredient-recognition.md`.
+
+| Krok | Rozpoznane nazwy | Produkty w pełni rozpoznane |
+| --- | ---: | ---: |
+| Start (D-59) | 56,1% | 265 z 12 838 |
+| 1. Taksonomia OBF (D-65) | 83,6% | 2 571 |
+| 2. Załączniki CosIng II–VI (D-66) | 84,1% | 2 755 |
+| 3. Normalizator + literówki (D-67, D-68) | 86,9% (w tym 1,1% rozmytych) | 3 474 |
+| 4. Aliasy z przeglądu top-500 (D-69) | 90,5% (w tym 1,2% rozmytych) | 6 478 |
+
+### D-65. Słownik z taksonomii składników Open Beauty Facts zamiast pełnego eksportu CosIng
+
+- **Decyzja:** `pnpm catalog:import-obf-taxonomy` wczytuje `taxonomies/beauty/ingredients-cosing-obf.txt`
+  z repozytorium openfoodfacts-server (ODbL): ok. 22 500 nazw INCI z numerem CosIng, CAS / EC,
+  funkcjami, odwołaniami do załączników i nazwami w innych językach (z nich robimy aliasy).
+  Nasze wpisy (curated) zachowują nazwę, funkcje i flagi — dopisujemy im tylko dane referencyjne.
+  Alias, który dwie pozycje chcą przypisać różnym składnikom, pomijamy (87 przypadków).
+- **Dlaczego:** Komisja nie udostępnia dziś całego inwentarza CosIng jako pliku (portal
+  data.europa.eu go nie ma, strona CosIng eksportuje tylko załączniki). Wyszukiwarka CosIng ma
+  wewnętrzne API z kluczem zaszytym w stronie — to byłby scraping, więc odpadło. Taksonomia OBF jest
+  otwarta, zbudowana z CosIng i ma tę samą licencję co reszta danych OBF.
+- **Na przyszłość:** `pnpm catalog:import-cosing` czyta każdy `data/raw/cosing/*.csv|xlsx` ze
+  standardowymi kolumnami CosIng („INCI name”, „CAS No”, „Function”, …). Gdy dostaniemy pełny
+  eksport, wystarczy go tam położyć — kod się nie zmienia.
+- **Alternatywy:** API strony CosIng (scraping), ręczne przepisywanie (nierealne przy 30 tys. nazw).
+
+### D-66. Załączniki II–VI z oficjalnego eksportu CSV CosIng
+
+- **Decyzja:** te same pliki, które pobiera przycisk „CSV” na stronie CosIng
+  (`…/cosing20/1.0/api/annexes/{II–VI}/export-csv`). Łączymy pozycje ze składnikami po nazwie INCI,
+  aliasie albo numerze CAS i zapisujemy `annex_refs` oraz flagi `is_prohibited` (zał. II) i
+  `is_restricted` (zał. III). Nazwy ze słownika wspólnych nazw z załączników III–VI, których nie
+  mieliśmy, dodajemy jako składniki (264).
+- **Dlaczego:** to jedyne dane CosIng udostępnione do pobrania; flagi pokazujemy na karcie
+  składnika („Przepisy UE”). Na wynik dopasowania na razie nie wpływają — to informacja, nie ocena.
+
+### D-67. Normalizator listy INCI
+
+- **Decyzja:** przed podziałem listy: encje HTML (też uszkodzone, bez „;”), typograficzne myślniki
+  i cudzysłowy, procenty, „Active / Inactive:”, prefiksy „Ingredients / Ingrédients / Inhaltsstoffe /
+  Skład…” i bloki „may contain / peut contenir / kann enthalten / ±” w językach UE, lista rozdzielona
+  „ - ”. Przy wyszukiwaniu: bez znaków diakrytycznych (Limonène = Limonene), pomyłki skanu w kodach
+  barwników („CL 77891”, „C.I.”, „C1”) i „HCI” → HCl, nazwy pisane na dwa sposoby („CI 77891 /
+  Titanium Dioxide”, „Aqua/Water/Eau”) — części próbujemy tylko, gdy cała nazwa jest nieznana, bo
+  prawdziwe nazwy INCI też mają ukośnik.
+- **Zmiana klucza aliasu** (bez diakrytyków) wymagała przepisania kluczy w bazie — robi to
+  `catalog:relink` (2001 kluczy przepisanych, 473 scalonych).
+
+### D-68. Literówki: wysoki próg, oznaczenie „niepewne”, nigdy po cichu
+
+- **Decyzja:** dopasowanie rozmyte tylko gdy nic innego nie pasuje i tylko o jedną zmianę
+  (wstawienie, usunięcie, zamiana albo przestawienie liter), nie w pierwszych trzech znakach (poza
+  pomyłkami skanu l / I / 1, O / 0), nie obok cyfry, w nazwach krótszych niż 10 znaków bez zamiany
+  litery, i tylko gdy najbliższy jest dokładnie jeden składnik. Takie powiązanie ma
+  `match = fuzzy` i `matched_from`; aplikacja pisze „Na etykiecie: „…” — rozpoznane mimo literówki,
+  niepewne”, a w Match Score liczy się jak nieznany składnik (obniża pewność), choć jego cechy
+  (np. unikany składnik) nadal działają — lepiej ostrzec niż przemilczeć.
+- **Dlaczego tak ostro:** pierwsza wersja (do 2 zmian) w przeglądzie myliła substancje: MALVA →
+  MALUS (malwa → jabłoń), CITRUS PARADISI PEEL → SEED OIL, HYDROLYZED KERATIN → PG-HYDROLYZED
+  KERATIN, SD ALCOHOL 39-C → 39-D, XANTHANE → XANTHINE. Po zaostrzeniu rozmyte to 1,2% nazw
+  (najczęściej HYDROXYDE → HYDROXIDE, ALPHA-ISOMETHYL LONONE → IONONE, XANTHAM → XANTHAN).
+- **W API** indeks (ok. 50 tys. kluczy) trzymamy w pamięci i przebudowujemy, gdy zmieni się słownik
+  (jedno tanie zapytanie o liczbę i maksymalne id).
+- **Alternatywy:** pg_trgm w bazie (inna miara podobieństwa niż ta, którą sprawdziliśmy ręcznie),
+  brak dopasowania rozmytego (tracimy ok. 1 punktu procentowego, głównie oczywiste literówki).
+
+### D-69. Przegląd 500 najczęstszych nierozpoznanych nazw
+
+- **Decyzja:** decyzje są w `data/alias-review.json` (edytowalny, w repo), lista do kontroli w
+  `data/unknown-tokens.md`. Dla każdej nazwy: `alias` (inny zapis / język / literówka znanego INCI,
+  np. GLICERINA, BEURRE DE KARITÉ, FENOSSIETANOLO), `new` (prawdziwa nazwa INCI, której brakuje
+  w taksonomii — 307, np. PEG-40 HYDROGENATED CASTOR OIL, ISOHEXADECANE; źródło `reviewed`, bez
+  funkcji i flag), `auto` (rozpozna się przez inny wpis), `not_ingredient` (fragmenty, adresy,
+  klasy detergentów, materiał opakowania) albo `skip` (do decyzji zespołu — np. czy „Flavor”
+  liczyć jak zapach). `pnpm catalog:apply-alias-review` stosuje plik, `catalog:unknown-tokens`
+  dopisuje kolejne nazwy jako `skip` z podpowiedziami.
+- **Uwaga:** propozycje przygotował asystent Claude na podstawie znajomości nazw INCI; każda „nowa
+  nazwa” i alias z uwagą wymaga sprawdzenia w CosIng przez zespół przed obroną.
+- **Granica:** 500 nazw pokrywa ok. 9 tys. z 29 tys. nierozpoznanych wystąpień — reszta to długi
+  ogon (pojedyncze wystąpienia). Dalszy wzrost to kolejne porcje przeglądu albo pełny inwentarz
+  CosIng.
+
+### D-70. Kategorie produktów spoza pielęgnacji twarzy
+
+- **Decyzja:** nowe kategorie `makeup`, `hair_care`, `body_care`, `oral_care`, `deodorant`
+  (z `categories_tags` OBF, sprawdzane przed regułami pielęgnacji twarzy — „podkład do twarzy” to
+  makijaż). Takie produkty nie trafiają do rutyny (ani generator, ani ręcznie), nie pojawiają się
+  w „Produkty z tym składnikiem”, w wyszukiwarce są za produktami do twarzy; karta produktu mówi
+  „To nie jest pielęgnacja twarzy” i nie ma „Dodaj do rutyny”. Wynik składu nadal liczymy.
+- **Wynik:** z 12 837 produktów OBF: ciało 1813, włosy 1221, zęby 627, dezodoranty 556, makijaż
+  372, pielęgnacja twarzy ok. 600; 7643 bez tagów zostaje „Inne”.
+
+### D-71. Zdjęcia produktów na jasnej karcie
+
+- **Decyzja:** token `photoCard` (jasny w obu motywach: #FFFFFF / #E9E9EC) — zdjęcie leży na
+  zaokrąglonej karcie. Zdjęcia OBF mają białe tło, które w ciemnym motywie wyglądało jak dziura;
+  na karcie wygląda na zamierzone.
+
+### D-72. Atrybucja CosIng
+
+- **Decyzja:** Profil → O aplikacji: „Składniki: CosIng — European Commission” z linkiem i
+  informacją, że CosIng nie jest wiążący prawnie; karta składnika podaje źródło danych
+  (słownik DermaMind / CosIng przez taksonomię OBF / nazwa dodana po przeglądzie).
+
+### D-73. Aroma to aromat smakowy, nie zapach
+
+- **Decyzja:** „Aroma” (CosIng 31992) jest osobnym składnikiem z funkcją `flavouring`; FLAVOR /
+  FLAVOUR / FLAVORING są jego aliasami. Usunęliśmy alias Aroma → Parfum z naszego słownika, więc
+  aroma nie należy do grupy „zapachy” i nie uruchamia reguły „unikam zapachów” ani flagi „bez
+  zapachu”.
+- **Dlaczego:** w prawie UE i w CosIng aroma to substancje smakowe (pasty do zębów, balsamy do
+  ust), a parfum — kompozycje zapachowe. Stary alias sprawiał, że ~950 produktów (głównie pasty)
+  wyglądało na „z zapachem”. Przez ten alias taksonomia OBF dopisała też wpis AROMA do PARFUM.
+- **Alternatywy:** zostawić aroma jako zapach „na wszelki wypadek” — fałszywe ostrzeżenia.
+
+### D-74. „SD Alcohol xx” = Alcohol Denat.
+
+- **Decyzja:** amerykańskie oznaczenia alkoholu denaturowanego („SD Alcohol 39-C”, „SD Alcohol
+  40-B”, „Alcohol Denat. (SD Alcohol 40)”) parser czyta jako Alcohol Denat. (`equivalentNames` w
+  `@dermamind/scoring`), więc działa dla każdego numeru formuły, nie tylko tych z przeglądu.
+- **Dlaczego:** w UE na etykiecie obowiązuje „Alcohol Denat.”; numer SD opisuje tylko denaturant.
+  Dla oceny skóry liczy się, że to alkohol wysuszający.
+
+Wynik po D-73 i D-74: 90,5% rozpoznanych nazw (202 215 z 223 407), 6 489 produktów w pełni
+rozpoznanych (krok 5 w `data/obf-import-report.md`).

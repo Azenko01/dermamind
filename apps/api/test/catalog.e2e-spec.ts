@@ -1,3 +1,4 @@
+import { aliasKey } from '@dermamind/scoring';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import type { App } from 'supertest/types';
@@ -34,7 +35,7 @@ async function seedCatalog(prisma: PrismaService) {
       inciName: 'BUTYROSPERMUM PARKII BUTTER',
       displayName: 'Shea Butter',
       functions: ['emollient'],
-      aliases: { create: [{ alias: 'masłoshea' }, { alias: 'sheabutter' }] },
+      aliases: { create: [{ alias: aliasKey('Masło shea') }, { alias: 'sheabutter' }] },
       effects: { create: { concernId: breakouts.id, effect: -1 } },
     },
   });
@@ -213,7 +214,7 @@ describe('catalog (e2e)', () => {
         data: {
           inciName: 'BUTYROSPERMUM PARKII BUTTER',
           displayName: 'Shea Butter',
-          aliases: { create: { alias: 'masłoshea' } },
+          aliases: { create: { alias: aliasKey('Masło shea') } },
         },
       });
       await prisma.productIngredient.create({

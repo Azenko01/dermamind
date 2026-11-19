@@ -1,6 +1,6 @@
 # Raport importu katalogu
 
-Wygenerowano: 2026-10-14 przez `pnpm import:catalog`. Plik jest nadpisywany przy każdym imporcie.
+Wygenerowano: 2026-11-19 przez `pnpm import:catalog`. Plik jest nadpisywany przy każdym imporcie.
 
 ## Liczby
 
@@ -11,9 +11,9 @@ Wygenerowano: 2026-10-14 przez `pnpm import:catalog`. Plik jest nadpisywany przy
 | — z pełnym składem INCI | 30 |
 | — tylko kluczowe składniki (niekompletne) | 12 |
 | — z kodem EAN (`data/barcodes.json`) | 0 |
-| Składniki w bazie | 387 |
+| Składniki w bazie | 388 |
 | Usunięte nieużywane składniki z poprzednich importów | 0 |
-| Aliasy (warianty nazw, PL/EN) | 618 |
+| Aliasy (warianty nazw, PL/EN) | 624 |
 | Powiązania produkt–składnik | 932 |
 | Wpływy składników na problemy skóry | 35 |
 | Przypisania do grup unikania | 94 |

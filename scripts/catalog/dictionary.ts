@@ -30,6 +30,7 @@ export type IngredientFunction =
   | 'thickener'
   | 'chelating'
   | 'colorant'
+  | 'flavouring'
   | 'film_forming'
   | 'absorbent'
   | 'brightening'
@@ -162,17 +163,18 @@ const BASE: DictionaryEntry[] = [
   {
     inci: 'PARFUM',
     display: 'Parfum',
-    aliases: [
-      'Fragrance',
-      'Perfume',
-      'Aroma',
-      'Zapach',
-      'Kompozycja zapachowa',
-      'Parfum (Fragrance)',
-    ],
+    aliases: ['Fragrance', 'Perfume', 'Zapach', 'Kompozycja zapachowa', 'Parfum (Fragrance)'],
     functions: ['fragrance'],
     isFragrance: true,
     irritationRisk: 2,
+  },
+  // Aroma is a flavouring (toothpaste, lip balm), not a fragrance — it must not trigger the
+  // "avoid fragrance" rule (DECISIONS D-73)
+  {
+    inci: 'AROMA',
+    display: 'Aroma (aromat smakowy)',
+    aliases: ['Flavor', 'Flavour', 'Flavoring', 'Flavouring', 'Aromat'],
+    functions: ['flavouring'],
   },
   {
     inci: 'HYALURONIC ACID',

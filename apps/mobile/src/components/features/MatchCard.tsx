@@ -131,6 +131,9 @@ export function MatchCard({ match, subtitle }: { match: Match; subtitle?: string
               ? ''
               : ' — znamy tylko kluczowe składniki, nie cały skład'}
             .
+            {match.confidence.fuzzyMatches
+              ? ` Składniki rozpoznane mimo literówek: ${match.confidence.fuzzyMatches}.`
+              : ''}
           </Text>
         </View>
       ) : null}

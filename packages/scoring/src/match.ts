@@ -47,6 +47,8 @@ export interface MatchIngredient {
   effects: readonly { concern: string; effect: number }[];
   /** any metadata at all (functions, flags, ratings) */
   hasMetadata: boolean;
+  /** matched only by the typo-tolerant matcher — counted as uncertain for the confidence */
+  fuzzy?: boolean;
 }
 
 export interface MatchProduct {
@@ -74,7 +76,7 @@ export interface MatchResult {
   label: MatchLabel;
   lowConfidence: boolean;
   /** why confidence is low — for the "Ocena na podstawie niepełnych danych" note */
-  confidence: { inciComplete: boolean; unknownShare: number };
+  confidence: { inciComplete: boolean; unknownShare: number; fuzzyMatches: number };
   pros: { ingredientId: number; ingredient: string; concern: string; impact: number }[];
   cons: {
     ingredientId: number;
@@ -200,9 +202,12 @@ export function computeMatchScore(profile: MatchProfile, product: MatchProduct):
   const score = applyExclusionCap(clampScore(raw), excluded);
 
   // 7. confidence
+  // a fuzzy match might be the wrong ingredient, so it counts as unknown here (its effects and
+  // flags still apply — a possible avoided ingredient is better shown than hidden)
   const unknown = product.ingredients.filter(
-    (i) => !i.hasMetadata && i.effects.length === 0,
+    (i) => i.fuzzy === true || (!i.hasMetadata && i.effects.length === 0),
   ).length;
+  const fuzzyMatches = product.ingredients.filter((i) => i.fuzzy === true).length;
   const unknownShare = product.ingredients.length ? unknown / product.ingredients.length : 1;
 
   return {
@@ -211,7 +216,11 @@ export function computeMatchScore(profile: MatchProfile, product: MatchProduct):
     avoidedByUser: product.avoidedByUser === true,
     label: matchLabel(score),
     lowConfidence: !product.inciComplete || unknownShare > WEIGHTS.unknownShare,
-    confidence: { inciComplete: product.inciComplete, unknownShare: round1(unknownShare) },
+    confidence: {
+      inciComplete: product.inciComplete,
+      unknownShare: round1(unknownShare),
+      fuzzyMatches,
+    },
     pros: pros.sort((a, b) => b.impact - a.impact),
     cons: cons.sort((a, b) => a.impact - b.impact),
     excludedBy,
