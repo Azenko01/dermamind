@@ -55,6 +55,7 @@ export class IngredientsService {
       id: i.id,
       inciName: i.inciName,
       displayName: i.displayName,
+      namePl: i.namePl,
       functions: i.functions,
       comedogenic: i.comedogenic,
       irritationRisk: i.irritationRisk,

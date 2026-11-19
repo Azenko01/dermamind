@@ -164,17 +164,18 @@ export const avoidGroupOptions: Option<AvoidGroup>[] = [
 ];
 
 /** O16 "Często unikane": display name → INCI name sent to the API. */
+/** O16 suggestions: Polish names on the chips, the INCI name is what gets saved. */
 export const commonAvoidedIngredients: { name: string; inci: string }[] = [
-  { name: 'Limonene', inci: 'LIMONENE' },
-  { name: 'Linalool', inci: 'LINALOOL' },
-  { name: 'Alcohol Denat.', inci: 'ALCOHOL DENAT.' },
-  { name: 'Methylisothiazolinone', inci: 'METHYLISOTHIAZOLINONE' },
-  { name: 'Sodium Lauryl Sulfate', inci: 'SODIUM LAURYL SULFATE' },
+  { name: 'Limonen', inci: 'LIMONENE' },
+  { name: 'Linalol', inci: 'LINALOOL' },
+  { name: 'Alkohol denaturowany', inci: 'ALCOHOL DENAT.' },
+  { name: 'Metyloizotiazolinon', inci: 'METHYLISOTHIAZOLINONE' },
+  { name: 'Laurylosiarczan sodu (SLS)', inci: 'SODIUM LAURYL SULFATE' },
   { name: 'Olej kokosowy', inci: 'COCOS NUCIFERA OIL' },
   { name: 'Lanolina', inci: 'LANOLIN' },
-  { name: 'Citral', inci: 'CITRAL' },
+  { name: 'Cytral', inci: 'CITRAL' },
   { name: 'Eugenol', inci: 'EUGENOL' },
-  { name: 'Retinol', inci: 'RETINOL' },
+  { name: 'Retinol (witamina A)', inci: 'RETINOL' },
 ];
 
 export const mustHaveOptions: Option<MustHave | typeof NONE>[] = [

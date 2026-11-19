@@ -1,3 +1,4 @@
+import { groupReasons, type ReasonGroup } from '@dermamind/scoring';
 import { InfoIcon } from 'phosphor-react-native';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -11,71 +12,68 @@ type Match = NonNullable<ProductDetail['match']>;
 interface Point {
   key: string;
   dot: ColorToken;
-  title: string;
-  /** supports **bold** */
-  body: string;
+  /** one line, supports **bold**: "**Pomaga na osłabioną barierę:** Ceramide NP, Tocopherol" */
+  text: string;
 }
 
-const list = (items: string[]) =>
-  items.length <= 1 ? (items[0] ?? '') : `${items.slice(0, -1).join(', ')} i ${items.at(-1)}`;
+const list = (items: string[]) => items.join(', ');
+const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-/** Reasons in the order that matters: what you avoid, what helps, what to watch out for. */
-export function matchPoints(m: Match): Point[] {
-  const points: Point[] = [];
-  if (m.avoidedByUser) {
-    points.push({
-      key: 'shelf-avoid',
-      dot: 'bad',
-      title: 'Jest na Twojej półce „Unikam”',
-      body: 'Dlatego zawsze oznaczamy go jako **Nie pasuje**.',
-    });
-  }
-  for (const e of m.excludedBy) {
-    points.push({
-      key: `x${e.ingredientId}`,
-      dot: 'bad',
-      title: 'Zawiera coś, czego unikasz',
-      body: `**${e.ingredient}**${e.group ? ` — ${groupCopy[e.group] ?? e.group}` : ''}`,
-    });
-  }
-  const pros = new Map<string, string[]>();
-  for (const p of m.pros)
-    pros.set(p.ingredient, [
-      ...(pros.get(p.ingredient) ?? []),
-      concernCopy[p.concern] ?? p.concern,
-    ]);
-  for (const [ingredient, concerns] of pros) {
-    points.push({
-      key: `p${ingredient}`,
-      dot: 'good',
-      title: `Pomaga na ${list(concerns)}`,
-      body: `Zawiera **${ingredient}**.`,
-    });
-  }
-  for (const c of m.cons) {
-    const reason =
-      c.reason === 'harms_concern'
-        ? `${conReasonCopy.harms_concern} ${concernCopy[c.concern ?? ''] ?? c.concern}`
-        : conReasonCopy[c.reason];
-    points.push({
-      key: `c${c.ingredientId}${c.reason}${c.concern ?? ''}`,
-      dot: c.reason === 'harms_concern' ? 'bad' : 'caution',
-      title: 'Uwaga',
-      body: `**${c.ingredient}** ${reason}.`,
-    });
-  }
-  return points;
+/** Grouped reasons (one line per reason, all its ingredients) with Polish copy. */
+export function matchPoints(m: Match): { positive: Point[]; negative: Point[] } {
+  const { positive, negative } = groupReasons(m);
+  const point = (g: ReasonGroup, i: number): Point => {
+    switch (g.kind) {
+      case 'avoided_shelf':
+        return {
+          key: 'shelf',
+          dot: 'bad',
+          text: '**Jest na Twojej półce „Unikam”** — dlatego zawsze „Nie pasuje”.',
+        };
+      case 'excluded':
+        return {
+          key: `x${g.group ?? i}`,
+          dot: 'bad',
+          text: g.group
+            ? `**Zawiera to, czego unikasz (${groupCopy[g.group] ?? g.group}):** ${list(g.ingredients)}`
+            : `**Zawiera składnik, którego unikasz:** ${list(g.ingredients)}`,
+        };
+      case 'helps':
+        return {
+          key: `h${g.concern}`,
+          dot: 'good',
+          text: `**Pomaga na ${concernCopy[g.concern] ?? g.concern}:** ${list(g.ingredients)}`,
+        };
+      case 'warns': {
+        const reason =
+          g.reason === 'harms_concern'
+            ? `${conReasonCopy.harms_concern} ${concernCopy[g.concern ?? ''] ?? g.concern ?? ''}`
+            : (conReasonCopy[g.reason] ?? g.reason);
+        return {
+          key: `w${g.reason}${g.concern ?? ''}`,
+          dot: g.reason === 'harms_concern' ? 'bad' : 'caution',
+          text: `**${capital(reason)}:** ${list(g.ingredients)}`,
+        };
+      }
+    }
+  };
+  return { positive: positive.map(point), negative: negative.map(point) };
 }
 
-const SHOWN = 4;
+/** At most this many lines per section before "Pokaż wszystkie". */
+const SHOWN = 3;
 
 /** D1 point 3 (mockup 07): coloured header with the label and the score, reasons below. */
 export function MatchCard({ match, subtitle }: { match: Match; subtitle?: string }) {
   const { colors, spacing, radius } = useTheme();
-  const [expanded, setExpanded] = useState(false);
   const head = matchHeadline(match);
-  const points = matchPoints(match);
-  const visible = expanded ? points : points.slice(0, SHOWN);
+  const { positive, negative } = matchPoints(match);
+  // what the user avoids decides the verdict, so it goes first
+  const sections = [
+    { title: 'Na co uważać', points: negative },
+    { title: 'Dlaczego pasuje', points: positive },
+  ];
+  if (!match.excludedBy.length && !match.avoidedByUser) sections.reverse();
 
   return (
     <View style={[styles.card, { borderColor: colors.border, borderRadius: radius.productCard }]}>
@@ -94,28 +92,17 @@ export function MatchCard({ match, subtitle }: { match: Match; subtitle?: string
         <ScoreRing score={match.score} color={head.fg} />
       </View>
       <View style={{ padding: spacing.xl, gap: spacing.xl }}>
-        {visible.length === 0 ? (
+        {positive.length + negative.length === 0 ? (
           <Text variant="caption">
             Żaden ze znanych składników nie ma wyraźnego wpływu na Twoje potrzeby.
           </Text>
         ) : (
-          visible.map((p) => (
-            <View key={p.key} style={[styles.point, { gap: spacing.lg }]}>
-              <View style={[styles.dot, { backgroundColor: colors[p.dot] }]} />
-              <View style={{ flex: 1, gap: 2 }}>
-                <Text variant="bodyStrong">{p.title}</Text>
-                <RichText color="textSecondary">{p.body}</RichText>
-              </View>
-            </View>
-          ))
+          sections.map((s) =>
+            s.points.length ? (
+              <ReasonSection key={s.title} title={s.title} points={s.points} />
+            ) : null,
+          )
         )}
-        {points.length > SHOWN && !expanded ? (
-          <Pressable accessibilityRole="button" onPress={() => setExpanded(true)} hitSlop={8}>
-            <Text variant="bodyStrong" color="accent">
-              Pokaż jeszcze {points.length - SHOWN}
-            </Text>
-          </Pressable>
-        ) : null}
       </View>
       {match.lowConfidence ? (
         <View
@@ -136,6 +123,32 @@ export function MatchCard({ match, subtitle }: { match: Match; subtitle?: string
               : ''}
           </Text>
         </View>
+      ) : null}
+    </View>
+  );
+}
+
+function ReasonSection({ title, points }: { title: string; points: Point[] }) {
+  const { colors, spacing } = useTheme();
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? points : points.slice(0, SHOWN);
+  return (
+    <View style={{ gap: spacing.lg }}>
+      <Text variant="label" color="textSecondary">
+        {title}
+      </Text>
+      {visible.map((p) => (
+        <View key={p.key} style={[styles.point, { gap: spacing.lg }]}>
+          <View style={[styles.dot, { backgroundColor: colors[p.dot] }]} />
+          <RichText style={{ flex: 1 }}>{p.text}</RichText>
+        </View>
+      ))}
+      {points.length > SHOWN ? (
+        <Pressable accessibilityRole="button" onPress={() => setExpanded((e) => !e)} hitSlop={8}>
+          <Text variant="bodyStrong" color="accent">
+            {expanded ? 'Pokaż mniej' : `Pokaż wszystkie (${points.length})`}
+          </Text>
+        </Pressable>
       ) : null}
     </View>
   );

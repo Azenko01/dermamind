@@ -85,6 +85,9 @@ function IngredientRow({ ingredient: i, last }: { ingredient: Ingredient; last: 
       />
       <View style={{ flex: 1 }}>
         <Text>{i.displayName}</Text>
+        {i.namePl && i.namePl.toLowerCase() !== i.displayName.toLowerCase() ? (
+          <Text variant="caption">{i.namePl}</Text>
+        ) : null}
         {fn ? <Text variant="caption">{fn}</Text> : null}
         {i.fuzzyFrom ? (
           <Text variant="caption">

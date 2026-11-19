@@ -38,6 +38,7 @@ pnpm catalog:import-cosing         # додатки II–VI + data/raw/cosing/*.
 pnpm catalog:apply-alias-review    # рішення з data/alias-review.json
 pnpm catalog:relink --step "опис"  # заново зв'язати продукти + замір у звіті
 pnpm catalog:unknown-tokens        # оновити список на перевірку data/unknown-tokens.md
+pnpm catalog:attach-images         # власні фото з data/images/ (EAN.jpg або id-42.jpg)
 ```
 
 ## Якщо щось не працює
@@ -68,7 +69,8 @@ pnpm catalog:unknown-tokens        # оновити список на перев
 - [x] Словник складників: таксономія OBF + додатки CosIng + нормалізатор + огляд топ-500 → 90,5% назв розпізнано (було 56,1%); Aroma ≠ Parfum, SD Alcohol = Alcohol Denat. — 19.11.2026, злито в `main`
 - [x] Світла тема + Профіль → Wygląd (Systemowy / Jasny / Ciemny) — 19.11.2026, злито в `main` (перевірити на телефоні)
 - [x] Профіль шкіри (повторний квіз, редагування відповідей), Ustawienia, перенесення профілю гостя при вході, без заглушок «wkrótce» — 19.11.2026, злито в `main`
-- [ ] Спринт 6 — доопрацювання і дані (наступне: переглянути `data/unknown-tokens.md`, решта назв зі статусом «do decyzji»)
+- [x] Після тесту на телефоні: польські назви складників, згруповані причини на картці продукту, нейтральні чіпи проблем, власні фото продуктів (`data/images/` + `pnpm catalog:attach-images`) — 19.11.2026, злито в `main`
+- [ ] Спринт 6 — доопрацювання і дані (фото: команда фотографує продукти → `data/images/`) (наступне: переглянути `data/unknown-tokens.md`, решта назв зі статусом «do decyzji»)
 - [ ] Спринт 7 — тести і бета
 - [ ] Спринт 8 — публікація
 
@@ -98,7 +100,7 @@ Add web support to apps/mobile: npx expo install react-native-web react-dom @exp
 
 ## Do poprawki później (z testów na telefonie)
 
-- [ ] Unikane składniki: zapisywać nazwę INCI (Cocos Nucifera Oil, Lanolin), polską tylko jako podpis — teraz mieszane („Olej kokosowy”, „Lanolina”)
+- [x] Unikane składniki: zapisujemy INCI, pokazujemy polską nazwę („Alkohol denaturowany”) — 19.11.2026
 - [ ] Sprawdzić jasny motyw na telefonie (makiety są jasne; testowane tylko w ciemnym) — kod gotowy 19.11.2026, przełącznik w Profil → Wygląd
 - [x] „Kontynuuj z Apple / Google” — ukryte, dopóki nie ma kluczy (`SOCIAL_SIGN_IN` w SaveStep) — 19.11.2026
 - [ ] Reset hasła e-mailem — potrzebny dostawca poczty (konto → decyzja Oleksandra); do tego czasu link ukryty

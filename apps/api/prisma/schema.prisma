@@ -177,6 +177,9 @@ model Product {
   userBarcode  String?                  @map("user_barcode")
   /// ingredient list exactly as printed on the package
   inciRaw      String?                  @map("inci_raw")
+  /// our own photo in data/images/ (file name), set by `pnpm catalog:attach-images`; wins over
+  /// image_url, which imports (Open Beauty Facts) may overwrite
+  ownImage     String?                  @map("own_image")
   /// product page the data came from (unique key for the idempotent import)
   sourceUrl    String?                  @unique @map("source_url")
   /// false = only key ingredients are known (their positions are real, the rest is missing)
@@ -203,6 +206,8 @@ model Ingredient {
   /// canonical form, e.g. 'NIACINAMIDE'
   inciName        String   @unique @map("inci_name")
   displayName     String   @map("display_name")
+  /// Polish name for chips and captions ("Alkohol denaturowany"); null = no common Polish name
+  namePl          String?  @map("name_pl")
   /// humectant, emollient, ...
   functions       String[] @default([])
   /// 0–5 (CHECK in SQL)

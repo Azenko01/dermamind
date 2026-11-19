@@ -7,3 +7,4 @@ export * from './ean';
 export * from './ingredient';
 export * from './routine';
 export * from './obf';
+export * from './reasons';

@@ -5,6 +5,7 @@ import { MatchPill } from '@/components/ui/MatchPill';
 import { Text } from '@/components/ui/Text';
 import type { ProductItem } from '@/features/catalog/api';
 import { categoryCopy, priceLevel } from '@/features/catalog/copy';
+import { imageUri } from '@/lib/config';
 import { useTheme } from '@/theme';
 
 const open = (id: number) => router.push({ pathname: '/product/[id]', params: { id: String(id) } });
@@ -22,7 +23,9 @@ export function ProductImage({
 }) {
   const { colors } = useTheme();
   const [failed, setFailed] = useState(false);
-  if (item.imageUrl && !failed) {
+  // our own photos come as /v1/product-images/… from the API
+  const uri = imageUri(item.imageUrl);
+  if (uri && !failed) {
     const box = size * 1.6;
     return (
       <View
@@ -36,7 +39,7 @@ export function ProductImage({
         }}
       >
         <Image
-          source={{ uri: item.imageUrl }}
+          source={{ uri }}
           style={{ width: box, height: box }}
           resizeMode="contain"
           onError={() => setFailed(true)}

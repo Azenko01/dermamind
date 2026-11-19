@@ -18,6 +18,20 @@ import { QuizAnswersDto } from './quiz.dto';
 
 const SKIN_TYPES = ['dry', 'oily', 'combination', 'normal'] as const satisfies readonly SkinType[];
 
+export class AvoidedIngredientNameDto {
+  @ApiProperty({ description: 'As saved in the quiz (INCI)', example: 'ALCOHOL DENAT.' })
+  inci!: string;
+
+  @ApiProperty({
+    description: 'What the app shows: Polish name, else the INCI display name',
+    example: 'Alkohol denaturowany',
+  })
+  name!: string;
+
+  @ApiProperty({ type: Number, nullable: true, description: 'null = not in the dictionary yet' })
+  ingredientId!: number | null;
+}
+
 export class ProfileDto {
   @ApiProperty({ type: String, nullable: true })
   displayName!: string | null;
@@ -48,6 +62,9 @@ export class ProfileDto {
 
   @ApiProperty({ type: [String], description: 'INCI names as entered in the quiz' })
   avoidIngredients!: string[];
+
+  @ApiProperty({ type: [AvoidedIngredientNameDto], description: 'Display names for the chips' })
+  avoidIngredientNames!: AvoidedIngredientNameDto[];
 
   @ApiProperty({ enum: MUST_HAVES, isArray: true })
   mustHaves!: MustHave[];

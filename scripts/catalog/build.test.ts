@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { POLISH_NAMES } from './names-pl';
 import { buildCatalog, verify } from './build';
 import { conflictPairs } from './conflicts';
 import { DICTIONARY } from './dictionary';
@@ -194,5 +195,12 @@ describe('conflict rules', () => {
       severity: 2,
       noteKey: 'retinoid_exfoliant',
     });
+  });
+});
+
+describe('POLISH_NAMES', () => {
+  it('only names ingredients that are in the dictionary', () => {
+    const known = new Set(DICTIONARY.map((e) => e.inci));
+    expect(Object.keys(POLISH_NAMES).filter((k) => !known.has(k))).toEqual([]);
   });
 });

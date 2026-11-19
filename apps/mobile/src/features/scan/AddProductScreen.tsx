@@ -11,6 +11,7 @@ import { Text } from '@/components/ui/Text';
 import { TextField } from '@/components/ui/TextField';
 import { categoryCopy } from '@/features/catalog/copy';
 import { api, errorText } from '@/lib/api';
+import { imageUri } from '@/lib/config';
 import { queryClient } from '@/lib/queryClient';
 import { useTheme } from '@/theme';
 
@@ -123,7 +124,7 @@ export function AddProductScreen() {
                 ]}
               >
                 <Image
-                  source={{ uri: params.imageUrl }}
+                  source={{ uri: imageUri(params.imageUrl) ?? undefined }}
                   style={styles.photoImage}
                   resizeMode="contain"
                   accessibilityLabel={`Zdjęcie: ${name}`}

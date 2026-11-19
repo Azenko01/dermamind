@@ -20,7 +20,8 @@
     "catalog:import-obf-taxonomy": "pnpm --filter @dermamind/scripts catalog:import-obf-taxonomy",
     "catalog:import-cosing": "pnpm --filter @dermamind/scripts catalog:import-cosing",
     "catalog:unknown-tokens": "pnpm --filter @dermamind/scripts catalog:unknown-tokens",
-    "catalog:apply-alias-review": "pnpm --filter @dermamind/scripts catalog:apply-alias-review"
+    "catalog:apply-alias-review": "pnpm --filter @dermamind/scripts catalog:apply-alias-review",
+    "catalog:attach-images": "pnpm --filter @dermamind/scripts catalog:attach-images"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

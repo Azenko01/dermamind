@@ -484,6 +484,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/product-images/{file}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProductImagesController_get_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -553,6 +569,20 @@ export interface components {
             /** @description ID token from Google Sign-In */
             idToken: string;
         };
+        AvoidedIngredientNameDto: {
+            /**
+             * @description As saved in the quiz (INCI)
+             * @example ALCOHOL DENAT.
+             */
+            inci: string;
+            /**
+             * @description What the app shows: Polish name, else the INCI display name
+             * @example Alkohol denaturowany
+             */
+            name: string;
+            /** @description null = not in the dictionary yet */
+            ingredientId: number | null;
+        };
         ShineDto: {
             /**
              * @description Forehead and nose
@@ -614,6 +644,8 @@ export interface components {
             avoidGroups: ("fragrance" | "drying_alcohol" | "fungal_acne" | "parabens" | "sulfates" | "silicones" | "eu_allergens")[];
             /** @description INCI names as entered in the quiz */
             avoidIngredients: string[];
+            /** @description Display names for the chips */
+            avoidIngredientNames: components["schemas"]["AvoidedIngredientNameDto"][];
             mustHaves: ("vegan" | "cruelty_free" | "reef_safe")[];
             /** @enum {string|null} */
             usesSpf: "daily" | "sometimes" | "rarely" | null;
@@ -658,6 +690,7 @@ export interface components {
             /** @enum {string} */
             category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "makeup" | "hair_care" | "body_care" | "oral_care" | "deodorant" | "other";
             pricePln: number | null;
+            /** @description Absolute (imported photo) or relative to the API (/v1/product-images/…, our own photo) */
             imageUrl: string | null;
             /** @description false = only key ingredients are known */
             inciComplete: boolean;
@@ -742,6 +775,11 @@ export interface components {
             /** @example Niacinamide */
             displayName: string;
             /**
+             * @description Common Polish name; null when there is none (show displayName)
+             * @example Alkohol denaturowany
+             */
+            namePl: string | null;
+            /**
              * @example [
              *       "humectant"
              *     ]
@@ -766,6 +804,7 @@ export interface components {
             /** @enum {string} */
             category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "makeup" | "hair_care" | "body_care" | "oral_care" | "deodorant" | "other";
             pricePln: number | null;
+            /** @description Absolute (imported photo) or relative to the API (/v1/product-images/…, our own photo) */
             imageUrl: string | null;
             /** @description false = only key ingredients are known */
             inciComplete: boolean;
@@ -858,6 +897,11 @@ export interface components {
             inciName: string;
             /** @example Niacinamide */
             displayName: string;
+            /**
+             * @description Common Polish name; null when there is none (show displayName)
+             * @example Alkohol denaturowany
+             */
+            namePl: string | null;
             functions: string[];
             comedogenic: number | null;
             irritationRisk: number | null;
@@ -2159,6 +2203,39 @@ export interface operations {
                 content?: never;
             };
             /** @description No routine for that time of day */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProductImagesController_get_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                file: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The photo */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not a product image file name */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             404: {
                 headers: {
                     [name: string]: unknown;

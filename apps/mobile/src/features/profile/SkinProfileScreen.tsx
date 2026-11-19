@@ -9,6 +9,7 @@ import { useTheme } from '@/theme';
 import { editAnswer, startRetake } from './quizEditing';
 import {
   answerRows,
+  avoidIngredientLabels,
   avoidLabels,
   concernLabels,
   quizDate,
@@ -48,7 +49,7 @@ export function SkinProfileScreen() {
             <SkinResultCard profile={profile} />
 
             <Section title="Główne problemy">
-              <TagList items={concernLabels(profile.concerns)} tone="accent" />
+              <TagList items={concernLabels(profile.concerns)} tone="neutral" />
             </Section>
             <Section title="Unikasz">
               {avoidLabels(profile).length ? (
@@ -72,7 +73,7 @@ export function SkinProfileScreen() {
                   overflow: 'hidden',
                 }}
               >
-                {answerRows(answers).map((r, i, all) => (
+                {answerRows(answers, avoidIngredientLabels(profile)).map((r, i, all) => (
                   <Pressable
                     key={r.step}
                     accessibilityRole="button"
