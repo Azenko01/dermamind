@@ -1,6 +1,6 @@
 # Import Open Beauty Facts
 
-Wygenerowano: 2026-11-19 13:33 UTC · zrzut z 2026-11-19 · skrypt `pnpm catalog:import-obf`
+Wygenerowano: 2026-11-19 13:41 UTC · zrzut z 2026-11-19 · skrypt `pnpm catalog:import-obf`
 
 Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 
@@ -51,8 +51,8 @@ Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 
 ## Rozpoznawanie składników (wszystkie produkty OBF w bazie)
 
-- Nazw na listach: 223400, rozpoznanych w naszym słowniku: 202171 (90.5%).
-- Produkty z w pełni rozpoznanym składem: 6478 z 12839.
+- Nazw na listach: 223407, rozpoznanych w naszym słowniku: 202215 (90.5%).
+- Produkty z w pełni rozpoznanym składem: 6489 z 12839.
 - Nierozpoznane nazwy zapisujemy dosłownie w `products.inci_unknown` — bez zgadywania.
   Wynik dopasowania liczy je jako nieznane, więc ma niższą pewność.
 
@@ -68,3 +68,4 @@ Produkty Open Beauty Facts w bazie; nazwa = jedna pozycja listy INCI po parserze
 | 2. Załączniki CosIng II–VI | 84.1% (+0.5 pp) | 0.0% | 2755 (21.5%) | 2755 | 22642 / 29565 |
 | 3. Normalizator + literówki | 86.9% (+2.8 pp) | 1.1% | 3474 (27.1%) | 3152 | 22642 / 29092 |
 | 4. Aliasy z przeglądu top-500 | 90.5% (+3.6 pp) | 1.2% | 6478 (50.5%) | 5820 | 22949 / 29460 |
+| 5. Aroma ≠ Parfum, SD Alcohol = Alcohol Denat. | 90.5% (+0.0 pp) | 1.2% | 6489 (50.5%) | 5831 | 22950 / 29467 |

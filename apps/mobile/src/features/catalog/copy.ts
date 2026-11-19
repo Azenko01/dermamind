@@ -152,6 +152,7 @@ export const functionCopy: Record<string, string> = {
   thickener: 'zagęszcza',
   chelating: 'stabilizuje formułę',
   colorant: 'barwnik',
+  flavouring: 'aromat smakowy',
   film_forming: 'tworzy film ochronny',
   absorbent: 'pochłania sebum',
   brightening: 'rozjaśnia przebarwienia',

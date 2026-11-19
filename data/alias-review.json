@@ -1305,8 +1305,9 @@
  {
   "token": "FLAVOUR",
   "count": 9,
-  "action": "skip",
-  "note": "w naszym słowniku „Aroma” jest aliasem Parfum — decyzja zespołu, czy aromat (pasty do zębów) liczyć jak zapach"
+  "action": "alias",
+  "note": "aromat smakowy (pasty, balsamy do ust) — nie zapach (D-73)",
+  "target": "AROMA"
  },
  {
   "token": "MENTHA PIPERITA EXTRACT",
@@ -2019,8 +2020,9 @@
  {
   "token": "FLAVOR",
   "count": 6,
-  "action": "skip",
-  "note": "jak FLAVOUR"
+  "action": "alias",
+  "note": "aromat smakowy (pasty, balsamy do ust) — nie zapach (D-73)",
+  "target": "AROMA"
  },
  {
   "token": "FLOWER EXTRACT",
@@ -2349,8 +2351,9 @@
  {
   "token": "ALCOHOL DENAT. SD ALCOHOL 39-C",
   "count": 5,
-  "action": "skip",
-  "note": "„SD Alcohol 39-C” to oznaczenie z USA — w UE tylko „Alcohol Denat.”; do decyzji"
+  "action": "alias",
+  "note": "amerykańska formuła alkoholu denaturowanego = Alcohol Denat. w UE (D-74)",
+  "target": "ALCOHOL DENAT."
  },
  {
   "token": "ALCOL CETEARILICO",
@@ -5638,6 +5641,28 @@
   "count": 3,
   "action": "skip",
   "suggestions": []
+ },
+ {
+  "token": "TETRASODIUM GLUTAMATE",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "THEOBROMA CACAO",
+  "count": 3,
+  "action": "skip",
+  "suggestions": []
+ },
+ {
+  "token": "TRIDECETH-15",
+  "count": 3,
+  "action": "skip",
+  "suggestions": [
+   "TRIDECETH-5",
+   "TRIDECETH-11",
+   "TRIDECETH-12"
+  ]
  },
  {
   "token": "AVENE THERMAL SPRING WATER",

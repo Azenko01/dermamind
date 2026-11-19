@@ -861,3 +861,25 @@ tabela „przed i po” jest w `data/obf-import-report.md` i `data/ingredient-re
 - **Decyzja:** Profil → O aplikacji: „Składniki: CosIng — European Commission” z linkiem i
   informacją, że CosIng nie jest wiążący prawnie; karta składnika podaje źródło danych
   (słownik DermaMind / CosIng przez taksonomię OBF / nazwa dodana po przeglądzie).
+
+### D-73. Aroma to aromat smakowy, nie zapach
+
+- **Decyzja:** „Aroma” (CosIng 31992) jest osobnym składnikiem z funkcją `flavouring`; FLAVOR /
+  FLAVOUR / FLAVORING są jego aliasami. Usunęliśmy alias Aroma → Parfum z naszego słownika, więc
+  aroma nie należy do grupy „zapachy” i nie uruchamia reguły „unikam zapachów” ani flagi „bez
+  zapachu”.
+- **Dlaczego:** w prawie UE i w CosIng aroma to substancje smakowe (pasty do zębów, balsamy do
+  ust), a parfum — kompozycje zapachowe. Stary alias sprawiał, że ~950 produktów (głównie pasty)
+  wyglądało na „z zapachem”. Przez ten alias taksonomia OBF dopisała też wpis AROMA do PARFUM.
+- **Alternatywy:** zostawić aroma jako zapach „na wszelki wypadek” — fałszywe ostrzeżenia.
+
+### D-74. „SD Alcohol xx” = Alcohol Denat.
+
+- **Decyzja:** amerykańskie oznaczenia alkoholu denaturowanego („SD Alcohol 39-C”, „SD Alcohol
+  40-B”, „Alcohol Denat. (SD Alcohol 40)”) parser czyta jako Alcohol Denat. (`equivalentNames` w
+  `@dermamind/scoring`), więc działa dla każdego numeru formuły, nie tylko tych z przeglądu.
+- **Dlaczego:** w UE na etykiecie obowiązuje „Alcohol Denat.”; numer SD opisuje tylko denaturant.
+  Dla oceny skóry liczy się, że to alkohol wysuszający.
+
+Wynik po D-73 i D-74: 90,5% rozpoznanych nazw (202 215 z 223 407), 6 489 produktów w pełni
+rozpoznanych (krok 5 w `data/obf-import-report.md`).

@@ -129,6 +129,7 @@ const FUNCTION_MAP: Partial<Record<string, IngredientFunction>> = {
   'gel-forming': 'thickener',
   chelating: 'chelating',
   'cosmetic-colorant': 'colorant',
+  flavouring: 'flavouring',
   'film-forming': 'film_forming',
   absorbent: 'absorbent',
 };

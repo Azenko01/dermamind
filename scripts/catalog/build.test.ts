@@ -98,6 +98,12 @@ describe('buildCatalog', () => {
     expect(c.ingredients.get('COCOS NUCIFERA OIL')?.aliases).toContain('olejkokosowy');
     expect(c.ingredients.get('BUTYROSPERMUM PARKII BUTTER')?.aliases).toContain('masloshea');
     expect(c.ingredients.get('PARFUM')?.aliases).toContain('fragrance');
+    // Aroma is a flavouring, not a fragrance (D-73)
+    expect(c.ingredients.get('PARFUM')?.aliases).not.toContain('aroma');
+    expect([...(c.ingredients.get('AROMA')?.aliases ?? [])]).toEqual(
+      expect.arrayContaining(['aroma', 'flavor', 'flavour']),
+    );
+    expect(c.ingredients.get('AROMA')?.entry?.isFragrance).toBeFalsy();
     expect(c.aliasConflicts).toEqual([]);
   });
 });

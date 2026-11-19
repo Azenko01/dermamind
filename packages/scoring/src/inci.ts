@@ -41,13 +41,26 @@ export function aliasKey(name: string): string {
  */
 export function inciLookupKeys(name: string): string[] {
   const fixed = fixOcr(name);
-  const variants = fixed === name ? [name] : [name, fixed];
+  const variants = [...new Set([name, fixed, ...equivalentNames(fixed)])];
   const keys = variants.flatMap((n) => [
     aliasKey(n),
     aliasKey(n.replace(/\s*[([][^)\]]*[)\]]/g, ' ')),
     ...[...n.matchAll(/[([]([^)\]]+)[)\]]/g)].map((m) => aliasKey(m[1] ?? '')),
   ]);
   return [...new Set(keys.filter((k) => k.length > 0))];
+}
+
+/**
+ * Names that are the same ingredient under EU labelling: "SD Alcohol 39-C", "SD Alcohol 40-B" (US
+ * denatured-alcohol formulas) and "Alcohol Denat. (SD Alcohol 40)" are Alcohol Denat. in the EU
+ * (DECISIONS D-74).
+ */
+export function equivalentNames(name: string): string[] {
+  return /^(?:ALCOHOL\s+DENAT\.?\s*)?[([]?\s*S\.?\s?D\.?\s+ALCOHOL\s*\d+(?:\s*-?\s*[A-Z])?\s*[)\]]?$/i.test(
+    name.trim(),
+  )
+    ? ['ALCOHOL DENAT.']
+    : [];
 }
 
 /**

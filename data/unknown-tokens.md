@@ -4,7 +4,7 @@ Lista do ręcznej kontroli. Decyzje są w `data/alias-review.json` — popraw ta
 `target` i uruchom `pnpm catalog:apply-alias-review && pnpm catalog:relink`.
 Nowe nazwy INCI dostały źródło `reviewed`: bez funkcji i flag, dopóki ktoś ich nie opisze.
 
-Podsumowanie: alias 62, nowe nazwy 308, rozpoznane przez inne wpisy 43, nie składnik 85, do decyzji 416.
+Podsumowanie: alias 65, nowe nazwy 308, rozpoznane przez inne wpisy 43, nie składnik 85, do decyzji 416.
 
 | # | Nazwa z etykiety | Wystąpienia | Decyzja | Cel | Nadal nierozpoznane | Uwagi / podpowiedzi |
 | ---: | --- | ---: | --- | --- | ---: | --- |
@@ -224,7 +224,7 @@ Podsumowanie: alias 62, nowe nazwy 308, rozpoznane przez inne wpisy 43, nie skł
 | 214 | EAU PURIFIÉE | 9 | alias → | AQUA | 0 |  |
 | 215 | EQUISETUM ARVENSE LEAF EXTRACT | 9 | nowa nazwa INCI | EQUISETUM ARVENSE LEAF EXTRACT | 0 |  |
 | 216 | FENOSSIETANOLO | 9 | alias → | PHENOXYETHANOL | 0 |  |
-| 217 | FLAVOUR | 9 | **do decyzji** |  | 9 | w naszym słowniku „Aroma” jest aliasem Parfum — decyzja zespołu, czy aromat (pasty do zębów) liczyć jak zapach |
+| 217 | FLAVOUR | 9 | alias → | AROMA | 0 | aromat smakowy (pasty, balsamy do ust) — nie zapach (D-73) |
 | 218 | MENTHA PIPERITA EXTRACT | 9 | nowa nazwa INCI | MENTHA PIPERITA EXTRACT | 0 |  |
 | 219 | OLEA EUROPAEA (OLIVE FRUIT) OIL | 9 | alias → | OLEA EUROPAEA FRUIT OIL | 0 |  |
 | 220 | OUATE DE PURE CELLULOSE | 9 | nie składnik |  | 9 | nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania) |
@@ -343,7 +343,7 @@ Podsumowanie: alias 62, nowe nazwy 308, rozpoznane przez inne wpisy 43, nie skł
 | 333 | CYMBOPOGON CITRATUS EXTRACT | 6 | nowa nazwa INCI | CYMBOPOGON CITRATUS EXTRACT | 0 |  |
 | 334 | ELAEIS GUINEENSIS OIL / PALM OIL | 6 | rozpozna się samo |  | 0 | rozpozna się przez jedną z nazw „A / B” |
 | 335 | FD | 6 | nie składnik |  | 6 | nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania) |
-| 336 | FLAVOR | 6 | **do decyzji** |  | 6 | jak FLAVOUR |
+| 336 | FLAVOR | 6 | alias → | AROMA | 0 | aromat smakowy (pasty, balsamy do ust) — nie zapach (D-73) |
 | 337 | FLOWER EXTRACT | 6 | nie składnik |  | 6 | nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania) |
 | 338 | FRAGANCIA | 6 | alias → | PARFUM | 0 |  |
 | 339 | GYCERIN | 6 | alias → | GLYCERIN | 0 |  |
@@ -398,7 +398,7 @@ Podsumowanie: alias 62, nowe nazwy 308, rozpoznane przez inne wpisy 43, nie skł
 | 388 | ACIER INOXYDABLE | 5 | nie składnik |  | 5 | nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania) |
 | 389 | ACTINIDIA CHINENSIS FRUIT JUICE | 5 | nowa nazwa INCI | ACTINIDIA CHINENSIS FRUIT JUICE | 0 |  |
 | 390 | AGENTS DE SURFACE AMPHOTÈRES | 5 | nie składnik |  | 5 | nie jest nazwą składnika (fragment rozbitej listy, adres, klasa detergentu z rozporządzenia o detergentach albo materiał opakowania) |
-| 391 | ALCOHOL DENAT. SD ALCOHOL 39-C | 5 | **do decyzji** |  | 5 | „SD Alcohol 39-C” to oznaczenie z USA — w UE tylko „Alcohol Denat.”; do decyzji |
+| 391 | ALCOHOL DENAT. SD ALCOHOL 39-C | 5 | alias → | ALCOHOL DENAT. | 0 | amerykańska formuła alkoholu denaturowanego = Alcohol Denat. w UE (D-74) |
 | 392 | ALCOL CETEARILICO | 5 | alias → | CETEARYL ALCOHOL | 0 | włoska nazwa alkoholu cetearylowego |
 | 393 | ALOE BARBADENSIS LEAF | 5 | alias → | ALOE BARBADENSIS LEAF JUICE | 0 |  |
 | 394 | ALTHAEA ROSEA FLOWER EXTRACT | 5 | nowa nazwa INCI | ALTHAEA ROSEA FLOWER EXTRACT | 0 |  |
@@ -909,16 +909,19 @@ Podsumowanie: alias 62, nowe nazwy 308, rozpoznane przez inne wpisy 43, nie skł
 | 899 | TERMINALIA BELLERICA FRUIT EXTRACT | 3 | **do decyzji** |  | 3 |  |
 | 900 | TERMINALIA CHEBULA FRUIT EXTRACT | 3 | **do decyzji** |  | 3 |  |
 | 901 | TETRASODIUM | 3 | **do decyzji** |  | 3 |  |
-| 902 | AVENE THERMAL SPRING WATER | 0 | nowa nazwa INCI | AVENE THERMAL SPRING WATER | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 903 | CANANGA ODORATA OIL | 0 | nowa nazwa INCI | CANANGA ODORATA OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 904 | CEDRUS ATLANTICA OIL | 0 | nowa nazwa INCI | CEDRUS ATLANTICA OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 905 | CITRUS AURANTIFOLIA OIL | 0 | nowa nazwa INCI | CITRUS AURANTIFOLIA OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 906 | CITRUS MEDICA LIMONUM FRUIT EXTRACT | 0 | nowa nazwa INCI | CITRUS MEDICA LIMONUM FRUIT EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 907 | CITRUS MEDICA LIMONUM PEEL EXTRACT | 0 | nowa nazwa INCI | CITRUS MEDICA LIMONUM PEEL EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 908 | CITRUS MEDICA LIMONUM PEEL OIL | 0 | nowa nazwa INCI | CITRUS MEDICA LIMONUM PEEL OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 909 | CITRUS NOBILIS PEEL OIL | 0 | nowa nazwa INCI | CITRUS NOBILIS PEEL OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 910 | HELIANTHUS ANNUUS SEED EXTRACT | 0 | nowa nazwa INCI | HELIANTHUS ANNUUS SEED EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 911 | MALVA SYLVESTRIS EXTRACT | 0 | nowa nazwa INCI | MALVA SYLVESTRIS EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 912 | ORYZA SATIVA BRAN EXTRACT | 0 | nowa nazwa INCI | ORYZA SATIVA BRAN EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 913 | PISTACIA LENTISCUS GUM OIL | 0 | nowa nazwa INCI | PISTACIA LENTISCUS GUM OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
-| 914 | TETRAMETHYL ACETYLOCTAHYDRONAPHTHALENES | 0 | nowa nazwa INCI | TETRAMETHYL ACETYLOCTAHYDRONAPHTHALENES | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 902 | TETRASODIUM GLUTAMATE | 3 | **do decyzji** |  | 3 |  |
+| 903 | THEOBROMA CACAO | 3 | **do decyzji** |  | 3 |  |
+| 904 | TRIDECETH-15 | 3 | **do decyzji** |  | 3 | podpowiedzi: TRIDECETH-5, TRIDECETH-11, TRIDECETH-12 |
+| 905 | AVENE THERMAL SPRING WATER | 0 | nowa nazwa INCI | AVENE THERMAL SPRING WATER | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 906 | CANANGA ODORATA OIL | 0 | nowa nazwa INCI | CANANGA ODORATA OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 907 | CEDRUS ATLANTICA OIL | 0 | nowa nazwa INCI | CEDRUS ATLANTICA OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 908 | CITRUS AURANTIFOLIA OIL | 0 | nowa nazwa INCI | CITRUS AURANTIFOLIA OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 909 | CITRUS MEDICA LIMONUM FRUIT EXTRACT | 0 | nowa nazwa INCI | CITRUS MEDICA LIMONUM FRUIT EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 910 | CITRUS MEDICA LIMONUM PEEL EXTRACT | 0 | nowa nazwa INCI | CITRUS MEDICA LIMONUM PEEL EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 911 | CITRUS MEDICA LIMONUM PEEL OIL | 0 | nowa nazwa INCI | CITRUS MEDICA LIMONUM PEEL OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 912 | CITRUS NOBILIS PEEL OIL | 0 | nowa nazwa INCI | CITRUS NOBILIS PEEL OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 913 | HELIANTHUS ANNUUS SEED EXTRACT | 0 | nowa nazwa INCI | HELIANTHUS ANNUUS SEED EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 914 | MALVA SYLVESTRIS EXTRACT | 0 | nowa nazwa INCI | MALVA SYLVESTRIS EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 915 | ORYZA SATIVA BRAN EXTRACT | 0 | nowa nazwa INCI | ORYZA SATIVA BRAN EXTRACT | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 916 | PISTACIA LENTISCUS GUM OIL | 0 | nowa nazwa INCI | PISTACIA LENTISCUS GUM OIL | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |
+| 917 | TETRAMETHYL ACETYLOCTAHYDRONAPHTHALENES | 0 | nowa nazwa INCI | TETRAMETHYL ACETYLOCTAHYDRONAPHTHALENES | 0 | nazwa bazowa dla wariantów z listy (z nawiasem / „A / B”) |

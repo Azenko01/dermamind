@@ -68,5 +68,19 @@
       "ingredients": 22949,
       "aliases": 29460
     }
+  },
+  {
+    "step": "5. Aroma ≠ Parfum, SD Alcohol = Alcohol Denat.",
+    "at": "2026-11-19T13:40:23.645Z",
+    "products": 12838,
+    "tokens": 223407,
+    "known": 202215,
+    "fuzzy": 2677,
+    "fullyKnown": 6489,
+    "fullyKnownExact": 5831,
+    "dictionary": {
+      "ingredients": 22950,
+      "aliases": 29467
+    }
   }
 ]

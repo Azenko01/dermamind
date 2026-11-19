@@ -238,6 +238,19 @@ describe('normaliser — what real Open Beauty Facts lists look like', () => {
     expect(inciLookupKeys('CL 42090')).toContain('ci42090');
   });
 
+  it('reads US "SD Alcohol" formulas as Alcohol Denat.', () => {
+    for (const n of [
+      'SD ALCOHOL 39-C',
+      'SD ALCOHOL 40-B',
+      'SD ALCOHOL 40',
+      'ALCOHOL DENAT. SD ALCOHOL 39-C',
+      'ALCOHOL DENAT. (SD ALCOHOL 40)',
+    ])
+      expect(inciLookupKeys(n)).toContain('alcoholdenat');
+    expect(inciLookupKeys('BENZYL ALCOHOL')).not.toContain('alcoholdenat');
+    expect(inciLookupKeys('SD ALCOHOL')).not.toContain('alcoholdenat');
+  });
+
   it('splits "written two ways" names only into whole parts', () => {
     expect(slashAlternatives('CI 77891 / TITANIUM DIOXIDE')).toEqual([
       'CI 77891',
