@@ -5,7 +5,7 @@ import {
   productFlags,
   fuzzyResolve,
   resolveInci,
-  slashAlternatives,
+  inciNameCandidates,
   splitInci,
   type MatchIngredient,
 } from '@dermamind/scoring';
@@ -123,7 +123,7 @@ export class AnalyzeService {
 
   /** Name → ingredient by INCI name or alias; a second name for the same ingredient is dropped. */
   private async match(names: string[]): Promise<Row[]> {
-    const all = [...names, ...names.flatMap(slashAlternatives)];
+    const all = inciNameCandidates(names);
     const allKeys = [...new Set(all.flatMap(inciLookupKeys))];
     const [aliases, direct, fuzzyIds] = await Promise.all([
       this.prisma.ingredientAlias.findMany({

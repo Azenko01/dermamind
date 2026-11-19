@@ -3,7 +3,7 @@ import {
   buildFuzzyIndex,
   inciLookupKeys,
   resolveInci,
-  slashAlternatives,
+  inciNameCandidates,
   splitInci,
   type FuzzyIndex,
   type InciDictionary,
@@ -102,7 +102,7 @@ export async function inciDictionaryFor(
 ): Promise<Dict> {
   const names = inciRaw ? splitInci(inciRaw).slice(0, MAX_INCI_NAMES) : [];
   if (names.length === 0) return { byInci: new Map(), byAlias: new Map(), fuzzy };
-  const all = [...names, ...names.flatMap(slashAlternatives)];
+  const all = inciNameCandidates(names);
   const [ingredients, aliases] = await Promise.all([
     db.ingredient.findMany({
       where: { inciName: { in: all } },

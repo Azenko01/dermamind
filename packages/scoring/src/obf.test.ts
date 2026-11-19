@@ -99,15 +99,31 @@ describe('obfImportSkipReason', () => {
 });
 
 describe('obfCategory', () => {
-  it('maps clear face-care tags and leaves the rest as other', () => {
+  it('maps clear face-care tags', () => {
     expect(obfCategory(['en:face', 'en:Face serums'])).toBe('serum');
     expect(obfCategory(['en:micellar-water'])).toBe('cleanser');
     expect(obfCategory(['en:in-sun-protections', 'en:sunscreen'])).toBe('sunscreen');
     expect(obfCategory(['en:face-masks'])).toBe('mask');
     expect(obfCategory(['en:eye-contour-creams'])).toBe('eye_cream');
-    expect(obfCategory(['en:hygiene', 'en:shower-gels', 'en:cleansers'])).toBe('other');
-    expect(obfCategory(['en:hair', 'en:hair-serum'])).toBe('other');
-    expect(obfCategory(['en:toothpastes'])).toBe('other');
+  });
+
+  it('gives products that are not face care their own category', () => {
+    expect(obfCategory(['en:hygiene', 'en:toothpastes'])).toBe('oral_care');
+    expect(obfCategory(['en:mouthwash'])).toBe('oral_care');
+    expect(obfCategory(['en:hygiene', 'en:deodorants', 'en:roll-on-deodorants'])).toBe('deodorant');
+    expect(obfCategory(['en:face', 'en:makeup', 'en:face-makeup', 'en:foundations'])).toBe(
+      'makeup',
+    );
+    expect(obfCategory(['en:lip-cosmetics'])).toBe('makeup');
+    expect(obfCategory(['en:hair', 'en:shampoos'])).toBe('hair_care');
+    expect(obfCategory(['en:hair', 'en:hair-serum'])).toBe('hair_care');
+    expect(obfCategory(['en:hygiene', 'en:shower-gels', 'en:cleansers'])).toBe('body_care');
+    expect(obfCategory(['en:body', 'en:body-milks'])).toBe('body_care');
+    expect(obfCategory(['en:soaps'])).toBe('body_care');
+  });
+
+  it('leaves unclear products as other', () => {
+    expect(obfCategory(['en:open-beauty-facts'])).toBe('other');
     expect(obfCategory([])).toBe('other');
   });
 });

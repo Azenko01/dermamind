@@ -409,6 +409,11 @@
                 "exfoliant",
                 "spot_treatment",
                 "oil",
+                "makeup",
+                "hair_care",
+                "body_care",
+                "oral_care",
+                "deodorant",
                 "other"
               ]
             }
@@ -1862,6 +1867,11 @@
               "exfoliant",
               "spot_treatment",
               "oil",
+              "makeup",
+              "hair_care",
+              "body_care",
+              "oral_care",
+              "deodorant",
               "other"
             ]
           },
@@ -1933,12 +1943,17 @@
           },
           "unknownShare": {
             "type": "number",
-            "description": "Share of ingredients without any data, 0–1"
+            "description": "Share of ingredients without any data (incl. fuzzy matches), 0–1"
+          },
+          "fuzzyMatches": {
+            "type": "number",
+            "description": "Ingredients recognised only by the typo-tolerant matcher"
           }
         },
         "required": [
           "inciComplete",
-          "unknownShare"
+          "unknownShare",
+          "fuzzyMatches"
         ]
       },
       "MatchProDto": {
@@ -2207,6 +2222,11 @@
             ],
             "nullable": true,
             "description": "For the current user; null without a profile"
+          },
+          "fuzzyFrom": {
+            "type": "string",
+            "nullable": true,
+            "description": "Set when the name on the list was matched with typo tolerance: what was written. Low confidence — the app shows \"Rozpoznane jako …\"."
           }
         },
         "required": [
@@ -2219,7 +2239,8 @@
           "isFungalAcneTrigger",
           "isEuAllergen",
           "isFragrance",
-          "rating"
+          "rating",
+          "fuzzyFrom"
         ]
       },
       "ProductDetailDto": {
@@ -2249,6 +2270,11 @@
               "exfoliant",
               "spot_treatment",
               "oil",
+              "makeup",
+              "hair_care",
+              "body_care",
+              "oral_care",
+              "deodorant",
               "other"
             ]
           },
@@ -2394,6 +2420,11 @@
               "exfoliant",
               "spot_treatment",
               "oil",
+              "makeup",
+              "hair_care",
+              "body_care",
+              "oral_care",
+              "deodorant",
               "other"
             ],
             "description": "Default: the Open Beauty Facts category for this code, otherwise other"
@@ -2615,6 +2646,49 @@
               "type": "string"
             }
           },
+          "source": {
+            "type": "string",
+            "enum": [
+              "curated",
+              "obf_taxonomy",
+              "cosing",
+              "reviewed"
+            ],
+            "description": "curated = described by our team; obf_taxonomy / cosing = reference data; reviewed = name added after a manual check, no data yet"
+          },
+          "cosingRef": {
+            "type": "string",
+            "nullable": true,
+            "description": "CosIng substance reference"
+          },
+          "casNumbers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cosingFunctions": {
+            "description": "CosIng function codes as published",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "annexRefs": {
+            "description": "Regulation (EC) 1223/2009 annex entries, e.g. \"III/202\"",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isProhibited": {
+            "type": "boolean",
+            "description": "Annex II — prohibited in cosmetics"
+          },
+          "isRestricted": {
+            "type": "boolean",
+            "description": "Annex III — allowed only with restrictions"
+          },
           "effects": {
             "type": "array",
             "items": {
@@ -2648,6 +2722,13 @@
           "irritationRisk",
           "flags",
           "groups",
+          "source",
+          "cosingRef",
+          "casNumbers",
+          "cosingFunctions",
+          "annexRefs",
+          "isProhibited",
+          "isRestricted",
           "effects",
           "forYou",
           "products"

@@ -1,6 +1,6 @@
 # Import Open Beauty Facts
 
-Wygenerowano: 2026-11-19 12:07 UTC · zrzut z 2026-11-19 · skrypt `pnpm catalog:import-obf`
+Wygenerowano: 2026-11-19 13:29 UTC · zrzut z 2026-11-19 · skrypt `pnpm catalog:import-obf`
 
 Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 
@@ -11,11 +11,11 @@ Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 | Przeczytane rekordy | 80784 |
 | Zachowane (EAN + skład + UE) | 12837 |
 | — w tym rynek polski (en:poland) | 219 |
-| Nowe w bazie | 1 |
-| Zaktualizowane | 0 |
-| Bez zmian (ten sam last_modified_t) | 12836 |
+| Nowe w bazie | 0 |
+| Zaktualizowane | 12837 |
+| Bez zmian (ten sam last_modified_t) | 0 |
 | Pominięte razem | 67947 |
-| Produkty OBF w bazie po imporcie | 12837 (rynek PL: 219) |
+| Produkty OBF w bazie po imporcie | 12839 (rynek PL: 219) |
 
 ## Pominięte — powody
 
@@ -34,10 +34,15 @@ Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 
 | Kategoria | Liczba |
 | --- | ---: |
-| other | 12181 |
-| sunscreen | 237 |
-| moisturizer | 197 |
-| cleanser | 121 |
+| other | 7643 |
+| body_care | 1813 |
+| hair_care | 1221 |
+| oral_care | 627 |
+| deodorant | 556 |
+| makeup | 372 |
+| sunscreen | 230 |
+| moisturizer | 192 |
+| cleanser | 82 |
 | mask | 67 |
 | exfoliant | 13 |
 | serum | 13 |
@@ -46,7 +51,7 @@ Dane: Open Beauty Facts (https://world.openbeautyfacts.org), licencja ODbL 1.0.
 
 ## Rozpoznawanie składników (wszystkie produkty OBF w bazie)
 
-- Nazw na listach: 220098, rozpoznanych w naszym słowniku: 123541 (56.1%).
-- Produkty z w pełni rozpoznanym składem: 265 z 12837.
+- Nazw na listach: 223400, rozpoznanych w naszym słowniku: 202171 (90.5%).
+- Produkty z w pełni rozpoznanym składem: 6478 z 12839.
 - Nierozpoznane nazwy zapisujemy dosłownie w `products.inci_unknown` — bez zgadywania.
   Wynik dopasowania liczy je jako nieznane, więc ma niższą pewność.

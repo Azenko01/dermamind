@@ -54,6 +54,12 @@ export function inciLookupKeys(name: string): string[] {
  * Slips that don't change which substance it is: a colour index written "CL", "C.I." or without
  * the space, hydrochloride written "HCI".
  */
+/** Every spelling worth asking the dictionary for by canonical name (also the "A / B" parts). */
+export function inciNameCandidates(names: readonly string[]): string[] {
+  const all = [...names, ...names.flatMap(slashAlternatives)];
+  return [...new Set([...all, ...all.map(fixOcr)])];
+}
+
 export function fixOcr(name: string): string {
   return name
     .replace(/\b(?:C\.?\s?I\.?|CL|Cl|C1)\s*-?\s*(\d{5})\b/g, 'CI $1')
@@ -203,6 +209,7 @@ export function resolveInci<T extends { id: number }>(
   // the fuzzy index also knows every canonical name as a key — a hit there is still exact
   const exact = (name: string): T | undefined =>
     dict.byInci.get(name) ??
+    dict.byInci.get(fixOcr(name)) ??
     inciLookupKeys(name)
       .map((k) => dict.byAlias.get(k) ?? dict.fuzzy?.get(k))
       .find((x) => x !== undefined);

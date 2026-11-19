@@ -4,6 +4,7 @@
  *   pnpm catalog:import-obf              (DATABASE_URL from apps/api/.env)
  *   pnpm catalog:import-obf --refresh    (download a fresh dump first)
  *   pnpm catalog:import-obf --limit 2000 (only the first N lines, for a quick try)
+ *   pnpm catalog:import-obf --force      (rewrite every OBF row, e.g. after the category rules changed)
  *
  * The dump (≈100 MB gzip) goes to data/raw/ (gitignored) and is read line by line — never loaded
  * whole. We keep records with a valid EAN-8/13, an ingredient list and an EU country; upsert by
@@ -72,6 +73,7 @@ async function main(): Promise<void> {
 
   if (process.argv.includes('--refresh') || !existsSync(dumpPath)) await download();
   const limit = Number(arg('--limit') ?? Infinity);
+  const force = process.argv.includes('--force');
 
   const prisma = new PrismaClient({
     adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
@@ -167,6 +169,7 @@ async function main(): Promise<void> {
       if (p.isPolishMarket) stats.polish++;
       stats.categories[p.category] = (stats.categories[p.category] ?? 0) + 1;
       if (
+        !force &&
         current?.obfLastModified &&
         p.lastModified &&
         current.obfLastModified.getTime() >= p.lastModified.getTime()

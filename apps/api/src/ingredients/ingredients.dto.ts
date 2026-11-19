@@ -73,10 +73,11 @@ export class IngredientDetailDto {
   groups!: string[];
 
   @ApiProperty({
-    enum: ['curated', 'obf_taxonomy', 'cosing'],
-    description: 'curated = described by our team; otherwise reference data only (no effects)',
+    enum: ['curated', 'obf_taxonomy', 'cosing', 'reviewed'],
+    description:
+      'curated = described by our team; obf_taxonomy / cosing = reference data; reviewed = name added after a manual check, no data yet',
   })
-  source!: 'curated' | 'obf_taxonomy' | 'cosing';
+  source!: 'curated' | 'obf_taxonomy' | 'cosing' | 'reviewed';
 
   @ApiProperty({ type: String, nullable: true, description: 'CosIng substance reference' })
   cosingRef!: string | null;

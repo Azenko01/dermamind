@@ -1,6 +1,7 @@
-import { ingredientForProfile } from '@dermamind/scoring';
+import { ingredientForProfile, NON_SKINCARE_CATEGORIES } from '@dermamind/scoring';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { toListItem } from '../catalog/catalog.service';
+import type { ProductCategory } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ScoringService,
@@ -26,7 +27,12 @@ export class IngredientsService {
     if (!i) throw new NotFoundException('Ingredient not found');
 
     const products = await this.prisma.product.findMany({
-      where: { isPublished: true, ingredients: { some: { ingredientId: id } } },
+      // suggestions are face care only — no toothpaste or shampoo under "Produkty z tym składnikiem"
+      where: {
+        isPublished: true,
+        category: { notIn: [...NON_SKINCARE_CATEGORIES] as ProductCategory[] },
+        ingredients: { some: { ingredientId: id } },
+      },
       include: scorableProductInclude,
       // "Aqua" is in thousands of Open Beauty Facts products: score a capped, curated-first set
       orderBy: [

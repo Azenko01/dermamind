@@ -629,7 +629,7 @@ export interface components {
             name: string;
             brand: string | null;
             /** @enum {string} */
-            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "makeup" | "hair_care" | "body_care" | "oral_care" | "deodorant" | "other";
             pricePln: number | null;
             imageUrl: string | null;
             /** @description false = only key ingredients are known */
@@ -645,8 +645,10 @@ export interface components {
         };
         MatchConfidenceDto: {
             inciComplete: boolean;
-            /** @description Share of ingredients without any data, 0–1 */
+            /** @description Share of ingredients without any data (incl. fuzzy matches), 0–1 */
             unknownShare: number;
+            /** @description Ingredients recognised only by the typo-tolerant matcher */
+            fuzzyMatches: number;
         };
         MatchProDto: {
             ingredientId: number;
@@ -727,13 +729,15 @@ export interface components {
              * @enum {string|null}
              */
             rating: "good" | "caution" | "bad" | "neutral" | null;
+            /** @description Set when the name on the list was matched with typo tolerance: what was written. Low confidence — the app shows "Rozpoznane jako …". */
+            fuzzyFrom: string | null;
         };
         ProductDetailDto: {
             id: number;
             name: string;
             brand: string | null;
             /** @enum {string} */
-            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "makeup" | "hair_care" | "body_care" | "oral_care" | "deodorant" | "other";
             pricePln: number | null;
             imageUrl: string | null;
             /** @description false = only key ingredients are known */
@@ -779,7 +783,7 @@ export interface components {
              * @description Default: the Open Beauty Facts category for this code, otherwise other
              * @enum {string}
              */
-            category?: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+            category?: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "makeup" | "hair_care" | "body_care" | "oral_care" | "deodorant" | "other";
         };
         ScanDto: {
             id: number;
@@ -833,6 +837,22 @@ export interface components {
             flags: components["schemas"]["IngredientFlagsDto"];
             /** @description ingredient_groups.code */
             groups: string[];
+            /**
+             * @description curated = described by our team; obf_taxonomy / cosing = reference data; reviewed = name added after a manual check, no data yet
+             * @enum {string}
+             */
+            source: "curated" | "obf_taxonomy" | "cosing" | "reviewed";
+            /** @description CosIng substance reference */
+            cosingRef: string | null;
+            casNumbers: string[];
+            /** @description CosIng function codes as published */
+            cosingFunctions: string[];
+            /** @description Regulation (EC) 1223/2009 annex entries, e.g. "III/202" */
+            annexRefs: string[];
+            /** @description Annex II — prohibited in cosmetics */
+            isProhibited: boolean;
+            /** @description Annex III — allowed only with restrictions */
+            isRestricted: boolean;
             effects: components["schemas"]["IngredientEffectDto"][];
             /** @description null without a skin profile */
             forYou: components["schemas"]["IngredientForYouDto"] | null;
@@ -1447,7 +1467,7 @@ export interface operations {
             query?: {
                 /** @description Search in product name and brand */
                 q?: string;
-                category?: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
+                category?: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "makeup" | "hair_care" | "body_care" | "oral_care" | "deodorant" | "other";
                 /** @description Default: score for users with a skin profile, otherwise name */
                 sort?: "score" | "name" | "price_asc" | "price_desc";
                 page?: number;

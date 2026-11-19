@@ -1,4 +1,9 @@
-import { normalizeObfProduct, productFlags, type MatchResult } from '@dermamind/scoring';
+import {
+  NON_SKINCARE_CATEGORIES,
+  normalizeObfProduct,
+  productFlags,
+  type MatchResult,
+} from '@dermamind/scoring';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -328,7 +333,9 @@ export class CatalogService {
     const rows = await this.prisma.$queryRaw<{ id: number }[]>`
       SELECT p.id FROM products p LEFT JOIN brands b ON b.id = p.brand_id
       WHERE ${scope} ${textFilter} ${categoryFilter}
-      ORDER BY (p.source = 'user') DESC, (p.source = 'curated') DESC, p.is_polish_market DESC,
+      ORDER BY (p.source = 'user') DESC, (p.source = 'curated') DESC,
+        (p.category::text NOT IN (${Prisma.join([...NON_SKINCARE_CATEGORIES])})) DESC,
+        p.is_polish_market DESC,
         p.inci_complete DESC, p.id
       LIMIT ${SEARCH_CAP}`;
     return rows.map((r) => r.id);
