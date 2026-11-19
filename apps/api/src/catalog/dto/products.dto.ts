@@ -199,8 +199,11 @@ export class MatchConfidenceDto {
   @ApiProperty()
   inciComplete!: boolean;
 
-  @ApiProperty({ description: 'Share of ingredients without any data, 0–1' })
+  @ApiProperty({ description: 'Share of ingredients without any data (incl. fuzzy matches), 0–1' })
   unknownShare!: number;
+
+  @ApiProperty({ description: 'Ingredients recognised only by the typo-tolerant matcher' })
+  fuzzyMatches!: number;
 }
 
 export class MatchDetailDto extends MatchSummaryDto {
@@ -254,6 +257,14 @@ export class ProductIngredientDto {
     description: 'For the current user; null without a profile',
   })
   rating!: IngredientRating | null;
+
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    description:
+      'Set when the name on the list was matched with typo tolerance: what was written. Low confidence — the app shows "Rozpoznane jako …".',
+  })
+  fuzzyFrom!: string | null;
 }
 
 export class ProductFlagsDto implements Record<(typeof PRODUCT_FLAGS)[number], boolean | null> {

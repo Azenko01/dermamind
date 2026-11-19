@@ -40,5 +40,19 @@
       "ingredients": 22642,
       "aliases": 29565
     }
+  },
+  {
+    "step": "3. Normalizator + literówki",
+    "at": "2026-11-19T13:20:33.605Z",
+    "products": 12838,
+    "tokens": 219233,
+    "known": 189932,
+    "fuzzy": 2489,
+    "fullyKnown": 3381,
+    "fullyKnownExact": 3068,
+    "dictionary": {
+      "ingredients": 22642,
+      "aliases": 29092
+    }
   }
 ]

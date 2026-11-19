@@ -278,3 +278,30 @@ export async function writeAnnexes(
     await prisma.$transaction(updates.slice(i, i + 200));
   return { flagged: refs.size, created, byAnnex };
 }
+
+/**
+ * Brings stored alias keys in line with the current aliasKey() (e.g. after it started dropping
+ * diacritics). A key that would collide with an existing one is dropped — the existing one wins.
+ */
+export async function rekeyAliases(
+  prisma: PrismaClient,
+): Promise<{ rekeyed: number; dropped: number }> {
+  const rows = await prisma.ingredientAlias.findMany({ select: { alias: true } });
+  const keys = new Set(rows.map((r) => r.alias));
+  let rekeyed = 0;
+  let dropped = 0;
+  for (const { alias } of rows) {
+    const key = aliasKey(alias);
+    if (key === alias) continue;
+    if (keys.has(key) || !key) {
+      await prisma.ingredientAlias.delete({ where: { alias } });
+      dropped++;
+    } else {
+      await prisma.ingredientAlias.update({ where: { alias }, data: { alias: key } });
+      keys.add(key);
+      rekeyed++;
+    }
+    keys.delete(alias);
+  }
+  return { rekeyed, dropped };
+}

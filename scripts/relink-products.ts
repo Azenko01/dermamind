@@ -17,6 +17,7 @@ import {
 } from '../apps/api/src/catalog/product-writer';
 import { PrismaClient } from '../apps/api/src/generated/prisma/client';
 import { recordStep, renderRecognition, type RecognitionStep } from './catalog/recognition';
+import { rekeyAliases } from './catalog/reference-writer';
 
 const root = resolve(__dirname, '..');
 const BATCH = 300;
@@ -37,6 +38,11 @@ async function main(): Promise<void> {
     adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
   });
   try {
+    if (!dryRun) {
+      const r = await rekeyAliases(prisma);
+      if (r.rekeyed || r.dropped)
+        console.log(`Alias keys: ${r.rekeyed} rewritten, ${r.dropped} merged`);
+    }
     const dict = await loadInciDictionary(prisma);
     const products = await prisma.product.findMany({
       where: { source: { in: ['obf', 'user'] }, inciRaw: { not: null } },

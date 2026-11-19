@@ -72,6 +72,33 @@ export class IngredientDetailDto {
   @ApiProperty({ type: [String], description: 'ingredient_groups.code' })
   groups!: string[];
 
+  @ApiProperty({
+    enum: ['curated', 'obf_taxonomy', 'cosing'],
+    description: 'curated = described by our team; otherwise reference data only (no effects)',
+  })
+  source!: 'curated' | 'obf_taxonomy' | 'cosing';
+
+  @ApiProperty({ type: String, nullable: true, description: 'CosIng substance reference' })
+  cosingRef!: string | null;
+
+  @ApiProperty({ type: [String] })
+  casNumbers!: string[];
+
+  @ApiProperty({ type: [String], description: 'CosIng function codes as published' })
+  cosingFunctions!: string[];
+
+  @ApiProperty({
+    type: [String],
+    description: 'Regulation (EC) 1223/2009 annex entries, e.g. "III/202"',
+  })
+  annexRefs!: string[];
+
+  @ApiProperty({ description: 'Annex II — prohibited in cosmetics' })
+  isProhibited!: boolean;
+
+  @ApiProperty({ description: 'Annex III — allowed only with restrictions' })
+  isRestricted!: boolean;
+
   @ApiProperty({ type: [IngredientEffectDto] })
   effects!: IngredientEffectDto[];
 

@@ -7,6 +7,7 @@ import {
   scorableProductInclude,
   type ScorableProduct,
 } from '../scoring/scoring.service';
+import { InciIndexService } from './inci-index.service';
 import { ObfClient } from './obf.client';
 import {
   brandId,
@@ -68,6 +69,7 @@ export class CatalogService {
     private readonly prisma: PrismaService,
     private readonly scoring: ScoringService,
     private readonly obf: ObfClient,
+    private readonly inciIndex: InciIndexService,
   ) {}
 
   /**
@@ -174,8 +176,9 @@ export class CatalogService {
       return null;
     }
 
+    const fuzzy = await this.inciIndex.fuzzy();
     return this.prisma.$transaction(async (tx) => {
-      const linked = linkInci(p.inciRaw, await inciDictionaryFor(tx, p.inciRaw));
+      const linked = linkInci(p.inciRaw, await inciDictionaryFor(tx, p.inciRaw, fuzzy));
       // without a list nothing can be scored: keep it out of search until someone adds one
       const data = {
         ...obfProductData(p, await brandId(tx, p.brand), linked),
@@ -203,8 +206,9 @@ export class CatalogService {
           select: { imageUrl: true, category: true },
         })
       : null;
+    const fuzzy = await this.inciIndex.fuzzy();
     const product = await this.prisma.$transaction(async (tx) => {
-      const linked = linkInci(dto.inciRaw, await inciDictionaryFor(tx, dto.inciRaw));
+      const linked = linkInci(dto.inciRaw, await inciDictionaryFor(tx, dto.inciRaw, fuzzy));
       const data = {
         name: dto.name,
         brandId: await brandId(tx, dto.brand ?? null),
@@ -350,6 +354,7 @@ export function toIngredientRow(
   position: number,
   i: ScorableProduct['ingredients'][number]['ingredient'],
   rating: ProductIngredientDto['rating'],
+  fuzzyFrom: string | null = null,
 ): ProductIngredientDto {
   return {
     id: i.id,
@@ -362,6 +367,7 @@ export function toIngredientRow(
     isEuAllergen: i.isEuAllergen,
     isFragrance: i.isFragrance,
     rating,
+    fuzzyFrom,
   };
 }
 
@@ -397,8 +403,8 @@ function toDetail(
       product.inciComplete,
       product.brand?.crueltyFree ?? null,
     ),
-    ingredients: product.ingredients.map(({ position, ingredient }) =>
-      toIngredientRow(position, ingredient, rating.get(ingredient.id) ?? null),
+    ingredients: product.ingredients.map(({ position, ingredient, matchedFrom }) =>
+      toIngredientRow(position, ingredient, rating.get(ingredient.id) ?? null, matchedFrom),
     ),
     match: match ? toMatchDetail(match) : null,
   };

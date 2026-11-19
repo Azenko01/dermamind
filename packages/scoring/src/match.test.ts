@@ -251,6 +251,15 @@ describe('computeMatchScore', () => {
       ).toBe(false); // 25%
     });
 
+    it('counts a typo-tolerant (fuzzy) match as uncertain', () => {
+      const r = computeMatchScore(
+        profile(),
+        product([ing(), ing(), ing({ fuzzy: true }), ing({ fuzzy: true })]),
+      );
+      expect(r.confidence).toMatchObject({ fuzzyMatches: 2, unknownShare: 0.5 });
+      expect(r.lowConfidence).toBe(true);
+    });
+
     it('treats an empty list as no data', () => {
       expect(computeMatchScore(profile(), product([])).lowConfidence).toBe(true);
     });
