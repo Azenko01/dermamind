@@ -1,3 +1,4 @@
+import { isSkincareCategory } from '@dermamind/scoring';
 import { router, useLocalSearchParams } from 'expo-router';
 import type { TimeOfDay } from '@dermamind/scoring';
 import {
@@ -134,6 +135,21 @@ export function ProductScreen() {
               </Text>
             ) : null}
           </View>
+
+          {!isSkincareCategory(p.category) ? (
+            <View
+              style={[
+                styles.note,
+                { backgroundColor: colors.surface, padding: spacing.xl, gap: spacing.xs },
+              ]}
+            >
+              <Text variant="bodyStrong">To nie jest pielęgnacja twarzy</Text>
+              <Text variant="caption">
+                {categoryCopy[p.category].singular}: wynik ocenia tylko skład. Produkt nie trafi do
+                rutyny ani do propozycji dla Twojej skóry.
+              </Text>
+            </View>
+          ) : null}
 
           {p.match ? (
             <View style={{ gap: spacing.lg }}>
@@ -278,12 +294,14 @@ function ProductActions({ product }: { product: ProductDetail }) {
   return (
     <View style={{ gap: spacing.sm }}>
       <View style={{ flexDirection: 'row', gap: spacing.md }}>
-        <PrimaryButton
-          title="Dodaj do rutyny"
-          onPress={chooseTime}
-          loading={setSlot.isPending}
-          style={{ flex: 1 }}
-        />
+        {isSkincareCategory(product.category) ? (
+          <PrimaryButton
+            title="Dodaj do rutyny"
+            onPress={chooseTime}
+            loading={setSlot.isPending}
+            style={{ flex: 1 }}
+          />
+        ) : null}
         <ShelfButton product={product} wide />
       </View>
       {onShelves.length ? (

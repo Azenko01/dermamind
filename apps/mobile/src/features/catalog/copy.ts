@@ -5,13 +5,18 @@ import {
   EyedropperIcon,
   EyeIcon,
   FaceMaskIcon,
+  HairDryerIcon,
   JarIcon,
   PackageIcon,
+  PaintBrushIcon,
+  ShowerIcon,
   SparkleIcon,
   SprayBottleIcon,
   SunIcon,
   TargetIcon,
   TestTubeIcon,
+  ToothIcon,
+  WindIcon,
   type IconProps,
 } from 'phosphor-react-native';
 import type { ComponentType } from 'react';
@@ -37,6 +42,12 @@ export const categoryCopy: Record<
   exfoliant: { plural: 'Peelingi', singular: 'Peeling', icon: SparkleIcon },
   spot_treatment: { plural: 'Punktowo', singular: 'Na wypryski', icon: TargetIcon },
   oil: { plural: 'Olejki', singular: 'Olejek', icon: DropIcon },
+  // not face care (Open Beauty Facts): never in routines or suggestions, no chip in Odkrywaj
+  makeup: { plural: 'Makijaż', singular: 'Makijaż', icon: PaintBrushIcon },
+  hair_care: { plural: 'Włosy', singular: 'Do włosów', icon: HairDryerIcon },
+  body_care: { plural: 'Ciało', singular: 'Do ciała', icon: ShowerIcon },
+  oral_care: { plural: 'Higiena jamy ustnej', singular: 'Do zębów', icon: ToothIcon },
+  deodorant: { plural: 'Dezodoranty', singular: 'Dezodorant', icon: WindIcon },
   other: { plural: 'Inne', singular: 'Inne', icon: PackageIcon },
 };
 

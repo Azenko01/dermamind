@@ -116,12 +116,19 @@ export function AddProductScreen() {
                 { backgroundColor: colors.surface, borderRadius: radius.productCard },
               ]}
             >
-              <Image
-                source={{ uri: params.imageUrl }}
-                style={styles.photoImage}
-                resizeMode="contain"
-                accessibilityLabel={`Zdjęcie: ${name}`}
-              />
+              <View
+                style={[
+                  styles.photoCard,
+                  { backgroundColor: colors.photoCard, borderRadius: radius.card },
+                ]}
+              >
+                <Image
+                  source={{ uri: params.imageUrl }}
+                  style={styles.photoImage}
+                  resizeMode="contain"
+                  accessibilityLabel={`Zdjęcie: ${name}`}
+                />
+              </View>
             </View>
           ) : null}
 
@@ -202,6 +209,7 @@ export function AddProductScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   photo: { height: 200, alignItems: 'center', justifyContent: 'center' },
-  photoImage: { width: '70%', height: '85%' },
+  photoCard: { width: '60%', height: '85%', padding: 12 },
+  photoImage: { width: '100%', height: '100%' },
   chips: { flexDirection: 'row', flexWrap: 'wrap' },
 });

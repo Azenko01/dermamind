@@ -32,6 +32,11 @@ const light = {
   onScrim: '#FFFFFF',
   /** dimmed backdrop behind sheets and dialogs */
   backdrop: 'rgba(0,0,0,0.4)',
+  /**
+   * rounded card under product photos — Open Beauty Facts photos have white backgrounds, so in the
+   * dark theme they sit on a soft light card instead of looking like a white hole
+   */
+  photoCard: '#FFFFFF',
   /** SkinScale (O14): very dry → very oily */
   scale1: '#A9D2F3',
   scale2: '#BFE6D4',
@@ -67,6 +72,7 @@ const dark: Palette = {
   scrimStrong: 'rgba(0,0,0,0.65)',
   onScrim: '#FFFFFF',
   backdrop: 'rgba(0,0,0,0.6)',
+  photoCard: '#E9E9EC',
   scale1: '#3E6E92',
   scale2: '#3F7A63',
   scale3: '#6B8A3A',

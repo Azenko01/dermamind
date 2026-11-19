@@ -86,6 +86,11 @@ function IngredientRow({ ingredient: i, last }: { ingredient: Ingredient; last: 
       <View style={{ flex: 1 }}>
         <Text>{i.displayName}</Text>
         {fn ? <Text variant="caption">{fn}</Text> : null}
+        {i.fuzzyFrom ? (
+          <Text variant="caption">
+            Na etykiecie: „{i.fuzzyFrom}” — rozpoznane mimo literówki, niepewne
+          </Text>
+        ) : null}
         {badges.length ? (
           <Text variant="caption" color="caution">
             {badges.join(' · ')}

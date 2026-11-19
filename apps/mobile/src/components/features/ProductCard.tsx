@@ -23,14 +23,26 @@ export function ProductImage({
   const { colors } = useTheme();
   const [failed, setFailed] = useState(false);
   if (item.imageUrl && !failed) {
+    const box = size * 1.6;
     return (
-      <Image
-        source={{ uri: item.imageUrl }}
-        style={{ width: size * 1.6, height: size * 1.6 }}
-        resizeMode="contain"
-        onError={() => setFailed(true)}
-        accessibilityIgnoresInvertColors
-      />
+      <View
+        style={{
+          width: box + size * 0.3,
+          height: box + size * 0.3,
+          padding: size * 0.15,
+          borderRadius: Math.max(8, size * 0.25),
+          backgroundColor: colors.photoCard,
+          overflow: 'hidden',
+        }}
+      >
+        <Image
+          source={{ uri: item.imageUrl }}
+          style={{ width: box, height: box }}
+          resizeMode="contain"
+          onError={() => setFailed(true)}
+          accessibilityIgnoresInvertColors
+        />
+      </View>
     );
   }
   const Icon = categoryCopy[item.category].icon;

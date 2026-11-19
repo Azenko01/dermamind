@@ -133,6 +133,8 @@ function IngredientBody({ i }: { i: Ingredient }) {
         )}
       </View>
 
+      <RegulationSection i={i} />
+
       {i.products.length ? (
         <View style={{ gap: spacing.lg }}>
           <Text variant="section">Produkty z tym składnikiem</Text>
@@ -143,8 +145,11 @@ function IngredientBody({ i }: { i: Ingredient }) {
       ) : null}
 
       <Text variant="caption">
-        Funkcje i cechy pochodzą ze słownika DermaMind (funkcje wg bazy CosIng Komisji
-        Europejskiej).
+        {i.source === 'curated'
+          ? 'Funkcje i cechy pochodzą ze słownika DermaMind (funkcje wg bazy CosIng Komisji Europejskiej).'
+          : i.source === 'reviewed'
+            ? 'Nazwę dodaliśmy po ręcznym sprawdzeniu etykiet — nie mamy jeszcze jej opisu ani oceny dla skóry.'
+            : 'Dane: CosIng — European Commission (przez taksonomię Open Beauty Facts, ODbL). Ten składnik nie ma jeszcze oceny DermaMind — wpływa na wynik tylko przez znane cechy.'}
       </Text>
     </ScrollView>
   );
@@ -225,3 +230,40 @@ const styles = StyleSheet.create({
   fact: { flexDirection: 'row', alignItems: 'center' },
   dot: { width: 10, height: 10, borderRadius: 5 },
 });
+
+/** CosIng reference data: annexes of Regulation (EC) 1223/2009, CAS number. */
+function RegulationSection({ i }: { i: Ingredient }) {
+  const { colors, spacing } = useTheme();
+  const annex = i.annexRefs.map((r) => r.split('/')[0]);
+  const lines = [
+    i.isProhibited ? 'Na liście substancji zakazanych w kosmetykach (zał. II).' : null,
+    i.isRestricted ? 'Dozwolony z ograniczeniami — stężenie lub rodzaj produktu (zał. III).' : null,
+    annex.includes('IV') ? 'Dozwolony barwnik (zał. IV).' : null,
+    annex.includes('V') ? 'Dozwolony konserwant (zał. V).' : null,
+    annex.includes('VI') ? 'Dozwolony filtr UV (zał. VI).' : null,
+  ].filter((x): x is string => Boolean(x));
+  if (!lines.length && !i.casNumbers.length) return null;
+  return (
+    <View style={{ gap: spacing.md }}>
+      <Text variant="section">Przepisy UE</Text>
+      {lines.map((l) => (
+        <View key={l} style={[styles.fact, { gap: spacing.md }]}>
+          <View
+            style={[
+              styles.dot,
+              { backgroundColor: i.isProhibited ? colors.bad : colors.textSecondary },
+            ]}
+          />
+          <Text style={{ flex: 1 }}>{l}</Text>
+        </View>
+      ))}
+      {i.annexRefs.length ? (
+        <Text variant="caption">
+          Pozycje w rozporządzeniu (WE) 1223/2009: {i.annexRefs.join(', ')}
+        </Text>
+      ) : null}
+      {i.casNumbers.length ? <Text variant="caption">CAS: {i.casNumbers.join(', ')}</Text> : null}
+      <Text variant="caption">Źródło: CosIng — European Commission.</Text>
+    </View>
+  );
+}
