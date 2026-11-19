@@ -146,6 +146,9 @@ model Product {
   createdBy    User?                    @relation(fields: [createdById], references: [id], onDelete: Cascade)
   /// waits for the team to check it (user products, later the admin panel)
   needsReview  Boolean                  @default(false) @map("needs_review")
+  /// source = user: the EAN they scanned. Not in `barcode`, which is unique across the catalogue —
+  /// two people may add the same unknown code; moderation moves it to `barcode`.
+  userBarcode  String?                  @map("user_barcode")
   /// ingredient list exactly as printed on the package
   inciRaw      String?                  @map("inci_raw")
   /// product page the data came from (unique key for the idempotent import)
@@ -165,7 +168,7 @@ model Product {
   @@index([search], type: Gin)
   @@index([category])
   @@index([source])
-  @@index([createdById])
+  @@unique([createdById, userBarcode])
   @@map("products")
 }
 

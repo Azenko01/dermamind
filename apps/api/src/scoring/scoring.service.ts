@@ -117,13 +117,48 @@ export class ScoringService {
     };
   }
 
+  /**
+   * Open Beauty Facts and user products have the whole printed list, but some names may be unknown
+   * to our dictionary: they go in as placeholders (like D3 "Analizuj skład"), so they lower the
+   * confidence instead of silently disappearing.
+   */
   score(profile: ScoringProfile, product: ScorableProduct): MatchResult {
+    const known = product.ingredients.map(({ position, ingredient }) =>
+      toMatchIngredient(position, ingredient),
+    );
     return computeMatchScore(profile, {
-      inciComplete: product.inciComplete,
+      inciComplete: product.inciComplete || product.inciUnknown.length > 0,
       avoidedByUser: profile.avoidedProductIds.has(product.id),
-      ingredients: product.ingredients.map(({ position, ingredient }) =>
-        toMatchIngredient(position, ingredient),
+      ingredients: [...known, ...unknownPlaceholders(known, product.inciUnknown)].sort(
+        (a, b) => a.position - b.position,
       ),
     });
   }
+}
+
+/**
+ * Unknown names fill the positions the known ones leave free, in order — that is how
+ * resolveInci numbered them when the product was saved.
+ */
+export function unknownPlaceholders(known: MatchIngredient[], names: string[]): MatchIngredient[] {
+  const taken = new Set(known.map((k) => k.position));
+  const out: MatchIngredient[] = [];
+  let position = 1;
+  for (const name of names) {
+    while (taken.has(position)) position++;
+    out.push({
+      id: -position, // never collides with a real id, so it can't be "avoided"
+      name,
+      position,
+      comedogenic: null,
+      irritationRisk: null,
+      isFragrance: false,
+      isAlcoholDrying: false,
+      groups: [],
+      effects: [],
+      hasMetadata: false,
+    });
+    position++;
+  }
+  return out;
 }

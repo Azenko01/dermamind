@@ -49,7 +49,8 @@ export class ShelvesService {
 
   async add(userId: string, kind: SystemShelfKind, productId: number): Promise<void> {
     const product = await this.prisma.product.findFirst({
-      where: { id: productId, isPublished: true },
+      // the user's own (not yet moderated) products can go on their shelves too
+      where: { id: productId, OR: [{ isPublished: true }, { createdById: userId }] },
     });
     if (!product) throw new NotFoundException('Product not found');
     const shelves = await this.ensure(userId);

@@ -11,3 +11,6 @@ process.env.ANTHROPIC_API_KEY = '';
 process.env.AI_MODEL_FAST = 'test-fast-model';
 process.env.AI_MODEL_SMART = 'test-smart-model';
 process.env.AI_DAILY_LIMIT = '30';
+// No Open Beauty Facts calls unless a test points this at its own mock server.
+process.env.OBF_API_URL = '';
+process.env.SCAN_RATE_LIMIT = '10000';

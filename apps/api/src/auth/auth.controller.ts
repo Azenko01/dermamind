@@ -11,7 +11,7 @@ import {
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { SkipThrottle, ThrottlerGuard } from '@nestjs/throttler';
 import type { AuthedRequest } from '../common/auth-user';
 import { AuthService } from './auth.service';
 import {
@@ -27,6 +27,7 @@ import { OptionalJwtAuthGuard } from './jwt-auth.guard';
 
 @ApiTags('auth')
 @ApiTooManyRequestsResponse({ description: 'Rate limit per IP' })
+@SkipThrottle({ scan: true })
 @UseGuards(ThrottlerGuard)
 @Controller('auth')
 export class AuthController {

@@ -14,7 +14,8 @@
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
     "import:catalog": "pnpm --filter @dermamind/scripts import:catalog",
-    "ai:check": "pnpm --filter @dermamind/scripts ai:check"
+    "ai:check": "pnpm --filter @dermamind/scripts ai:check",
+    "catalog:import-obf": "pnpm --filter @dermamind/scripts catalog:import-obf"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

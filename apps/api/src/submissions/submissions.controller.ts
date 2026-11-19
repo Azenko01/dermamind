@@ -5,7 +5,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { SkipThrottle, ThrottlerGuard } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser, type AuthUser } from '../common/auth-user';
 import { PrismaService } from '../prisma/prisma.service';
@@ -15,6 +15,7 @@ import { CreateSubmissionDto, SubmissionDto } from './submissions.dto';
 @ApiTags('submissions')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
+@SkipThrottle({ scan: true })
 @UseGuards(JwtAuthGuard, ThrottlerGuard)
 @Controller('product-submissions')
 export class SubmissionsController {

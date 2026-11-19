@@ -470,11 +470,51 @@
         "tags": [
           "catalog"
         ]
+      },
+      "post": {
+        "operationId": "CatalogController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserProductDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDetailDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "catalog"
+        ]
       }
     },
-    "/v1/products/barcode/{ean}": {
+    "/v1/products/by-ean/{ean}": {
       "get": {
-        "operationId": "CatalogController_byBarcode_v1",
+        "operationId": "CatalogController_byEan_v1",
         "parameters": [
           {
             "name": "ean",
@@ -487,7 +527,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "hasIngredientList = false → the app asks the user to paste the ingredient list",
             "content": {
               "application/json": {
                 "schema": {
@@ -500,7 +540,10 @@
             "description": "Not a valid EAN"
           },
           "404": {
-            "description": "Unknown code — the app offers \"Wklej skład\" / \"Zgłoś produkt\""
+            "description": "Unknown code — the app offers \"Dodaj produkt\""
+          },
+          "429": {
+            "description": ""
           }
         },
         "security": [
@@ -2234,7 +2277,40 @@
           "sourceUrl": {
             "type": "string",
             "nullable": true,
-            "description": "Shop page the data came from"
+            "description": "Page the data came from"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "curated",
+              "obf",
+              "user"
+            ],
+            "description": "curated = our catalogue, obf = Open Beauty Facts (show \"Dane: Open Beauty Facts (ODbL)\"), user = added by this user"
+          },
+          "barcode": {
+            "type": "string",
+            "nullable": true,
+            "description": "EAN-13 / EAN-8"
+          },
+          "isPolishMarket": {
+            "type": "boolean",
+            "description": "Sold in Poland according to Open Beauty Facts"
+          },
+          "hasIngredientList": {
+            "type": "boolean",
+            "description": "false = we have no ingredient list yet (e.g. Open Beauty Facts record without one) — the app asks the user to paste it"
+          },
+          "unknownIngredients": {
+            "description": "Names from the list we do not know, exactly as written (never guessed)",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needsReview": {
+            "type": "boolean",
+            "description": "source = user: waiting for the team to check it"
           },
           "myShelves": {
             "type": "array",
@@ -2273,9 +2349,59 @@
           "inciComplete",
           "match",
           "sourceUrl",
+          "source",
+          "barcode",
+          "isPolishMarket",
+          "hasIngredientList",
+          "unknownIngredients",
+          "needsReview",
           "myShelves",
           "flags",
           "ingredients"
+        ]
+      },
+      "CreateUserProductDto": {
+        "type": "object",
+        "properties": {
+          "ean": {
+            "type": "string",
+            "example": "5901234123457",
+            "description": "Scanned EAN-13 / EAN-8"
+          },
+          "name": {
+            "type": "string",
+            "example": "Krem nawilżający z ceramidami"
+          },
+          "brand": {
+            "type": "string",
+            "example": "Bielenda"
+          },
+          "inciRaw": {
+            "type": "string",
+            "description": "Ingredient list as printed on the package"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "cleanser",
+              "toner",
+              "essence",
+              "serum",
+              "moisturizer",
+              "eye_cream",
+              "sunscreen",
+              "mask",
+              "exfoliant",
+              "spot_treatment",
+              "oil",
+              "other"
+            ],
+            "default": "other"
+          }
+        },
+        "required": [
+          "name",
+          "inciRaw"
         ]
       },
       "ScanDto": {

@@ -17,6 +17,11 @@ export interface AppEnv {
   aiModelSmart: string;
   aiDailyLimit: number;
   aiTimeoutMs: number;
+  /** Open Beauty Facts API for the scanner fallback; '' turns the fallback off. */
+  obfApiUrl: string;
+  obfTimeoutMs: number;
+  /** by-ean lookups per minute per client (ThrottlerGuard) */
+  scanRateLimit: number;
 }
 
 export function loadEnv(env: NodeJS.ProcessEnv = process.env): AppEnv {
@@ -42,5 +47,8 @@ export function loadEnv(env: NodeJS.ProcessEnv = process.env): AppEnv {
     aiModelSmart: env.AI_MODEL_SMART || 'claude-sonnet-5-5',
     aiDailyLimit: Number(env.AI_DAILY_LIMIT ?? 30),
     aiTimeoutMs: Number(env.AI_TIMEOUT_MS ?? 20_000),
+    obfApiUrl: (env.OBF_API_URL ?? 'https://world.openbeautyfacts.org').replace(/\/+$/, ''),
+    obfTimeoutMs: Number(env.OBF_TIMEOUT_MS ?? 3000),
+    scanRateLimit: Number(env.SCAN_RATE_LIMIT ?? 30),
   };
 }

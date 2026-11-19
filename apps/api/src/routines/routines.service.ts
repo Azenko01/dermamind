@@ -146,7 +146,7 @@ export class RoutinesService {
     }
 
     const products = await this.prisma.product.findMany({
-      where: { id: { in: [...productIds] }, isPublished: true },
+      where: { id: { in: [...productIds] }, OR: [{ isPublished: true }, { createdById: userId }] },
       select: { id: true, category: true },
     });
     const category = new Map(products.map((p) => [p.id, p.category as string]));
@@ -194,7 +194,13 @@ export class RoutinesService {
 
     const categories = [...new Set(Object.values(STEP_CATEGORIES).flat())];
     const products = await this.prisma.product.findMany({
-      where: { isPublished: true, category: { in: categories as never[] } },
+      // curated catalogue + Open Beauty Facts products whose whole list we know; a partly unknown
+      // list is too uncertain to recommend
+      where: {
+        isPublished: true,
+        category: { in: categories as never[] },
+        OR: [{ source: 'curated' }, { source: 'obf', inciComplete: true }],
+      },
       include: scorableProductInclude,
     });
     const scored = products

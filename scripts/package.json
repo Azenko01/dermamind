@@ -7,7 +7,8 @@
     "import:catalog": "tsx --conditions=source import-catalog.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "ai:check": "tsx --conditions=source ai-check.ts"
+    "ai:check": "tsx --conditions=source ai-check.ts",
+    "catalog:import-obf": "tsx --conditions=source import-obf.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "~0.133.0",

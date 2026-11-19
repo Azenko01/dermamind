@@ -205,21 +205,21 @@ export interface paths {
         };
         get: operations["CatalogController_list_v1"];
         put?: never;
-        post?: never;
+        post: operations["CatalogController_create_v1"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/v1/products/barcode/{ean}": {
+    "/v1/products/by-ean/{ean}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["CatalogController_byBarcode_v1"];
+        get: operations["CatalogController_byEan_v1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -740,13 +740,46 @@ export interface components {
             inciComplete: boolean;
             /** @description null without a skin profile */
             match: components["schemas"]["MatchDetailDto"] | null;
-            /** @description Shop page the data came from */
+            /** @description Page the data came from */
             sourceUrl: string | null;
+            /**
+             * @description curated = our catalogue, obf = Open Beauty Facts (show "Dane: Open Beauty Facts (ODbL)"), user = added by this user
+             * @enum {string}
+             */
+            source: "curated" | "obf" | "user";
+            /** @description EAN-13 / EAN-8 */
+            barcode: string | null;
+            /** @description Sold in Poland according to Open Beauty Facts */
+            isPolishMarket: boolean;
+            /** @description false = we have no ingredient list yet (e.g. Open Beauty Facts record without one) — the app asks the user to paste it */
+            hasIngredientList: boolean;
+            /** @description Names from the list we do not know, exactly as written (never guessed) */
+            unknownIngredients: string[];
+            /** @description source = user: waiting for the team to check it */
+            needsReview: boolean;
             /** @description My shelves with this product („Mam”, „Lubię”, „Unikam”); empty without a token */
             myShelves: ("own" | "like" | "avoid")[];
             /** @description null = no data (incomplete INCI / brand info) */
             flags: components["schemas"]["ProductFlagsDto"];
             ingredients: components["schemas"]["ProductIngredientDto"][];
+        };
+        CreateUserProductDto: {
+            /**
+             * @description Scanned EAN-13 / EAN-8
+             * @example 5901234123457
+             */
+            ean?: string;
+            /** @example Krem nawilżający z ceramidami */
+            name: string;
+            /** @example Bielenda */
+            brand?: string;
+            /** @description Ingredient list as printed on the package */
+            inciRaw: string;
+            /**
+             * @default other
+             * @enum {string}
+             */
+            category: "cleanser" | "toner" | "essence" | "serum" | "moisturizer" | "eye_cream" | "sunscreen" | "mask" | "exfoliant" | "spot_treatment" | "oil" | "other";
         };
         ScanDto: {
             id: number;
@@ -1436,7 +1469,42 @@ export interface operations {
             };
         };
     };
-    CatalogController_byBarcode_v1: {
+    CatalogController_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateUserProductDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductDetailDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CatalogController_byEan_v1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1447,6 +1515,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description hasIngredientList = false → the app asks the user to paste the ingredient list */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1462,8 +1531,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Unknown code — the app offers "Wklej skład" / "Zgłoś produkt" */
+            /** @description Unknown code — the app offers "Dodaj produkt" */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };

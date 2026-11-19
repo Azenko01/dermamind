@@ -42,6 +42,19 @@ describe('normalizeObfProduct', () => {
     expect(p.inciRaw).toBe('Eau, Glycérine');
   });
 
+  it('ignores names without letters', () => {
+    const p = normalizeObfProduct({ ...base, product_name_pl: '0', product_name_en: '-' })!;
+    expect(p.name).toBe('Crème hydratante');
+    expect(
+      normalizeObfProduct({
+        ...base,
+        product_name_pl: '0',
+        product_name_en: '',
+        product_name: '12',
+      })!.name,
+    ).toBe('');
+  });
+
   it('rejects codes with a wrong check digit and turns UPC-A into EAN-13', () => {
     expect(normalizeObfProduct({ ...base, code: '5900116020007' })).toBeNull();
     expect(normalizeObfProduct({ ...base, code: 'abc' })).toBeNull();

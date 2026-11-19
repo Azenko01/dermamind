@@ -1,4 +1,4 @@
-import { productFlags, type MatchResult } from '@dermamind/scoring';
+import { normalizeObfProduct, productFlags, type MatchResult } from '@dermamind/scoring';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -7,7 +7,16 @@ import {
   scorableProductInclude,
   type ScorableProduct,
 } from '../scoring/scoring.service';
+import { ObfClient } from './obf.client';
+import {
+  brandId,
+  inciDictionaryFor,
+  linkInci,
+  obfProductData,
+  writeIngredients,
+} from './product-writer';
 import type {
+  CreateUserProductDto,
   MatchDetailDto,
   MatchSummaryDto,
   ProductDetailDto,
@@ -58,6 +67,7 @@ export class CatalogService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly scoring: ScoringService,
+    private readonly obf: ObfClient,
   ) {}
 
   /**
@@ -66,7 +76,7 @@ export class CatalogService {
    * per-user scores.
    */
   async list(query: ProductsQueryDto, userId?: string): Promise<ProductListDto> {
-    const ids = await this.searchIds(query);
+    const ids = await this.searchIds(query, userId);
     const [products, profile] = await Promise.all([
       this.prisma.product.findMany({ where: { id: { in: ids } }, include: scorableProductInclude }),
       this.scoring.profileFor(userId),
@@ -103,40 +113,138 @@ export class CatalogService {
   async get(id: number, userId?: string): Promise<ProductDetailDto> {
     const [product, profile] = await Promise.all([
       this.prisma.product.findFirst({
-        where: { id, isPublished: true },
+        where: { id, ...visibleTo(userId) },
         include: scorableProductInclude,
       }),
       this.scoring.profileFor(userId),
     ]);
     if (!product) throw new NotFoundException('Product not found');
-    return toDetail(
-      product,
-      profile ? this.scoring.score(profile, product) : null,
-      await this.myShelves(userId, product.id),
-    );
+    return this.detail(product, profile, userId);
   }
 
   /**
-   * Scanner lookup (PLAN.md 6.5 flow 2). Every scan of a signed-in user goes to scan_history —
-   * also codes we don't know, so the team sees what people look for.
+   * Scanner lookup (PLAN.md 6.5 flow 2): the user's own product with this code → our catalogue →
+   * Open Beauty Facts (saved as source = obf) → 404. A code OBF didn't know isn't asked again for
+   * 24 h. Every scan of a signed-in user goes to scan_history — also unknown codes, so the team
+   * sees what people look for.
    */
-  async byBarcode(ean: string, userId?: string): Promise<ProductDetailDto> {
-    const [product, profile] = await Promise.all([
-      this.prisma.product.findFirst({
-        where: { barcode: ean, isPublished: true },
-        include: scorableProductInclude,
-      }),
-      this.scoring.profileFor(userId),
-    ]);
+  async byEan(ean: string, userId?: string): Promise<ProductDetailDto> {
+    const profilePromise = this.scoring.profileFor(userId);
+    const product =
+      (userId
+        ? await this.prisma.product.findUnique({
+            where: { createdById_userBarcode: { createdById: userId, userBarcode: ean } },
+            include: scorableProductInclude,
+          })
+        : null) ?? (await this.catalogByEan(ean));
+
     if (userId) {
       await this.prisma.scanHistory.create({
         data: { userId, barcode: ean, productId: product?.id ?? null },
       });
     }
     if (!product) throw new NotFoundException('No product with this barcode');
+    return this.detail(product, await profilePromise, userId);
+  }
+
+  private async catalogByEan(ean: string): Promise<ScorableProduct | null> {
+    const row = await this.prisma.product.findUnique({
+      where: { barcode: ean },
+      include: scorableProductInclude,
+    });
+    // OBF rows without an ingredient list are unpublished but still answer a scan; any other
+    // hidden row keeps its code to itself (and must never be overwritten by an OBF record)
+    if (row) return row.isPublished || row.source === 'obf' ? row : null;
+    return this.fromObf(ean);
+  }
+
+  private async fromObf(ean: string): Promise<ScorableProduct | null> {
+    const miss = await this.prisma.obfMiss.findUnique({ where: { barcode: ean } });
+    if (miss && Date.now() - miss.checkedAt.getTime() < OBF_MISS_TTL_MS) return null;
+
+    const lookup = await this.obf.product(ean);
+    if (lookup.kind === 'unavailable') return null; // try again next time
+    const p = lookup.kind === 'found' ? normalizeObfProduct(lookup.record) : null;
+    if (!p) {
+      await this.prisma.obfMiss.upsert({
+        where: { barcode: ean },
+        create: { barcode: ean },
+        update: { checkedAt: new Date() },
+      });
+      return null;
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const linked = linkInci(p.inciRaw, await inciDictionaryFor(tx, p.inciRaw));
+      // without a list nothing can be scored: keep it out of search until someone adds one
+      const data = {
+        ...obfProductData(p, await brandId(tx, p.brand), linked),
+        isPublished: linked.ingredients.length + linked.unknown.length > 0,
+      };
+      // two people scanning the same new code at once: the second one just updates the row
+      const row = await tx.product.upsert({ where: { barcode: ean }, create: data, update: data });
+      await writeIngredients(tx, row.id, linked);
+      await tx.obfMiss.deleteMany({ where: { barcode: ean } });
+      return tx.product.findUniqueOrThrow({
+        where: { id: row.id },
+        include: scorableProductInclude,
+      });
+    });
+  }
+
+  /**
+   * "Dodaj produkt" after a scan: the user's own product (source = user), visible only to them
+   * until the team checks it (needsReview). Adding the same code again updates their product.
+   */
+  async createUserProduct(userId: string, dto: CreateUserProductDto): Promise<ProductDetailDto> {
+    const obfRow = dto.ean
+      ? await this.prisma.product.findFirst({
+          where: { barcode: dto.ean, source: 'obf' },
+          select: { imageUrl: true, category: true },
+        })
+      : null;
+    const product = await this.prisma.$transaction(async (tx) => {
+      const linked = linkInci(dto.inciRaw, await inciDictionaryFor(tx, dto.inciRaw));
+      const data = {
+        name: dto.name,
+        brandId: await brandId(tx, dto.brand ?? null),
+        category: dto.category ?? obfRow?.category ?? 'other',
+        // the photo can only come from the Open Beauty Facts record of the same code
+        imageUrl: obfRow?.imageUrl ?? null,
+        source: 'user' as const,
+        createdById: userId,
+        userBarcode: dto.ean ?? null,
+        inciRaw: dto.inciRaw,
+        inciUnknown: linked.unknown,
+        inciComplete: linked.ingredients.length > 0 && linked.unknown.length === 0,
+        isPublished: false,
+        needsReview: true,
+      };
+      const row = dto.ean
+        ? await tx.product.upsert({
+            where: { createdById_userBarcode: { createdById: userId, userBarcode: dto.ean } },
+            create: data,
+            update: data,
+          })
+        : await tx.product.create({ data });
+      await writeIngredients(tx, row.id, linked);
+      return tx.product.findUniqueOrThrow({
+        where: { id: row.id },
+        include: scorableProductInclude,
+      });
+    });
+    return this.detail(product, await this.scoring.profileFor(userId), userId);
+  }
+
+  private async detail(
+    product: ScorableProduct,
+    profile: Awaited<ReturnType<ScoringService['profileFor']>>,
+    userId: string | undefined,
+  ): Promise<ProductDetailDto> {
+    const hasList = product.ingredients.length + product.inciUnknown.length > 0;
     return toDetail(
       product,
-      profile ? this.scoring.score(profile, product) : null,
+      profile && hasList ? this.scoring.score(profile, product) : null,
       await this.myShelves(userId, product.id),
     );
   }
@@ -172,7 +280,7 @@ export class CatalogService {
         barcode: r.barcode,
         scannedAt: r.scannedAt.toISOString(),
         product:
-          r.product && r.product.isPublished
+          r.product && (isVisible(r.product, userId) || r.product.source === 'obf')
             ? toListItem(r.product, profile ? this.scoring.score(profile, r.product) : null)
             : null,
       })),
@@ -186,8 +294,13 @@ export class CatalogService {
    * Every word must match the start of a word in the product name (tsvector from PLAN.md 3.2), the
    * brand, or a Polish category word: "pharm rosa" finds Pharmaceris R Puri-Rosalgin, "krem
    * bielenda" finds Bielenda creams.
+   *
+   * Browsing without a search text shows our curated catalogue (+ the user's own products); the
+   * ~13 000 Open Beauty Facts rows only come up when searching, capped at SEARCH_CAP candidates —
+   * curated first, then the Polish market, then complete lists — because every candidate is scored
+   * in memory.
    */
-  private async searchIds({ q, category }: ProductsQueryDto): Promise<number[]> {
+  private async searchIds({ q, category }: ProductsQueryDto, userId?: string): Promise<number[]> {
     const tokens = (q?.match(/[\p{L}\p{N}]+/gu) ?? []).slice(0, 8);
     const textFilter = tokens.length
       ? Prisma.sql`AND ${Prisma.join(
@@ -204,11 +317,33 @@ export class CatalogService {
     const categoryFilter = category
       ? Prisma.sql`AND p.category = ${category}::product_category`
       : Prisma.empty;
+    const own = userId ? Prisma.sql`OR p.created_by_id = ${userId}::uuid` : Prisma.empty;
+    const scope = tokens.length
+      ? Prisma.sql`(p.is_published ${own})`
+      : Prisma.sql`((p.is_published AND p.source = 'curated') ${own})`;
     const rows = await this.prisma.$queryRaw<{ id: number }[]>`
       SELECT p.id FROM products p LEFT JOIN brands b ON b.id = p.brand_id
-      WHERE p.is_published ${textFilter} ${categoryFilter}`;
+      WHERE ${scope} ${textFilter} ${categoryFilter}
+      ORDER BY (p.source = 'user') DESC, (p.source = 'curated') DESC, p.is_polish_market DESC,
+        p.inci_complete DESC, p.id
+      LIMIT ${SEARCH_CAP}`;
     return rows.map((r) => r.id);
   }
+}
+
+/** Most candidates a search scores in memory (PLAN.md 4.4). */
+const SEARCH_CAP = 300;
+
+/** Open Beauty Facts "not found" is remembered this long (PLAN.md 6.5, OBF rate limits). */
+export const OBF_MISS_TTL_MS = 24 * 60 * 60 * 1000;
+
+/** Published catalogue + the user's own products (source = user, not moderated yet). */
+function visibleTo(userId: string | undefined): Prisma.ProductWhereInput {
+  return userId ? { OR: [{ isPublished: true }, { createdById: userId }] } : { isPublished: true };
+}
+
+function isVisible(p: { isPublished: boolean; createdById: string | null }, userId?: string) {
+  return p.isPublished || (userId !== undefined && p.createdById === userId);
 }
 
 export function toIngredientRow(
@@ -250,6 +385,12 @@ function toDetail(
   return {
     ...toListItem(product, match),
     sourceUrl: product.sourceUrl,
+    source: product.source,
+    barcode: product.barcode ?? product.userBarcode,
+    isPolishMarket: product.isPolishMarket,
+    hasIngredientList: product.ingredients.length + product.inciUnknown.length > 0,
+    unknownIngredients: product.inciUnknown,
+    needsReview: product.needsReview,
     myShelves,
     flags: productFlags(
       product.ingredients.map((pi) => pi.ingredient),

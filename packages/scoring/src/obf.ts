@@ -106,6 +106,12 @@ const text = (v: unknown): string | null => {
   return t.length > 0 ? t : null;
 };
 
+/** A product name has to have some letters — the data has names like "0" or "-". */
+const name = (v: unknown): string | null => {
+  const t = text(v);
+  return t && /\p{L}{2}/u.test(t) ? t : null;
+};
+
 const tags = (v: unknown): string[] =>
   Array.isArray(v) ? v.filter((t): t is string => typeof t === 'string') : [];
 
@@ -155,7 +161,7 @@ export function normalizeObfProduct(raw: ObfRecord): ObfProduct | null {
   const modified = typeof raw.last_modified_t === 'number' ? raw.last_modified_t : null;
   return {
     ean,
-    name: text(raw.product_name_pl) ?? text(raw.product_name_en) ?? text(raw.product_name) ?? '',
+    name: name(raw.product_name_pl) ?? name(raw.product_name_en) ?? name(raw.product_name) ?? '',
     brand,
     imageUrl: imageUrl(raw.image_front_url),
     inciRaw:

@@ -1,4 +1,6 @@
 import {
+  isValidEan,
+  normalizeEan,
   PRODUCT_FLAGS,
   type ConReason,
   type IngredientRating,
@@ -6,8 +8,32 @@ import {
 } from '@dermamind/scoring';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsIn, IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
+import {
+  IsIn,
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+  Validate,
+  ValidatorConstraint,
+  type ValidatorConstraintInterface,
+} from 'class-validator';
 import { ProductCategory } from '../../generated/prisma/enums';
+
+const trim = ({ value }: { value: unknown }) => (typeof value === 'string' ? value.trim() : value);
+
+@ValidatorConstraint({ name: 'ean' })
+export class IsEanConstraint implements ValidatorConstraintInterface {
+  validate(value: unknown) {
+    return typeof value === 'string' && isValidEan(value);
+  }
+  defaultMessage() {
+    return 'must be a valid EAN-13 / EAN-8 code';
+  }
+}
 
 export const PRODUCT_CATEGORIES = Object.values(ProductCategory);
 export const PRODUCT_SORTS = ['score', 'name', 'price_asc', 'price_desc'] as const;
@@ -245,9 +271,40 @@ export class ProductFlagsDto implements Record<(typeof PRODUCT_FLAGS)[number], b
   @ApiProperty({ type: Boolean, nullable: true }) cruelty_free!: boolean | null;
 }
 
+export const PRODUCT_SOURCES = ['curated', 'obf', 'user'] as const;
+export type ProductSourceKind = (typeof PRODUCT_SOURCES)[number];
+
 export class ProductDetailDto extends ProductListItemDto {
-  @ApiProperty({ type: String, nullable: true, description: 'Shop page the data came from' })
+  @ApiProperty({ type: String, nullable: true, description: 'Page the data came from' })
   sourceUrl!: string | null;
+
+  @ApiProperty({
+    enum: PRODUCT_SOURCES,
+    description:
+      'curated = our catalogue, obf = Open Beauty Facts (show "Dane: Open Beauty Facts (ODbL)"), user = added by this user',
+  })
+  source!: ProductSourceKind;
+
+  @ApiProperty({ type: String, nullable: true, description: 'EAN-13 / EAN-8' })
+  barcode!: string | null;
+
+  @ApiProperty({ description: 'Sold in Poland according to Open Beauty Facts' })
+  isPolishMarket!: boolean;
+
+  @ApiProperty({
+    description:
+      'false = we have no ingredient list yet (e.g. Open Beauty Facts record without one) — the app asks the user to paste it',
+  })
+  hasIngredientList!: boolean;
+
+  @ApiProperty({
+    type: [String],
+    description: 'Names from the list we do not know, exactly as written (never guessed)',
+  })
+  unknownIngredients!: string[];
+
+  @ApiProperty({ description: 'source = user: waiting for the team to check it' })
+  needsReview!: boolean;
 
   @ApiProperty({
     enum: ['own', 'like', 'avoid'],
@@ -267,4 +324,40 @@ export class ProductDetailDto extends ProductListItemDto {
 
   @ApiProperty({ type: MatchDetailDto, nullable: true })
   declare match: MatchDetailDto | null;
+}
+
+export class CreateUserProductDto {
+  @ApiPropertyOptional({ example: '5901234123457', description: 'Scanned EAN-13 / EAN-8' })
+  @IsOptional()
+  @Transform(({ value }: { value: unknown }) =>
+    typeof value === 'string' && value.trim() ? normalizeEan(value) : undefined,
+  )
+  @Validate(IsEanConstraint)
+  ean?: string;
+
+  @ApiProperty({ example: 'Krem nawilżający z ceramidami' })
+  @Transform(trim)
+  @IsString()
+  @MinLength(2)
+  @MaxLength(200)
+  name!: string;
+
+  @ApiPropertyOptional({ example: 'Bielenda' })
+  @IsOptional()
+  @Transform(trim)
+  @IsString()
+  @MaxLength(100)
+  brand?: string;
+
+  @ApiProperty({ description: 'Ingredient list as printed on the package' })
+  @Transform(trim)
+  @IsString()
+  @MinLength(3)
+  @MaxLength(10_000)
+  inciRaw!: string;
+
+  @ApiPropertyOptional({ enum: PRODUCT_CATEGORIES, default: 'other' })
+  @IsOptional()
+  @IsIn(PRODUCT_CATEGORIES)
+  category?: ProductCategory;
 }
