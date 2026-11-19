@@ -43,16 +43,30 @@
   },
   {
     "step": "3. Normalizator + literówki",
-    "at": "2026-11-19T13:20:33.605Z",
+    "at": "2026-11-19T13:23:45.243Z",
     "products": 12838,
-    "tokens": 219233,
-    "known": 189932,
+    "tokens": 219048,
+    "known": 190327,
     "fuzzy": 2489,
-    "fullyKnown": 3381,
-    "fullyKnownExact": 3068,
+    "fullyKnown": 3474,
+    "fullyKnownExact": 3152,
     "dictionary": {
       "ingredients": 22642,
       "aliases": 29092
+    }
+  },
+  {
+    "step": "4. Aliasy z przeglądu top-500",
+    "at": "2026-11-19T13:27:30.151Z",
+    "products": 12838,
+    "tokens": 223400,
+    "known": 202171,
+    "fuzzy": 2677,
+    "fullyKnown": 6478,
+    "fullyKnownExact": 5820,
+    "dictionary": {
+      "ingredients": 22949,
+      "aliases": 29460
     }
   }
 ]

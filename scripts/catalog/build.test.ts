@@ -96,7 +96,7 @@ describe('buildCatalog', () => {
   it('knows Polish and English names for ingredients users avoid', () => {
     const c = buildCatalog(sasha, []);
     expect(c.ingredients.get('COCOS NUCIFERA OIL')?.aliases).toContain('olejkokosowy');
-    expect(c.ingredients.get('BUTYROSPERMUM PARKII BUTTER')?.aliases).toContain('masłoshea');
+    expect(c.ingredients.get('BUTYROSPERMUM PARKII BUTTER')?.aliases).toContain('masloshea');
     expect(c.ingredients.get('PARFUM')?.aliases).toContain('fragrance');
     expect(c.aliasConflicts).toEqual([]);
   });

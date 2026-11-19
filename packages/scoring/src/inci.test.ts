@@ -207,6 +207,17 @@ describe('normaliser — what real Open Beauty Facts lists look like', () => {
     expect(splitInci('Inhaltsstoffe: Aqua, Glycerin [+/- CI 77491]')).toEqual(['AQUA', 'GLYCERIN']);
     expect(splitInci('INGREDIENTS AQUA, GLYCERIN')).toEqual(['AQUA', 'GLYCERIN']);
     expect(splitInci('Aqua, Glycerin ± CI 77891')).toEqual(['AQUA', 'GLYCERIN']);
+    expect(splitInci('GEL INGREDIENTS: AQUA, GLYCERIN')).toEqual(['AQUA', 'GLYCERIN']);
+    expect(splitInci('G2078 - INGREDIENTS: DIMETHICONE - AQUA / WATER - GLYCERIN')).toEqual([
+      'G2078',
+      'DIMETHICONE',
+      'AQUA / WATER',
+      'GLYCERIN',
+    ]);
+    expect(splitInci('INGREDIENTS/SASTOJCI/СЪСТАВКИ: AQUA, N, GLYCERIN, INGREDIENTS:')).toEqual([
+      'AQUA',
+      'GLYCERIN',
+    ]);
   });
 
   it('normalises dashes, spaces and trailing dots', () => {
@@ -222,6 +233,7 @@ describe('normaliser — what real Open Beauty Facts lists look like', () => {
     expect(fixOcr('CL 77891')).toBe('CI 77891');
     expect(fixOcr('C.I. 77891')).toBe('CI 77891');
     expect(fixOcr('CI77891')).toBe('CI 77891');
+    expect(fixOcr('C142090')).toBe('CI 42090');
     expect(fixOcr('PYRIDOXINE HCI')).toBe('PYRIDOXINE HCL');
     expect(inciLookupKeys('CL 42090')).toContain('ci42090');
   });

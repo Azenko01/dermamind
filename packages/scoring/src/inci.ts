@@ -56,7 +56,7 @@ export function inciLookupKeys(name: string): string[] {
  */
 export function fixOcr(name: string): string {
   return name
-    .replace(/\b(?:C\.?\s?I\.?|CL|Cl)\s*-?\s*(\d{5})\b/g, 'CI $1')
+    .replace(/\b(?:C\.?\s?I\.?|CL|Cl|C1)\s*-?\s*(\d{5})\b/g, 'CI $1')
     .replace(/\bHCI\b/g, 'HCL');
 }
 
@@ -142,19 +142,31 @@ export function splitInci(raw: string): string[] {
     }
   }
   names.push(current);
+  // a list separated with " - " instead of commas: two or more " - " can't be one INCI name
+  const expanded = names.flatMap((n) =>
+    (n.match(/\s-\s/g)?.length ?? 0) >= 2 ? n.split(/\s-\s/) : [n],
+  );
 
   // Some shops write "1, 2-Hexanediol" — glue a lone number back onto "2-…".
   const merged: string[] = [];
-  for (const raw of names.map(normalizeInciName)) {
+  for (const raw of expanded.map(normalizeInciName)) {
     const prev = merged.at(-1);
     if (prev !== undefined && /^\d+$/.test(prev) && /^\d+-/.test(raw))
       merged[merged.length - 1] = `${prev},${raw}`;
     else merged.push(raw);
   }
-  return merged
-    .map((n, i) => (i === 0 ? n.replace(/^(?:INGREDIENTS?|INGRÉDIENTS|SKŁAD)\s+/, '') : n))
-    .filter((n) => n.length > 0 && /[\p{L}\d]/u.test(n));
+  return (
+    merged
+      .map((n, i) => (i === 0 ? n.replace(/^(?:INGREDIENTS?|INGRÉDIENTS|SKŁAD)\s+/, '') : n))
+      // a label glued to a name: "GEL INGREDIENTS: AQUA", "INGREDIENTS/SASTOJCI: AQUA"
+      .map((n) => n.replace(LABEL_BEFORE_COLON, '').trim())
+      // single letters are pieces of a broken list ("N", "P"), never an ingredient
+      .filter((n) => n.length > 1 && /[\p{L}\d]/u.test(n))
+  );
 }
+
+const LABEL_BEFORE_COLON =
+  /^[^:]*(?:INGRED|NGREDIENT|SASTOJ|SKŁAD|SKLAD|INHALTSSTOFF|COMPOSITION|ZUTATEN|СЪСТАВ)[^:]*:\s*/u;
 
 export interface InciDictionary<T extends { id: number }> {
   /** canonical INCI name → ingredient */

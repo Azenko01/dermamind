@@ -103,6 +103,8 @@ enum IngredientSource {
   curated
   obf_taxonomy
   cosing
+  /// added from data/alias-review.json after a person checked the name (top unknown OBF names)
+  reviewed
 
   @@map("ingredient_source")
 }
